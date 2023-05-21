@@ -1,13 +1,10 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.dao;
 
 
-import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.Type;
+import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.field_type;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import io.vavr.control.Either;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -31,8 +28,10 @@ public final class FieldDAO implements Serializable {
     private boolean partOfDocumentIdentity;
     @Column(name = "can_be_null_or_empty", nullable = false, unique = false, insertable = true, updatable = true)
     private boolean canBeNullOrEmpty;
-    @Column(name = "type", nullable = false, unique = false, insertable = true, updatable = true)
-    private Type type;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
+    private field_type field_type;
 
 
     public FieldDAO() {
@@ -45,7 +44,7 @@ public final class FieldDAO implements Serializable {
             int position,
             String meta,
             boolean partOfDocumentIdentity,
-            boolean canBeNullOrEmpty
+            boolean canBeNullOrEmpty, field_type field_type
     ) {
         this.id = id;
         this.referenceConnector = referenceConnector;
@@ -54,6 +53,7 @@ public final class FieldDAO implements Serializable {
         this.meta = meta;
         this.partOfDocumentIdentity = partOfDocumentIdentity;
         this.canBeNullOrEmpty = canBeNullOrEmpty;
+        this.field_type = field_type;
     }
 
     public FieldDAO(
@@ -66,7 +66,7 @@ public final class FieldDAO implements Serializable {
                 field.position(),
                 field.meta(),
                 field.partOfDocumentIdentity(),
-                field.canBeNullOrEmpty()
+                field.canBeNullOrEmpty(),field.type()
         );
     }
 
@@ -92,6 +92,14 @@ public final class FieldDAO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public field_type getType() {
+        return field_type;
+    }
+
+    public void setType(field_type field_type) {
+        this.field_type = field_type;
     }
 
     public int getPosition() {
@@ -135,7 +143,7 @@ public final class FieldDAO implements Serializable {
                         this.position,
                         this.meta,
                         this.partOfDocumentIdentity,
-                        this.canBeNullOrEmpty,this.type
+                        this.canBeNullOrEmpty,this.field_type
                 );
     }
 }

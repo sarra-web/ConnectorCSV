@@ -1,5 +1,6 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.model;
 
+import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.field_type;
 import io.vavr.control.Either;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -37,7 +38,7 @@ class ConnectorTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 true,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -51,7 +52,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 true,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =
@@ -98,7 +99,7 @@ class ConnectorTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 true,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -112,7 +113,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 true,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =
@@ -159,7 +160,7 @@ class ConnectorTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 true,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -173,7 +174,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 true,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =
@@ -220,7 +221,7 @@ class ConnectorTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 true,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -234,7 +235,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 true,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =
@@ -281,7 +282,7 @@ class ConnectorTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 true,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -295,7 +296,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 true,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =
@@ -342,7 +343,7 @@ class ConnectorTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 true,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -356,7 +357,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 true,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =
@@ -403,7 +404,7 @@ class ConnectorTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 true,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -417,7 +418,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 true,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =
@@ -498,7 +499,7 @@ class ConnectorTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 true,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -512,7 +513,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 true,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =
@@ -560,7 +561,7 @@ class ConnectorTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 false,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -574,7 +575,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 false,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =
@@ -621,7 +622,7 @@ class ConnectorTest {
                                                 position * 10,
                                                 UUID.randomUUID().toString(),
                                                 true,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -635,7 +636,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 true,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =
@@ -682,7 +683,7 @@ class ConnectorTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 true,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -696,7 +697,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 true,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =
@@ -741,7 +742,7 @@ class ConnectorTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 false,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -755,7 +756,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 false,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =
@@ -806,7 +807,7 @@ class ConnectorTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 true,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -820,7 +821,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 true,
-                                false
+                                false, field_type.texte
                         );
         final Supplier<Either<Collection<Field.Error>, Field>> headerBuilder2 =
                 () ->
@@ -831,7 +832,7 @@ class ConnectorTest {
                                 2,
                                 UUID.randomUUID().toString(),
                                 true,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =
@@ -884,7 +885,7 @@ class ConnectorTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 true,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -898,7 +899,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 true,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =
@@ -949,7 +950,7 @@ class ConnectorTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 true,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -963,7 +964,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 true,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =
@@ -1016,7 +1017,7 @@ class ConnectorTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 true,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -1030,7 +1031,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 true,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =
@@ -1085,7 +1086,7 @@ class ConnectorTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 true,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -1099,7 +1100,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 true,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =
@@ -1154,7 +1155,7 @@ class ConnectorTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 true,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -1168,7 +1169,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 true,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =
@@ -1223,7 +1224,7 @@ class ConnectorTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 true,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -1237,7 +1238,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 true,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =
@@ -1292,7 +1293,7 @@ class ConnectorTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 true,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -1306,7 +1307,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 true,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =
@@ -1361,7 +1362,7 @@ class ConnectorTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 true,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -1375,7 +1376,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 true,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =
@@ -1430,7 +1431,7 @@ class ConnectorTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 true,
-                                                false
+                                                false, field_type.texte
                                         )
                                         .get()
                         )
@@ -1444,7 +1445,7 @@ class ConnectorTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 true,
-                                false
+                                false, field_type.texte
                         );
 
         final var result =

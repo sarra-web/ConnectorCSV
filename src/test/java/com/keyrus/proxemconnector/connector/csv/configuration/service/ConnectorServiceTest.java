@@ -1,6 +1,7 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.service;
 
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorDAO;
+import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.field_type;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.ConnectorJDBCDatabaseRepository;
@@ -79,7 +80,7 @@ class ConnectorServiceTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false
+                                                                false, field_type.texte
                                                         )
                                                         .get()
                                         )
@@ -129,7 +130,7 @@ class ConnectorServiceTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false
+                                                                false, field_type.texte
                                                         )
                                                         .get()
                                         )
@@ -174,7 +175,7 @@ class ConnectorServiceTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false
+                                                                false, field_type.texte
                                                         )
                                                         .get()
                                         )
@@ -219,7 +220,7 @@ class ConnectorServiceTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false
+                                                                false, field_type.texte
                                                         )
                                                         .get()
                                         )
@@ -282,7 +283,7 @@ class ConnectorServiceTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false
+                                                                false, field_type.texte
                                                         )
                                                         .get()
                                         )

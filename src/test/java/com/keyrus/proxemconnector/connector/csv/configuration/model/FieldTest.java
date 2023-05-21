@@ -1,5 +1,6 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.model;
 
+import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.field_type;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ class FieldTest {
                                 new Random().nextInt(1, 10),
                                 UUID.randomUUID().toString(),
                                 false,
-                                new Random().nextBoolean()
+                                new Random().nextBoolean(), field_type.texte
                         )
                         .getLeft();
 
@@ -41,7 +42,7 @@ class FieldTest {
                                 new Random().nextInt(1, 10),
                                 UUID.randomUUID().toString(),
                                 false,
-                                new Random().nextBoolean()
+                                new Random().nextBoolean(), field_type.texte
                         )
                         .getLeft();
 
@@ -62,7 +63,7 @@ class FieldTest {
                                 new Random().nextInt(1, 10),
                                 UUID.randomUUID().toString(),
                                 false,
-                                new Random().nextBoolean()
+                                new Random().nextBoolean(), field_type.texte
                         )
                         .getLeft();
 
@@ -83,7 +84,7 @@ class FieldTest {
                                 -1,
                                 UUID.randomUUID().toString(),
                                 false,
-                                new Random().nextBoolean()
+                                new Random().nextBoolean(), field_type.texte
                         )
                         .getLeft();
 
@@ -104,7 +105,7 @@ class FieldTest {
                                 new Random().nextInt(1, 10),
                                 " ",
                                 false,
-                                new Random().nextBoolean()
+                                new Random().nextBoolean(), field_type.texte
                         )
                         .getLeft();
 
@@ -125,7 +126,7 @@ class FieldTest {
                                 new Random().nextInt(1, 10),
                                 UUID.randomUUID().toString(),
                                 true,
-                                true
+                                true, field_type.texte
                         )
                         .getLeft();
 
@@ -146,7 +147,7 @@ class FieldTest {
                                 -1,
                                 " ",
                                 true,
-                                true
+                                true, field_type.texte
                         )
                         .getLeft();
 
@@ -180,7 +181,7 @@ class FieldTest {
                                 position,
                                 meta,
                                 partOfDocumentIdentity,
-                                canBeNullOrEmpty
+                                canBeNullOrEmpty, field_type.texte
                         )
                         .get();
 

@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS connector (
     contains_headers BOOLEAN NOT NULL,
     PRIMARY KEY (id)
 );
-
+CREATE TYPE field_type AS ENUM ('meta','texte','identifiant','date','titre','language');
 CREATE TABLE IF NOT EXISTS field (
     id VARCHAR(255) NOT NULL CHECK(name <> ''),
     reference_connector VARCHAR(255) NOT NULL CHECK(name <> ''),
@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS field (
     meta VARCHAR(255) NOT NULL CHECK(name <> ''),
     part_of_document_identity BOOLEAN NOT NULL,
     can_be_null_or_empty BOOLEAN NOT NULL,
+    type field_type NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_reference_connector FOREIGN KEY (reference_connector) REFERENCES connector(id) ON DELETE CASCADE ON UPDATE CASCADE
 );

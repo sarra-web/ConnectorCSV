@@ -1,6 +1,7 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.repository;
 
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorDAO;
+import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.field_type;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import com.keyrus.proxemconnector.initializer.PostgreSQLInitializer;
@@ -78,7 +79,7 @@ class ConnectorRepositoryTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false
+                                                                false, field_type.texte
                                                         )
                                                         .get()
                                         )
@@ -108,7 +109,7 @@ class ConnectorRepositoryTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false
+                                                                false, field_type.texte
                                                         )
                                                         .get()
                                         )
@@ -158,7 +159,7 @@ class ConnectorRepositoryTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false
+                                                                false, field_type.texte
                                                         )
                                                         .get()
                                         )
@@ -189,7 +190,7 @@ class ConnectorRepositoryTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false
+                                                                false, field_type.texte
                                                         )
                                                         .get()
                                         )
@@ -239,7 +240,7 @@ class ConnectorRepositoryTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false
+                                                                false, field_type.texte
                                                         )
                                                         .get()
                                         )
@@ -284,7 +285,7 @@ class ConnectorRepositoryTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false
+                                                                false, field_type.texte
                                                         )
                                                         .get()
                                         )
@@ -329,7 +330,7 @@ class ConnectorRepositoryTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false
+                                                                false, field_type.texte
                                                         )
                                                         .get()
                                         )
@@ -359,7 +360,7 @@ class ConnectorRepositoryTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false
+                                                                false, field_type.texte
                                                         )
                                                         .get()
                                         )
@@ -422,7 +423,7 @@ class ConnectorRepositoryTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false
+                                                                false, field_type.texte
                                                         )
                                                         .get()
                                         )

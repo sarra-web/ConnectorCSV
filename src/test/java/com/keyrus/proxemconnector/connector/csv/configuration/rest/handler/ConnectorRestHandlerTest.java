@@ -2,6 +2,7 @@ package com.keyrus.proxemconnector.connector.csv.configuration.rest.handler;
 
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorDTO;
+import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.field_type;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.ConnectorJDBCDatabaseRepository;
@@ -111,7 +112,7 @@ class ConnectorRestHandlerTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false
+                                                                false, field_type.texte
                                                         )
                                                         .get()
                                         )
@@ -164,7 +165,7 @@ class ConnectorRestHandlerTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false
+                                                                false, field_type.texte
                                                         )
                                                         .get()
                                         )
@@ -238,7 +239,7 @@ class ConnectorRestHandlerTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false
+                                                                false, field_type.texte
                                                         )
                                                         .get()
                                         )
@@ -286,7 +287,7 @@ class ConnectorRestHandlerTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false
+                                                                false, field_type.texte
                                                         )
                                                         .get()
                                         )
@@ -355,7 +356,7 @@ class ConnectorRestHandlerTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false
+                                                                false, field_type.texte
                                                         )
                                                         .get()
                                         )

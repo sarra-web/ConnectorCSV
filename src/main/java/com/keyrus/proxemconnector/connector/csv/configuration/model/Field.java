@@ -1,6 +1,6 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.model;
 
-import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.Type;
+import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.field_type;
 import io.vavr.control.Either;
 
 import java.util.Arrays;
@@ -19,7 +19,7 @@ public final class Field {
     private final String name;
     private final int position;
 
-    private final Type type;
+    private final field_type field_type;
     private final String meta;
     private final boolean partOfDocumentIdentity;
     private final boolean canBeNullOrEmpty;
@@ -31,7 +31,7 @@ public final class Field {
             final int position,
             final String meta,
             final boolean partOfDocumentIdentity,
-            final boolean canBeNullOrEmpty,final Type type
+            final boolean canBeNullOrEmpty,final field_type field_type
     ) {
         this.id = id;
         this.referenceConnector = referenceConnector;
@@ -40,7 +40,7 @@ public final class Field {
         this.meta = meta;
         this.partOfDocumentIdentity = partOfDocumentIdentity;
         this.canBeNullOrEmpty = canBeNullOrEmpty;
-        this.type = type;
+        this.field_type = field_type;
     }
 
     public String id() {
@@ -60,7 +60,7 @@ public final class Field {
     }
 
 
-    public  Type type(){ return this.type; };
+    public field_type type(){ return this.field_type; };
 
     public String meta() {
         return this.meta;
@@ -75,18 +75,11 @@ public final class Field {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (Field) obj;
-        return
-                Objects.equals(this.id, that.id) &&
-                Objects.equals(this.referenceConnector, that.referenceConnector) &&
-                Objects.equals(this.name, that.name) &&
-                this.position == that.position &&
-                Objects.equals(this.meta, that.meta) &&
-                this.partOfDocumentIdentity == that.partOfDocumentIdentity &&
-                this.canBeNullOrEmpty == that.canBeNullOrEmpty;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Field field = (Field) o;
+        return position == field.position && partOfDocumentIdentity == field.partOfDocumentIdentity && canBeNullOrEmpty == field.canBeNullOrEmpty && id.equals(field.id) && referenceConnector.equals(field.referenceConnector) && name.equals(field.name) && field_type == field.field_type && meta.equals(field.meta);
     }
 
     @Override
@@ -99,7 +92,7 @@ public final class Field {
                         this.position,
                         this.meta,
                         this.partOfDocumentIdentity,
-                        this.canBeNullOrEmpty,this.type
+                        this.canBeNullOrEmpty,this.field_type
                 );
     }
 
@@ -124,7 +117,7 @@ public final class Field {
                                 this.position,
                                 this.meta,
                                 this.partOfDocumentIdentity,
-                                this.canBeNullOrEmpty,this.type
+                                this.canBeNullOrEmpty,this.field_type
                         );
     }
 
@@ -135,7 +128,7 @@ public final class Field {
             final int position,
             final String meta,
             final boolean partOfDocumentIdentity,
-            final boolean canBeNullOrEmpty,final Type type
+            final boolean canBeNullOrEmpty,final field_type field_type
     ) {
         return
                 Field.checkThenInstantiate(
@@ -146,7 +139,7 @@ public final class Field {
                                 position,
                                 meta,
                                 partOfDocumentIdentity,
-                                canBeNullOrEmpty,type
+                                canBeNullOrEmpty, field_type
                         ),
                         Field.checkId(
                                 id
@@ -189,7 +182,7 @@ public final class Field {
             final int position,
             final String meta,
             final boolean partOfDocumentIdentity,
-            final boolean canBeNullOrEmpty, final Type type
+            final boolean canBeNullOrEmpty, final field_type field_type
     ) {
         return
                 () ->
@@ -200,7 +193,7 @@ public final class Field {
                                 position,
                                 meta,
                                 partOfDocumentIdentity,
-                                canBeNullOrEmpty,type
+                                canBeNullOrEmpty, field_type
                         );
     }
 

@@ -1,32 +1,28 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.service;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.Meta;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.TextPart;
-import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.Type;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
-import org.json.JSONException;
+import io.vavr.control.Either;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import static com.keyrus.proxemconnector.connector.csv.configuration.enumerations.Type.*;
+import static com.keyrus.proxemconnector.connector.csv.configuration.enumerations.field_type.*;
 
 
 @Service
@@ -80,90 +76,31 @@ public class ConnecteurCSVService  {
     }
 
     public static String generateRecordID(int position, String fileName) {
-        String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        int recordIndex = position;
-        return String.format("%s_%s_%d", date, fileName, recordIndex);
+        return String.format("%s_%s_%d",  LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")), fileName, position);
     }
 
 
-    public static List<String> extractHeader(String stringSeparator, Boolean hasHeader, String csvFilePath) {
-        if (hasHeader == false) {
-            System.out.println("there is no header");
-            return null;
-        } else {
-            List<String> header = new ArrayList<>();
-            /// I want to put first in a list the header if there is a header according to my variable hasHeader
-            if (hasHeader == true) {
-                System.out.println("The file contain header");
-                try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath))) {
-                    String line;
-                    line = br.readLine();
-                    String[] valuesEntete = line.split(stringSeparator);
-                    for (int i = 0; i < numCol(csvFilePath, stringSeparator); i++) {
-                        header.add(valuesEntete[i]);
-                    }
-                    System.out.println("The header is: " + header);
-                } catch (Exception e) {
+    public static Either <String,List<String>> extractHeader(String stringSeparator, Boolean hasHeader, String csvFilePath) throws FileNotFoundException {
+        return hasHeader ? Either.right(getHeader(csvFilePath,true, stringSeparator))
+                : Either.left("There is no header");
+    }
+
+    public static List<String> getHeader(String stringSeparator, Boolean hasHeader, String csvFilePath) throws FileNotFoundException {
+        List<String> header = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath))) {
+            String line = br.readLine();
+            if (line != null) {
+                String[] valuesEntete = line.split(stringSeparator);
+                for (int i = 0; i < valuesEntete.length; i++) {
+                    header.add(valuesEntete[i]);
                 }
             }
-            return header;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+        return header;
+
     }
-public static void main(String[] args) throws JSONException {
-    UUID uuid= UUID.randomUUID();
-    List<Type> list = List.of(titre,identifiant,texte,meta);
-    //new Connector(4548,"",";","\\","\"",true,"csv","email.csv");
-    final var id = UUID.randomUUID().toString();
-    final var connnectorCSV =
-            Connector.Builder
-                    .builder()
-                    .withId(id)
-                    .withName(UUID.randomUUID().toString())
-                    .withSeparator(";")
-                    .withEncoding(StandardCharsets.UTF_8.name())
-                    .withFolderToScan("email.csv")
-                    .withArchiveFolder(UUID.randomUUID().toString())
-                    .withFailedRecordsFolder(UUID.randomUUID().toString())
-                    .withContainsHeaders(new Random().nextBoolean())
-                    .withHeaders(
-                            IntStream.iterate(1, it -> it + 1)
-                                    .limit(4)
-                                    .mapToObj(it ->
-                                            Field.of(
-                                                            UUID.randomUUID().toString(),
-                                                            id,
-                                                            UUID.randomUUID().toString(),
-                                                            it,
-                                                            UUID.randomUUID().toString(),
-                                                            true,
-                                                            false,list.get(it-1)
-                                                    )
-                                                    .get()
-                                    )
-                                    .collect(Collectors.toUnmodifiableSet())
-                    )
-                    .build()
-                    .get();
-
-
-    List<ProxemDto> proxemDtos = CSVDataToJSON(connnectorCSV);
-    ObjectMapper objectMapper = new ObjectMapper();
-    ArrayNode metas1 = objectMapper.createArrayNode();
-    ObjectNode meta1 = objectMapper.createObjectNode();
-
-    ArrayNode jsonArray = objectMapper.valueToTree(proxemDtos);
-
-// Créez un objet JSON final pour encapsuler le tableau de données
-    ObjectNode finalJson = objectMapper.createObjectNode();
-    //finalJson.set("data", jsonArray);
-
-// Convertissez l'objet JSON final en chaîne de caractères
-  //  String jsonString = finalJson.toString();
-
-// Utilisez la chaîne de caractères JSON selon vos besoins
-    System.out.println( jsonArray);
-
-}
   public static   List<ProxemDto> CSVDataToJSON(Connector config)  {
       List<ProxemDto> dataList = new ArrayList<>();
       try (BufferedReader br = new BufferedReader(new FileReader(config.folderToScan()))) {
