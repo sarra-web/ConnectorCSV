@@ -1,0 +1,32 @@
+server:
+  port: ${PROXEM_CONNECTOR_APPLICATION_PORT:8080}
+spring:
+  application:
+    name: ${PROXEM_CONNECTOR_APPLICATION_NAME:proxemconnector}
+  sql:
+    init:
+      mode: ${PROXEM_CONNECTOR_APPLICATION_SQL_INIT_MODE:always}
+  datasource:
+    url: ${PROXEM_CONNECTOR_APPLICATION_DATABASE_URL:jdbc:postgresql://localhost:5432/postgresql}
+    username: ${PROXEM_CONNECTOR_APPLICATION_DATABASE_USERNAME:postgresql}
+    password: ${PROXEM_CONNECTOR_APPLICATION_DATABASE_PASSWORD:postgresql}
+  zipkin:
+    baseUrl: ${PROXEM_CONNECTOR_APPLICATION_ZIPKIN_URL:http://localhost:9411/}
+logging:
+  level:
+    web: ${PROXEM_CONNECTOR_APPLICATION_LOG_WEB:DEBUG}
+management:
+  endpoints:
+    enabled-by-default: ${PROXEM_CONNECTOR_APPLICATION_MANAGEMENT_ENDPOINT_ENABLED:true}
+    health:
+      show-details: ${PROXEM_CONNECTOR_APPLICATION_MANAGEMENT_ENDPOINT_HEALTH_DETAILS:always}
+      beans:
+        enabled: ${PROXEM_CONNECTOR_APPLICATION_MANAGEMENT_HEALTH_BEAN:true}
+    metrics:
+      enabled: ${PROXEM_CONNECTOR_APPLICATION_MANAGEMENT_ENDPOINT_METRICS:true}
+    web:
+      exposure:
+        include: "*"
+connectors:
+  rest:
+    error-header: ${PROXEM_CONNECTOR_APPLICATION_CONNECTORS_REST_ERROR_HEADER:error}

@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: proxemconnectortest
+  sql:
+    init:
+      mode: always
+  zipkin:
+    enabled: false
+logging:
+  level:
+    web: OFF
+management:
+  endpoints:
+    enabled-by-default: false
+    health:
+      show-details: always
+      beans:
+        enabled: false
+    metrics:
+      enabled: false
+    web:
+      exposure:
+        include: "*"
+connectors:
+  rest:
+    error-header: errorTest

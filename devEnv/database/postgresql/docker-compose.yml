@@ -1,0 +1,19 @@
+version: '3.1'
+services:
+  proxem_connector_postgresql_db:
+    container_name: proxem_connector_postgresql_db
+    image: postgres:15.2-alpine3.17
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgresql
+      POSTGRES_USER: postgresql
+      POSTGRES_DB: postgresql
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./data:/var/lib/postgresql/data/pgdata
+  proxem_connector_db_adminer:
+    container_name: proxem_connector_db_adminer
+    image: adminer:4.8.1-standalone
+    ports:
+      - "9180:8080"

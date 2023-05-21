@@ -1,0 +1,7 @@
+version: '3.1'
+services:
+  proxem_connector_zipkin:
+    container_name: proxem_connector_zipkin
+    image: openzipkin/zipkin:2.24
+    ports:
+      - "9411:9411"

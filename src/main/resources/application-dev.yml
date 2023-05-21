@@ -1,0 +1,32 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: proxemconnectordev
+  sql:
+    init:
+      mode: always
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgresql
+    username: postgresql
+    password: postgresql
+  zipkin:
+    baseUrl: http://localhost:9411/
+logging:
+  level:
+    web: DEBUG
+management:
+  endpoints:
+    enabled-by-default: true
+    health:
+      show-details: always
+      beans:
+        enabled: true
+    metrics:
+      enabled: true
+    web:
+      exposure:
+        include: "*"
+connectors:
+  rest:
+    error-header: error
