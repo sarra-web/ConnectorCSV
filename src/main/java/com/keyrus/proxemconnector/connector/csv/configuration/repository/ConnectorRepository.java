@@ -3,6 +3,8 @@ package com.keyrus.proxemconnector.connector.csv.configuration.repository;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
 import io.vavr.control.Either;
 
+import java.util.Collection;
+
 public interface ConnectorRepository {
 
     Either<Error, Connector> create(final Connector connector);
@@ -10,6 +12,7 @@ public interface ConnectorRepository {
     Either<Error, Connector> update(final Connector connector);
 
     Either<Error, Connector> delete(final String id);
+    Either<Error, Collection<Connector>>  findAll();
 
     sealed interface Error {
 

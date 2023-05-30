@@ -2,7 +2,6 @@ package com.keyrus.proxemconnector.connector.csv.configuration.rest.handler;
 
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorDTO;
-import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.field_type;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.ConnectorJDBCDatabaseRepository;
@@ -112,7 +111,7 @@ class ConnectorRestHandlerTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -165,7 +164,7 @@ class ConnectorRestHandlerTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -239,7 +238,7 @@ class ConnectorRestHandlerTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -287,7 +286,7 @@ class ConnectorRestHandlerTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -356,7 +355,7 @@ class ConnectorRestHandlerTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -381,5 +380,66 @@ class ConnectorRestHandlerTest {
                 () -> Assertions.assertEquals(HttpStatus.OK, result.getStatusCode()),
                 () -> Assertions.assertFalse(result.getHeaders().containsKey(this.errorHeader))
         );
+    }
+    @Test
+    @DisplayName("configuration rest handler must return a list of configurations if findAll method is called with valid configurations ")
+    void configuration_rest_handler_must_return_List_of_configurations_if_findAll_method_is_called_with_valid_configurations() {
+        final var id=UUID.randomUUID().toString();
+        final var configuration =
+                Connector.Builder
+                        .builder()
+                        .withId(id)
+                        .withName(UUID.randomUUID().toString())
+                        .withSeparator(";")
+                        .withEncoding(StandardCharsets.UTF_8.name())
+                        .withFolderToScan(UUID.randomUUID().toString())
+                        .withArchiveFolder(UUID.randomUUID().toString())
+                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withContainsHeaders(new Random().nextBoolean())
+                        .withHeaders(
+                                IntStream.iterate(1, it -> it + 1)
+                                        .limit(10)
+                                        .mapToObj(it ->
+                                                Field.of(
+                                                                UUID.randomUUID().toString(),
+                                                                id,
+                                                                UUID.randomUUID().toString(),
+                                                                it,
+                                                                UUID.randomUUID().toString(),
+                                                                true,
+                                                                false,""
+                                                        )
+                                                        .get()
+                                        )
+                                        .collect(Collectors.toUnmodifiableSet())
+                        )
+                        .build()
+                        .get();
+        this.connectorJDBCDatabaseRepository.save(
+                new ConnectorDAO(
+                        configuration
+                )
+        );
+
+        final var result =
+                this.connectorRestHandler.findAll(null);
+
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(HttpStatus.OK, result.getStatusCode()),
+                () -> Assertions.assertFalse(result.getHeaders().containsKey(this.errorHeader))
+        );
+    }
+
+    @Test
+    @DisplayName("configuration rest handler must return an empty list of configurations if findAll method is called with no saved configurations ")
+    void configuration_rest_handler_must_return_ampty_List_of_configurations_if_findAll_method_is_called_with_no_saved_configurations() {
+        final var result =
+                this.connectorRestHandler.findAll(null);
+
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(HttpStatus.OK, result.getStatusCode()),
+                () -> Assertions.assertFalse(result.getHeaders().containsKey(this.errorHeader))
+        );
+
     }
 }

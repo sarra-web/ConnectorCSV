@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@CrossOrigin("http://localhost:8081")
+@CrossOrigin("http://localhost:4200")
 public class FilesController {
 
   @Autowired
@@ -61,6 +61,10 @@ public class FilesController {
         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
   }
 
+  @DeleteMapping("/filess")
+ public void deleteAllFiles(){
+    storageService.deleteAll();
+  }
   @DeleteMapping("/files/{filename:.+}")
   public ResponseEntity<ResponseMessage> deleteFile(@PathVariable String filename) {
     String message = "";

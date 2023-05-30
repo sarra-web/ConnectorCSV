@@ -7,4 +7,7 @@ public interface ConnectorJDBCDatabaseRepository extends JpaRepository<Connector
     boolean existsByName(String name);
 
     ConnectorDAO findOneById(String id);
+
+    //@Query(value = "SELECT * FROM connector", nativeQuery = true)
+    //List<ConnectorDAO> findAll();
 }

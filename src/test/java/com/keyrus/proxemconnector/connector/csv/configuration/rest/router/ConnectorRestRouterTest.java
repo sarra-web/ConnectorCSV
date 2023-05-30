@@ -2,7 +2,6 @@ package com.keyrus.proxemconnector.connector.csv.configuration.rest.router;
 
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorDTO;
-import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.field_type;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.ConnectorJDBCDatabaseRepository;
@@ -12,12 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
 import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -95,7 +97,7 @@ class ConnectorRestRouterTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -125,7 +127,7 @@ class ConnectorRestRouterTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -178,7 +180,7 @@ class ConnectorRestRouterTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -209,7 +211,7 @@ class ConnectorRestRouterTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -262,7 +264,7 @@ class ConnectorRestRouterTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -310,7 +312,7 @@ class ConnectorRestRouterTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -359,7 +361,7 @@ class ConnectorRestRouterTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -389,7 +391,7 @@ class ConnectorRestRouterTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -460,7 +462,7 @@ class ConnectorRestRouterTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -486,5 +488,111 @@ class ConnectorRestRouterTest {
                 () -> Assertions.assertEquals(HttpStatus.OK, result.getStatusCode()),
                 () -> Assertions.assertFalse(result.getHeaders().containsKey(this.errorHeader))
         );
+    }
+    @Test
+    @DisplayName("configuration rest router must return a liste of configurations if findAll method is called with valid configurations")
+    void configuration_rest_router_must_return_list_of_configurations_if_findAll_method_is_called_with_valid_configurations() {
+        final var id=UUID.randomUUID().toString();
+        final var configuration =
+                Connector.Builder
+                        .builder()
+                        .withId(id)
+                        .withName(UUID.randomUUID().toString())
+                        .withSeparator(";")
+                        .withEncoding(StandardCharsets.UTF_8.name())
+                        .withFolderToScan(UUID.randomUUID().toString())
+                        .withArchiveFolder(UUID.randomUUID().toString())
+                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withContainsHeaders(new Random().nextBoolean())
+                        .withHeaders(
+                                IntStream.iterate(1, it -> it + 1)
+                                        .limit(10)
+                                        .mapToObj(it ->
+                                                Field.of(
+                                                                UUID.randomUUID().toString(),
+                                                                id,
+                                                                UUID.randomUUID().toString(),
+                                                                it,
+                                                                UUID.randomUUID().toString(),
+                                                                true,
+                                                                false,""
+                                                        )
+                                                        .get()
+                                        )
+                                        .collect(Collectors.toUnmodifiableSet())
+                        )
+                        .build()
+                        .get();
+        this.connectorJDBCDatabaseRepository.save(
+                new ConnectorDAO(
+                        configuration
+                )
+        );
+        final var id2=UUID.randomUUID().toString();
+        final var configuration2 =
+                Connector.Builder
+                        .builder()
+                        .withId(id)
+                        .withName(UUID.randomUUID().toString())
+                        .withSeparator(";")
+                        .withEncoding(StandardCharsets.UTF_8.name())
+                        .withFolderToScan(UUID.randomUUID().toString())
+                        .withArchiveFolder(UUID.randomUUID().toString())
+                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withContainsHeaders(new Random().nextBoolean())
+                        .withHeaders(
+                                IntStream.iterate(1, it -> it + 1)
+                                        .limit(10)
+                                        .mapToObj(it ->
+                                                Field.of(
+                                                                UUID.randomUUID().toString(),
+                                                                id,
+                                                                UUID.randomUUID().toString(),
+                                                                it,
+                                                                UUID.randomUUID().toString(),
+                                                                true,
+                                                                false,""
+                                                        )
+                                                        .get()
+                                        )
+                                        .collect(Collectors.toUnmodifiableSet())
+                        )
+                        .build()
+                        .get();
+        this.connectorJDBCDatabaseRepository.save(
+                new ConnectorDAO(
+                        configuration
+                )
+        );
+
+        final ResponseEntity<Collection<ConnectorDTO>> result = this.restTemplate.exchange(
+                this.baseUrl ,
+                HttpMethod.GET,
+                HttpEntity.EMPTY,
+                new ParameterizedTypeReference<Collection<ConnectorDTO>>() {}
+        );
+
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(HttpStatus.OK, result.getStatusCode()),
+                () -> Assertions.assertFalse(result.getHeaders().containsKey(this.errorHeader))
+        );
+    }
+    @Test
+    @DisplayName("configuration rest router must return an empty list of configurations if findAll method is called with no saved configurations ")
+    void configuration_rest_router_must_return_ampty_List_of_configurations_if_findAll_method_is_called_with_no_saved_configurations() {
+
+        final ResponseEntity<Collection<ConnectorDTO>> result = this.restTemplate.exchange(
+                this.baseUrl ,
+                HttpMethod.GET,
+                HttpEntity.EMPTY,
+                new ParameterizedTypeReference<Collection<ConnectorDTO>>() {}
+        );
+
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(HttpStatus.OK, result.getStatusCode()),
+                () -> Assertions.assertFalse(result.getHeaders().containsKey(this.errorHeader)));
+
+
+
     }
 }

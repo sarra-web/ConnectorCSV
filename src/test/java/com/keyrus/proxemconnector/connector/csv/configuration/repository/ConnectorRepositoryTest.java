@@ -1,7 +1,7 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.repository;
 
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorDAO;
-import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.field_type;
+import com.keyrus.proxemconnector.connector.csv.configuration.dao.FieldDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import com.keyrus.proxemconnector.initializer.PostgreSQLInitializer;
@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -79,7 +81,7 @@ class ConnectorRepositoryTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -109,7 +111,7 @@ class ConnectorRepositoryTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -159,7 +161,7 @@ class ConnectorRepositoryTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -190,7 +192,7 @@ class ConnectorRepositoryTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -240,7 +242,7 @@ class ConnectorRepositoryTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -285,7 +287,7 @@ class ConnectorRepositoryTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -330,7 +332,7 @@ class ConnectorRepositoryTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -360,7 +362,7 @@ class ConnectorRepositoryTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -423,7 +425,7 @@ class ConnectorRepositoryTest {
                                                                 it,
                                                                 UUID.randomUUID().toString(),
                                                                 true,
-                                                                false, field_type.texte
+                                                                false, "texte"
                                                         )
                                                         .get()
                                         )
@@ -445,5 +447,92 @@ class ConnectorRepositoryTest {
                         .get();
 
         Assertions.assertEquals(configuration, result);
+    }
+    @Test
+    @DisplayName("configuration repository must return list of Connectors if findAll method is called with valid configuration ")
+    void configuration_repository_must_return_listOf_connectors_if_findAll_method_is_called_with_valid_configuration() {
+        final var id = UUID.randomUUID().toString();
+        final var configuration1 =
+                Connector.Builder
+                        .builder()
+                        .withId(id)
+                        .withName(UUID.randomUUID().toString())
+                        .withSeparator(";")
+                        .withEncoding(StandardCharsets.UTF_8.name())
+                        .withFolderToScan(UUID.randomUUID().toString())
+                        .withArchiveFolder(UUID.randomUUID().toString())
+                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withContainsHeaders(new Random().nextBoolean())
+                        .withHeaders(
+                                IntStream.iterate(1, it -> it + 1)
+                                        .limit(10)
+                                        .mapToObj(it ->
+                                                Field.of(
+                                                                UUID.randomUUID().toString(),
+                                                                id,
+                                                                UUID.randomUUID().toString(),
+                                                                it,
+                                                                UUID.randomUUID().toString(),
+                                                                true,
+                                                                false,""
+                                                        )
+                                                        .get()
+                                        )
+                                        .collect(Collectors.toUnmodifiableSet())
+                        )
+                        .build()
+                        .get();
+        ;
+        this.connectorJDBCDatabaseRepository.save(
+                new ConnectorDAO(
+                        configuration1
+                )
+        );
+
+
+        final var result =
+                this.connectorRepository
+                        .findAll().get();
+
+
+        Assertions.assertEquals(List.of(configuration1), result);
+    }
+
+    @Test
+    @DisplayName("configuration repository must return empty list if findAll method is called with no configurations exist")
+    void configuration_repository_must_return_empty_list_if_findAll_method_is_called_with_no_configurations_exist() {
+
+
+        final var result =
+                this.connectorRepository
+                        .findAll().get();
+        Assertions.assertTrue(result.isEmpty());
+    }
+
+    @Test
+    @DisplayName("configuration repository must return error if findAll method is called with invalid  saved configuration ")
+    void configuration_repository_must_return_error_if_findAll_method_is_called_with_invalid_saved_configuration() {
+        Collection<FieldDAO> fields = IntStream.iterate(1, it -> it + 1)
+                .limit(10)
+                .mapToObj(it ->
+                        Field.of(
+                                        UUID.randomUUID().toString(),
+                                        "1",
+                                        UUID.randomUUID().toString(),
+                                        it,
+                                        UUID.randomUUID().toString(),
+                                        true,
+                                        false,"meta"
+                                )
+                                .get()
+                ).map(field -> new FieldDAO(field))
+                .collect(Collectors.toUnmodifiableSet());
+        this.connectorJDBCDatabaseRepository.save(
+                new ConnectorDAO("1", " ", ";", "ee", "dd", "dd", "dd", true, fields)
+        );
+        final var result =
+                this.connectorRepository
+                        .findAll().getLeft();
+        Assertions.assertInstanceOf(ConnectorRepository.Error.class, result);
     }
 }

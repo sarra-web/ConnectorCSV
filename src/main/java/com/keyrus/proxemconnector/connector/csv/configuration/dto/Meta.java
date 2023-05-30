@@ -2,8 +2,11 @@ package com.keyrus.proxemconnector.connector.csv.configuration.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
+@NoArgsConstructor
+@Data
 public class Meta<T> {
     @JsonProperty("Name")
     private String Name;
@@ -14,9 +17,6 @@ public class Meta<T> {
         Name = name;
         Value = value;
     }
-    public Meta() {
-
-    }
 
 
     @Override
@@ -26,21 +26,4 @@ public class Meta<T> {
                 ", Value=" + Value +
                 '}';
     }
-
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String name) {
-        Name = name;
-    }
-
-    public T getValue() {
-        return Value;
-    }
-
-    public void setValue(T value) {
-        Value = value;
-    }
-
 }

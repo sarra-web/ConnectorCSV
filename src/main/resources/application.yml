@@ -7,9 +7,9 @@ spring:
     init:
       mode: ${PROXEM_CONNECTOR_APPLICATION_SQL_INIT_MODE:always}
   datasource:
-    url: ${PROXEM_CONNECTOR_APPLICATION_DATABASE_URL:jdbc:postgresql://localhost:5432/postgresql}
-    username: ${PROXEM_CONNECTOR_APPLICATION_DATABASE_USERNAME:postgresql}
-    password: ${PROXEM_CONNECTOR_APPLICATION_DATABASE_PASSWORD:postgresql}
+    url: ${PROXEM_CONNECTOR_APPLICATION_DATABASE_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${PROXEM_CONNECTOR_APPLICATION_DATABASE_USERNAME:postgres}
+    password: ${PROXEM_CONNECTOR_APPLICATION_DATABASE_PASSWORD:postgres}
   zipkin:
     baseUrl: ${PROXEM_CONNECTOR_APPLICATION_ZIPKIN_URL:http://localhost:9411/}
 logging:

@@ -1,11 +1,7 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.service;
 
 
-import com.keyrus.proxemconnector.connector.csv.configuration.dto.Meta;
-import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
-import com.keyrus.proxemconnector.connector.csv.configuration.dto.TextPart;
-import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
-import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
+import com.keyrus.proxemconnector.connector.csv.configuration.dto.*;
 import io.vavr.control.Either;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +17,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.keyrus.proxemconnector.connector.csv.configuration.enumerations.field_type.*;
 
 
 @Service
@@ -101,7 +95,10 @@ public class ConnecteurCSVService  {
         return header;
 
     }
-  public static   List<ProxemDto> CSVDataToJSON(Connector config)  {
+
+
+
+  public static   List<ProxemDto> CSVDataToJSON(ConnectorDTO config)  {
       List<ProxemDto> dataList = new ArrayList<>();
       try (BufferedReader br = new BufferedReader(new FileReader(config.folderToScan()))) {
 
@@ -116,28 +113,27 @@ public class ConnecteurCSVService  {
               ProxemDto data = new ProxemDto();
               position++;
               data.setCorpusId("a0e04a5f-ab7c-4b0e-97be-af263a61ba49"/*config.getProject().getProjectName()*/);
-              List<Field> l =  config.fields().stream().filter(field1 -> field1.type()==identifiant).collect(Collectors.toList());
+              List<FieldDTO> l =  config.headers().stream().filter(field1 -> field1.field_type()=="identifiant").collect(Collectors.toList());
               if ((l.isEmpty() )) {
                   String recordId = generateRecordID(position, config.folderToScan());
                   data.setExternalId(recordId);
               } else {
-                  data.setExternalId(values[l.get(0).position()]);
+                  data.setExternalId(values[l.get(0).position()-1]);
               }
-              List<Field> l2 = config.fields().stream().filter(field1 -> field1.type()==date).collect(Collectors.toList());
+              List<FieldDTO> l2 = config.headers().stream().filter(field1 -> field1.field_type()=="date").collect(Collectors.toList());
               if (l2.isEmpty()) {
                   SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
                   data.setDocUtcDate("2023-01-04T15:00:00Z");
               } else {
 
                   SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                  System.out.println(values[l2.get(0).position()]);
-                  data.setDocUtcDate(format2.parse(values[l2.get(0).position()]).toString());
+                  data.setDocUtcDate(format2.parse(values[l2.get(0).position()-1]).toString());
               }
               Collection<Meta> metasList = new ArrayList<>();
-              config.fields().stream().filter(field1 -> field1.type()==date).forEach(x -> {
+              config.headers().stream().filter(field1 -> field1.field_type()=="meta").forEach(x -> {
                   Meta meta = new Meta();
                   meta.setName(x.name());
-                  meta.setValue(values[x.position()]);
+                  meta.setValue(values[x.position()-1]);
                   metasList.add(meta);
               });
               data.setMetas(metasList);
@@ -145,13 +141,13 @@ public class ConnecteurCSVService  {
 
               TextPart titlePart = new TextPart();
               titlePart.setName("title");
-              titlePart.setContent(values[config.fields().stream().filter(field1 -> field1.type()==titre).collect(Collectors.toList()).get(0).position()]);
+              titlePart.setContent(values[config.headers().stream().filter(field1 -> field1.field_type()=="titre").collect(Collectors.toList()).get(0).position()-1]);
               textPartsList.add(titlePart);
               TextPart bodyPart = new TextPart();
-              config.fields().stream().filter(field1 -> field1.type()==texte).collect(Collectors.toList()).forEach(x -> {
+              config.headers().stream().filter(field1 -> field1.field_type()=="texte").collect(Collectors.toList()).forEach(x -> {
 
                   bodyPart.setName("body");
-                  bodyPart.setContent(bodyPart.getContent() + " ;" + values[x.position()]);
+                  bodyPart.setContent(bodyPart.getContent() + " ;" + values[x.position()-1]);
                   //concatenation of text fields otherwise each one will be considered as a ProxemDto
               });
               textPartsList.add(bodyPart);

@@ -60,13 +60,13 @@ class FilesControllerTest {
     }
 
     @Test
-    @DisplayName("uploadFile_test ")
+    @DisplayName("uploadFile_test")
     void uploadFile_test() {
         this.filesStorageService.init();
 
         MultipartFile file = new MockMultipartFile(
-                "file",
-                "test.csv",
+                "email.csv",
+                "email.csv",
                 "text/csv",
                 "header1,header2\nvalue1,value2".getBytes()
         );

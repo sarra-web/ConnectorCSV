@@ -7,9 +7,9 @@ spring:
     init:
       mode: always
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgresql
-    username: postgresql
-    password: postgresql
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
   zipkin:
     baseUrl: http://localhost:9411/
 logging:

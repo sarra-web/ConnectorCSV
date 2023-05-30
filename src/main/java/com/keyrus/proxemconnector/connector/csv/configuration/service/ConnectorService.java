@@ -4,6 +4,7 @@ import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.ConnectorRepository;
 import io.vavr.control.Either;
 
+import java.util.Collection;
 import java.util.Objects;
 
 public final class ConnectorService {
@@ -60,6 +61,13 @@ public final class ConnectorService {
                                 id
                         )
                         .mapLeft(ConnectorService::repositoryErrorToServiceError);
+    }
+
+    public Either<Error, Collection<Connector>> findAll() {
+        return this.connectorRepository
+                .findAll()
+                .mapLeft(ConnectorService::repositoryErrorToServiceError);
+
     }
 
     private static Error repositoryErrorToServiceError(

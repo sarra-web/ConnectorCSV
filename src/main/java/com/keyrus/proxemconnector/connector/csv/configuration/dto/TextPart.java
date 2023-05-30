@@ -2,8 +2,11 @@ package com.keyrus.proxemconnector.connector.csv.configuration.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
+@NoArgsConstructor
+@Data
 public class TextPart {
     @JsonProperty("Name")
     private String Name;
@@ -13,9 +16,6 @@ public class TextPart {
     public TextPart(String name, String content) {
         Name = name;
         Content = content;
-    }
-    public TextPart() {
-
     }
 
     public String getName() {
@@ -32,13 +32,5 @@ public class TextPart {
                 "Name='" + Name + '\'' +
                 ", Content='" + Content + '\'' +
                 '}';
-    }
-
-    public void setName(String name) {
-        Name = name;
-    }
-
-    public void setContent(String content) {
-        Content = content;
     }
 }

@@ -97,6 +97,35 @@ public final class ConnectorRestHandler {
                                 Function.identity()
                         );
     }
+    public ResponseEntity<Collection<ConnectorDTO>> findAll(final String languageCode) {
+        return this.connectorService
+                .findAll()
+                .mapLeft(serviceError ->
+                        ConnectorRestHandler.<Collection<ConnectorDTO>>serviceErrorToRestResponse(
+                                serviceError,
+                                languageCode,
+                                this.errorHeader,
+                                this.messageSource
+                        )
+                )
+                .map(ConnectorRestHandler::toOkResponseForManyDTO)
+                .fold(Function.identity(),
+                        Function.identity());
+    }
+    private static ResponseEntity<Collection<ConnectorDTO>> toOkResponseForManyDTO(
+            final Collection<Connector> connectors
+    ) {
+        return
+                ResponseEntity.ok(
+
+                        connectors.stream().map(
+                                ConnectorDTO::new
+                        ).toList()
+
+                );
+
+
+    }
 
     private static ResponseEntity<ConnectorDTO> convertConfigurationDTOToConfigurationThenApplyOnServiceOperation(
             final ConnectorService connectorService,

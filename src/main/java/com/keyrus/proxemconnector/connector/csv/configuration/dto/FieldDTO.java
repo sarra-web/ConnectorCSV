@@ -1,6 +1,5 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.dto;
 
-import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.field_type;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import io.vavr.control.Either;
 
@@ -11,12 +10,12 @@ import java.util.UUID;
 public record FieldDTO(
         String id,
         String name,
-        int position, field_type field_type,
+        int position,
+        String field_type,
         String meta,
         boolean partOfDocumentIdentity,
-        boolean canBeNullOrEmpty,
+        boolean canBeNullOrEmpty
 
-         field_type Type
 ) {
     public FieldDTO(
             final Field field
@@ -27,7 +26,7 @@ public record FieldDTO(
                 field.position(),field.type(),
                 field.meta(),
                 field.partOfDocumentIdentity(),
-                field.canBeNullOrEmpty(),field.type()
+                field.canBeNullOrEmpty()
         );
     }
 

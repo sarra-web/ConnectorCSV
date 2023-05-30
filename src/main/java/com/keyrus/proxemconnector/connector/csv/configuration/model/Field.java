@@ -1,6 +1,5 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.model;
 
-import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.field_type;
 import io.vavr.control.Either;
 
 import java.util.Arrays;
@@ -19,7 +18,7 @@ public final class Field {
     private final String name;
     private final int position;
 
-    private final field_type field_type;
+    private final String field_type;
     private final String meta;
     private final boolean partOfDocumentIdentity;
     private final boolean canBeNullOrEmpty;
@@ -31,7 +30,7 @@ public final class Field {
             final int position,
             final String meta,
             final boolean partOfDocumentIdentity,
-            final boolean canBeNullOrEmpty,final field_type field_type
+            final boolean canBeNullOrEmpty,final String field_type
     ) {
         this.id = id;
         this.referenceConnector = referenceConnector;
@@ -60,7 +59,7 @@ public final class Field {
     }
 
 
-    public field_type type(){ return this.field_type; };
+    public String type(){ return this.field_type; };
 
     public String meta() {
         return this.meta;
@@ -74,26 +73,33 @@ public final class Field {
         return this.canBeNullOrEmpty;
     }
 
+    public String field_type() {
+        return this.meta;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Field field = (Field) o;
-        return position == field.position && partOfDocumentIdentity == field.partOfDocumentIdentity && canBeNullOrEmpty == field.canBeNullOrEmpty && id.equals(field.id) && referenceConnector.equals(field.referenceConnector) && name.equals(field.name) && field_type == field.field_type && meta.equals(field.meta);
+        return position == field.position
+                && partOfDocumentIdentity == field.partOfDocumentIdentity
+                && canBeNullOrEmpty == field.canBeNullOrEmpty && id.equals(field.id)
+                && referenceConnector.equals(field.referenceConnector)
+                && name.equals(field.name)
+                && field_type.equals(field.field_type) && meta.equals(field.meta);
     }
 
     @Override
     public int hashCode() {
-        return
-                Objects.hash(
-                        this.id,
-                        this.referenceConnector,
-                        this.name,
-                        this.position,
-                        this.meta,
-                        this.partOfDocumentIdentity,
-                        this.canBeNullOrEmpty,this.field_type
-                );
+        return Objects.hash(id,
+                referenceConnector,
+                name,
+                position,
+                field_type,
+                meta,
+                partOfDocumentIdentity,
+                canBeNullOrEmpty);
     }
 
     @Override
@@ -117,7 +123,8 @@ public final class Field {
                                 this.position,
                                 this.meta,
                                 this.partOfDocumentIdentity,
-                                this.canBeNullOrEmpty,this.field_type
+                                this.canBeNullOrEmpty,
+                                this.field_type
                         );
     }
 
@@ -128,7 +135,8 @@ public final class Field {
             final int position,
             final String meta,
             final boolean partOfDocumentIdentity,
-            final boolean canBeNullOrEmpty,final field_type field_type
+            final boolean canBeNullOrEmpty,
+            final String field_type
     ) {
         return
                 Field.checkThenInstantiate(
@@ -182,7 +190,8 @@ public final class Field {
             final int position,
             final String meta,
             final boolean partOfDocumentIdentity,
-            final boolean canBeNullOrEmpty, final field_type field_type
+            final boolean canBeNullOrEmpty,
+            final String field_type
     ) {
         return
                 () ->
@@ -193,7 +202,8 @@ public final class Field {
                                 position,
                                 meta,
                                 partOfDocumentIdentity,
-                                canBeNullOrEmpty, field_type
+                                canBeNullOrEmpty,
+                                field_type
                         );
     }
 

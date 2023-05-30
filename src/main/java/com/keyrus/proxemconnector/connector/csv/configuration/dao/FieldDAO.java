@@ -1,14 +1,15 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.dao;
 
 
-import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.field_type;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import io.vavr.control.Either;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.io.Serializable;
 import java.util.Collection;
-
 @Entity
 @Table(name = "field")
 public final class FieldDAO implements Serializable {
@@ -29,9 +30,9 @@ public final class FieldDAO implements Serializable {
     @Column(name = "can_be_null_or_empty", nullable = false, unique = false, insertable = true, updatable = true)
     private boolean canBeNullOrEmpty;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type", nullable = false)
-    private field_type field_type;
+   // @Enumerated(EnumType.STRING)
+    @Column(name = "field_type", nullable = false)
+    private String field_type;
 
 
     public FieldDAO() {
@@ -44,7 +45,7 @@ public final class FieldDAO implements Serializable {
             int position,
             String meta,
             boolean partOfDocumentIdentity,
-            boolean canBeNullOrEmpty, field_type field_type
+            boolean canBeNullOrEmpty, String field_type
     ) {
         this.id = id;
         this.referenceConnector = referenceConnector;
@@ -94,11 +95,11 @@ public final class FieldDAO implements Serializable {
         this.name = name;
     }
 
-    public field_type getType() {
+    public String getType() {
         return field_type;
     }
 
-    public void setType(field_type field_type) {
+    public void setType(String field_type) {
         this.field_type = field_type;
     }
 

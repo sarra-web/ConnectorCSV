@@ -5,15 +5,13 @@ import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public final class ConnectorDatabaseRepository implements ConnectorRepository {
 
@@ -92,6 +90,62 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
                         )
                 );
     }
+    @Override
+    public Either<Error, Collection<Connector>> findAll() {
+        return ConnectorDatabaseRepository.findAllConfiguration(this.connectorJDBCDatabaseRepository).get();
+    }
+
+    private static Supplier <Either<Error, Collection<Connector>>> findAllConfiguration(ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository) {
+        return
+                ConnectorDatabaseRepository.executeOnRepositoryForManyResult(
+                        connectorJDBCDatabaseRepository,
+                        it ->
+                                it.findAll()
+
+                );
+
+    }
+
+    private static Supplier<Either<Error, Collection<Connector>>> executeOnRepositoryForManyResult(
+            final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository,
+            final Function<ConnectorJDBCDatabaseRepository, Collection<ConnectorDAO>> operationOnRepositoryForManyResult
+    ) {
+        return
+                () ->
+                        ConnectorDatabaseRepository.tryOnRepositoryForResultOrIOException(
+                                        connectorJDBCDatabaseRepository,
+                                        operationOnRepositoryForManyResult
+                                )
+                                .flatMap(ConnectorDatabaseRepository.manyConfigurationDAOToManyConfiguration());
+    }
+
+    private static  Function<Collection<ConnectorDAO>, Either<Error, Collection<Connector>>> manyConfigurationDAOToManyConfiguration() {
+        return connectorDAOS -> {
+            return connectorDAOS.isEmpty() ? Either.right(new ArrayList<Connector>()) :  ConnectorDatabaseRepository.findAllConnectorOrRepError(connectorDAOS);
+
+        };
+
+
+    }
+
+    private static Either<Error, Collection<Connector>> findAllConnectorOrRepError(Collection<ConnectorDAO> connectorDAOS) {
+        Stream<Either<Error, Connector>> l=  ConnectorDatabaseRepository.manyConfigurationDAOToManyErrorOrConfiguration(connectorDAOS).stream();
+        return ConnectorDatabaseRepository.manyConfigurationDAOToManyErrorOrConfiguration(connectorDAOS).stream().filter(Either::isRight).toList().isEmpty() ? Either.left(ConnectorDatabaseRepository.manyConfigurationDAOToManyErrorOrConfiguration(connectorDAOS).stream().filter(Either::isLeft).map(Either::getLeft).findFirst().get()): Either.right(ConnectorDatabaseRepository.manyConfigurationDAOToManyErrorOrConfiguration(connectorDAOS).stream().filter(Either::isRight).map(Either::get).collect(Collectors.toList()));
+    }
+
+    private static   Collection<Either<Error, Connector>> manyConfigurationDAOToManyErrorOrConfiguration(Collection<ConnectorDAO> connectorDAOS) {
+        return connectorDAOS.stream().map(connectorDAO -> connectorDAO.toConfiguration()
+                .mapLeft(ConnectorDatabaseRepository::configurationErrorsToRespositoryError)).collect(Collectors.toList());
+
+    }
+    private static Collection<Connector> findValidConnectors(final Collection<Either<Error, Connector>> collection) {
+        return collection.
+                stream()
+                .filter(Either::isRight).
+                map(Either::get)
+                .collect(Collectors.toList());
+    }
+
 
     private static Supplier<Optional<Error>> checkConfigurationIdDoesNotExist(
             final String id,

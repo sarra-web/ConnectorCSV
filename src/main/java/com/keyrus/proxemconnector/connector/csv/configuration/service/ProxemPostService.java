@@ -4,8 +4,8 @@ package com.keyrus.proxemconnector.connector.csv.configuration.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorDTO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
-import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -23,8 +23,8 @@ public class ProxemPostService {
     @Autowired
     ConnecteurCSVService connecteurCSVService;
 
-    public List<ProxemDto> csvToJSON(Connector csv) {
-        return this.updatePost(CSVDataToJSON(csv));
+    public List<ProxemDto> pushToProxem(ConnectorDTO config) {
+        return this.updatePost(CSVDataToJSON(config));
     }
 
 
