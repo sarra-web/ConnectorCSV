@@ -1,12 +1,17 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.service;
 
+import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.ConnectorRepository;
 import io.vavr.control.Either;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.Collection;
 import java.util.Objects;
 
+@Slf4j
 public final class ConnectorService {
 
     private static ConnectorService instance = null;
@@ -68,6 +73,31 @@ public final class ConnectorService {
                 .findAll()
                 .mapLeft(ConnectorService::repositoryErrorToServiceError);
 
+    }
+    public Either<Error, Connector> findOneByName(String name) {
+        return this.connectorRepository
+                .findOneByName(
+                        name
+                )
+                .mapLeft(ConnectorService::repositoryErrorToServiceError);
+    }
+    public Either<Error, Connector> findOneById(String id) {
+        return this.connectorRepository
+                .findOneById(
+                        id
+                )
+                .mapLeft(ConnectorService::repositoryErrorToServiceError);
+    }
+
+    public Either<Error, Collection<Connector>> findManyByNameContainsIgnoreCase(String name) {
+        return this.connectorRepository
+                .findManyByNameContainsIgnoreCase(name)
+                .mapLeft(ConnectorService::repositoryErrorToServiceError);
+
+    }
+    public Page<ConnectorDAO> findAll(int page,int size){
+        log.info("Fetching for page {} of size {}",page,size);
+        return connectorRepository.findAll(PageRequest.of(page,size));
     }
 
     private static Error repositoryErrorToServiceError(

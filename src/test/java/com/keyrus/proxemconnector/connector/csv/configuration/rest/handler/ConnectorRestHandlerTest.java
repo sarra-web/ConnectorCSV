@@ -442,4 +442,120 @@ class ConnectorRestHandlerTest {
         );
 
     }
+    @Test
+    @DisplayName("configuration rest handler must return error if findOneByName method is called with invalid configuration")
+    void configuration_rest_handler_must_return_error_if_findOneByName_method_is_called_with_invalid_configuration() {
+        final var result =
+                this.connectorRestHandler
+                        .findOneByName(
+                                UUID.randomUUID().toString(),
+                                null
+                        );
+
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode()),
+                () -> Assertions.assertTrue(result.getHeaders().containsKey(this.errorHeader))
+        );
+    }
+
+    @Test
+    @DisplayName("configuration rest handler must return searched configuration if findOneByName method is called with valid configuration")
+    void configuration_rest_handler_must_return_searched_configuration_if_findOneByName_method_is_called_with_valid_configuration() {
+        final var id = UUID.randomUUID().toString();
+        final var configuration =
+                Connector.Builder
+                        .builder()
+                        .withId(id)
+                        .withName(UUID.randomUUID().toString())
+                        .withSeparator(";")
+                        .withEncoding(StandardCharsets.UTF_8.name())
+                        .withFolderToScan(UUID.randomUUID().toString())
+                        .withArchiveFolder(UUID.randomUUID().toString())
+                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withContainsHeaders(new Random().nextBoolean())
+                        .withHeaders(
+                                IntStream.iterate(1, it -> it + 1)
+                                        .limit(10)
+                                        .mapToObj(it ->
+                                                Field.of(
+                                                                UUID.randomUUID().toString(),
+                                                                id,
+                                                                UUID.randomUUID().toString(),
+                                                                it,
+                                                                UUID.randomUUID().toString(),
+                                                                true,
+                                                                false,""
+                                                        )
+                                                        .get()
+                                        )
+                                        .collect(Collectors.toUnmodifiableSet())
+                        )
+                        .build()
+                        .get();
+        this.connectorJDBCDatabaseRepository.save(
+                new ConnectorDAO(
+                        configuration
+                )
+        );
+
+        final var result =
+                this.connectorRestHandler
+                        .findOneByName(
+                                configuration.name(),
+                                null
+                        );
+
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(HttpStatus.OK, result.getStatusCode()),
+                () -> Assertions.assertFalse(result.getHeaders().containsKey(this.errorHeader))
+        );
+    }
+    @Test
+    @DisplayName("configuration rest handler must return a list of configurations if findManyByNameContainsIgnoreCase method is called with valid configurations ")
+    void configuration_rest_handler_must_return_List_of_configurations_if_findManyByNameContainsIgnoreCase_method_is_called_with_valid_configurations() {
+        final var id = UUID.randomUUID().toString();
+        final var configuration =
+                Connector.Builder
+                        .builder()
+                        .withId(id)
+                        .withName("billing history")
+                        .withSeparator(";")
+                        .withEncoding(StandardCharsets.UTF_8.name())
+                        .withFolderToScan(UUID.randomUUID().toString())
+                        .withArchiveFolder(UUID.randomUUID().toString())
+                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withContainsHeaders(new Random().nextBoolean())
+                        .withHeaders(
+                                IntStream.iterate(1, it -> it + 1)
+                                        .limit(10)
+                                        .mapToObj(it ->
+                                                Field.of(
+                                                                UUID.randomUUID().toString(),
+                                                                id,
+                                                                UUID.randomUUID().toString(),
+                                                                it,
+                                                                UUID.randomUUID().toString(),
+                                                                true,
+                                                                false,""
+                                                        )
+                                                        .get()
+                                        )
+                                        .collect(Collectors.toUnmodifiableSet())
+                        )
+                        .build()
+                        .get();
+        this.connectorJDBCDatabaseRepository.save(
+                new ConnectorDAO(
+                        configuration
+                )
+        );
+
+        final var result =
+                this.connectorRestHandler.findManyByNameContainsIgnoreCase("BilL", null);
+
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(HttpStatus.OK, result.getStatusCode()),
+                () -> Assertions.assertFalse(result.getHeaders().containsKey(this.errorHeader))
+        );
+    }
 }

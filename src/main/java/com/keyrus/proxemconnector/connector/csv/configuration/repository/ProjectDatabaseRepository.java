@@ -4,6 +4,8 @@ import com.keyrus.proxemconnector.connector.csv.configuration.dao.ProjectDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Project;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.ListCrudRepository;
 
 import java.util.*;
@@ -30,12 +32,12 @@ public class ProjectDatabaseRepository implements ProjectRepository{
         return instance;
     }
 
-    private final ProjectJDBCDatabaseRepository ProjectJDBCDatabaseRepository;
+    private final ProjectJDBCDatabaseRepository projectJDBCDatabaseRepository;
 
     private ProjectDatabaseRepository(
             final ProjectJDBCDatabaseRepository ProjectJDBCDatabaseRepository
     ) {
-        this.ProjectJDBCDatabaseRepository = ProjectJDBCDatabaseRepository;
+        this.projectJDBCDatabaseRepository = ProjectJDBCDatabaseRepository;
     }
 
     @Override
@@ -46,15 +48,15 @@ public class ProjectDatabaseRepository implements ProjectRepository{
                 ProjectDatabaseRepository.checkThenExecute(
                         ProjectDatabaseRepository.createProject(
                                 project,
-                                this.ProjectJDBCDatabaseRepository
+                                this.projectJDBCDatabaseRepository
                         ),
                         ProjectDatabaseRepository.checkProjectIdDoesNotExist(
                                 project.id(),
-                                this.ProjectJDBCDatabaseRepository
+                                this.projectJDBCDatabaseRepository
                         ),
                         ProjectDatabaseRepository.checkProjectNameDoesNotExist(
                                 project.name(),
-                                this.ProjectJDBCDatabaseRepository
+                                this.projectJDBCDatabaseRepository
                         )
                 );
     }
@@ -67,11 +69,11 @@ public class ProjectDatabaseRepository implements ProjectRepository{
                 ProjectDatabaseRepository.checkThenExecute(
                         ProjectDatabaseRepository.updateProject(
                                 project,
-                                this.ProjectJDBCDatabaseRepository
+                                this.projectJDBCDatabaseRepository
                         ),
                         ProjectDatabaseRepository.checkProjectAlreadyExist(
                                 project.id(),
-                                this.ProjectJDBCDatabaseRepository
+                                this.projectJDBCDatabaseRepository
                         )
                 );
     }
@@ -84,19 +86,26 @@ public class ProjectDatabaseRepository implements ProjectRepository{
                 ProjectDatabaseRepository.checkThenExecute(
                         ProjectDatabaseRepository.deleteProject(
                                 id,
-                                this.ProjectJDBCDatabaseRepository
+                                this.projectJDBCDatabaseRepository
                         ),
                         ProjectDatabaseRepository.checkProjectAlreadyExist(
                                 id,
-                                this.ProjectJDBCDatabaseRepository
+                                this.projectJDBCDatabaseRepository
                         )
                 );
     }
     @Override
     public Either<ProjectRepository.Error, Collection<Project>> findAll() {
-        return ProjectDatabaseRepository.findAllProjects(this.ProjectJDBCDatabaseRepository).get();
+        return ProjectDatabaseRepository.findAllProjects(this.projectJDBCDatabaseRepository).get();
     }
-
+    @Override
+    public Page<ProjectDAO> findAll(Pageable p) {
+        return projectJDBCDatabaseRepository.findAll(p);
+    }
+    @Override
+    public Page<ProjectDAO> findByNameContaining(String name, Pageable page){
+        return projectJDBCDatabaseRepository.findByNameContaining(name,page);
+    };
     private static Supplier<Either<ProjectRepository.Error, Collection<Project>>> findAllProjects(ProjectJDBCDatabaseRepository projectJDBCDatabaseRepository) {
         return
                 ProjectDatabaseRepository.executeOnRepositoryForManyResult(

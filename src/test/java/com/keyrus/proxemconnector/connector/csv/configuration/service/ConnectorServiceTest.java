@@ -11,8 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -362,6 +361,236 @@ class ConnectorServiceTest {
                         .findAll().get();
 
         Assertions.assertTrue(result.isEmpty());
+    }
+    @Test
+    @DisplayName("configuration service must return error if findOneByName method is called with invalid configuration")
+    void configuration_service_must_return_error_if_findOneByName_method_is_called_with_invalid_configuration() {
+        final var result =
+                this.connectorService
+                        .findOneByName(
+                                UUID.randomUUID().toString()
+                        )
+                        .isLeft();
+
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    @DisplayName("configuration service must return searched configuration if findOneByName method is called with valid configuration and name exist")
+    void configuration_service_must_return_deleted_configuration_if_findOneByName_method_is_called_with_valid_configuration() {
+        final var id = UUID.randomUUID().toString();
+        final var configuration =
+                Connector.Builder
+                        .builder()
+                        .withId(id)
+                        .withName(UUID.randomUUID().toString())
+                        .withSeparator(";")
+                        .withEncoding(StandardCharsets.UTF_8.name())
+                        .withFolderToScan(UUID.randomUUID().toString())
+                        .withArchiveFolder(UUID.randomUUID().toString())
+                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withContainsHeaders(new Random().nextBoolean())
+                        .withHeaders(
+                                IntStream.iterate(1, it -> it + 1)
+                                        .limit(10)
+                                        .mapToObj(it ->
+                                                Field.of(
+                                                                UUID.randomUUID().toString(),
+                                                                id,
+                                                                UUID.randomUUID().toString(),
+                                                                it,
+                                                                UUID.randomUUID().toString(),
+                                                                true,
+                                                                false,""
+                                                        )
+                                                        .get()
+                                        )
+                                        .collect(Collectors.toUnmodifiableSet())
+                        )
+                        .build()
+                        .get();
+        this.connectorJDBCDatabaseRepository.save(
+                new ConnectorDAO(
+                        configuration
+                )
+        );
+
+        final var result =
+                this.connectorService
+                        .findOneByName(
+                                configuration.name()
+                        )
+                        .isRight();
+
+        Assertions.assertTrue(result);
+    }
+    @Test
+    @DisplayName("configuration service must return a list of searched configurations if findManyByNameContainsIgnoreCase method is called with valid configuration")
+    void configuration_service_must_return_List_of_configurations_if_findManyByNameContainsIgnoreCase_method_is_called_with_valid_configuration() {
+        final var id = UUID.randomUUID().toString();
+        final var configuration1 =
+                Connector.Builder
+                        .builder()
+                        .withId(id)
+                        .withName("billing history")
+                        .withSeparator(";")
+                        .withEncoding(StandardCharsets.UTF_8.name())
+                        .withFolderToScan(UUID.randomUUID().toString())
+                        .withArchiveFolder(UUID.randomUUID().toString())
+                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withContainsHeaders(new Random().nextBoolean())
+                        .withHeaders(
+                                IntStream.iterate(1, it -> it + 1)
+                                        .limit(10)
+                                        .mapToObj(it ->
+                                                Field.of(
+                                                                UUID.randomUUID().toString(),
+                                                                id,
+                                                                UUID.randomUUID().toString(),
+                                                                it,
+                                                                UUID.randomUUID().toString(),
+                                                                true,
+                                                                false,""
+                                                        )
+                                                        .get()
+                                        )
+                                        .collect(Collectors.toUnmodifiableSet())
+                        )
+                        .build()
+                        .get();
+        ;
+        final var id2 = UUID.randomUUID().toString();
+        final var configuration2 =
+                Connector.Builder
+                        .builder()
+                        .withId(id2)
+                        .withName("actual bills")
+                        .withSeparator(";")
+                        .withEncoding(StandardCharsets.UTF_8.name())
+                        .withFolderToScan(UUID.randomUUID().toString())
+                        .withArchiveFolder(UUID.randomUUID().toString())
+                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withContainsHeaders(new Random().nextBoolean())
+                        .withHeaders(
+                                IntStream.iterate(1, it -> it + 1)
+                                        .limit(10)
+                                        .mapToObj(it ->
+                                                Field.of(
+                                                                UUID.randomUUID().toString(),
+                                                                id2,
+                                                                UUID.randomUUID().toString(),
+                                                                it,
+                                                                UUID.randomUUID().toString(),
+                                                                true,
+                                                                false,""
+                                                        )
+                                                        .get()
+                                        )
+                                        .collect(Collectors.toUnmodifiableSet())
+                        )
+                        .build()
+                        .get();
+        final var id3 = UUID.randomUUID().toString();
+        final var configuration3 =
+                Connector.Builder
+                        .builder()
+                        .withId(id3)
+                        .withName("history")
+                        .withSeparator(";")
+                        .withEncoding(StandardCharsets.UTF_8.name())
+                        .withFolderToScan(UUID.randomUUID().toString())
+                        .withArchiveFolder(UUID.randomUUID().toString())
+                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withContainsHeaders(new Random().nextBoolean())
+                        .withHeaders(
+                                IntStream.iterate(1, it -> it + 1)
+                                        .limit(10)
+                                        .mapToObj(it ->
+                                                Field.of(
+                                                                UUID.randomUUID().toString(),
+                                                                id3,
+                                                                UUID.randomUUID().toString(),
+                                                                it,
+                                                                UUID.randomUUID().toString(),
+                                                                true,
+                                                                false,""
+                                                        )
+                                                        .get()
+                                        )
+                                        .collect(Collectors.toUnmodifiableSet())
+                        )
+                        .build()
+                        .get();
+        ;
+        this.connectorJDBCDatabaseRepository.save(
+                new ConnectorDAO(
+                        configuration1
+                )
+        );
+        this.connectorJDBCDatabaseRepository.save(
+                new ConnectorDAO(
+                        configuration2
+                )
+        );
+        this.connectorJDBCDatabaseRepository.save(
+                new ConnectorDAO(
+                        configuration3
+                )
+        );
+
+        final var result =
+                this.connectorService
+                        .findManyByNameContainsIgnoreCase("BiLl").get();
+
+
+        Assertions.assertEquals(List.of(configuration1, configuration2), result);
+    }
+
+    @Test
+    @DisplayName("configuration service must return empty list  if findManyByNameContainsIgnoreCase method is called with no configurations exist that contain specified name")
+    void configuration_service_must_return_empty_list_if_findManyByNameContainsIgnoreCase_method_is_called_with_no_configurations_exist_that_contain_specified_name() {
+        final var id = UUID.randomUUID().toString();
+        final var configuration =
+                Connector.Builder
+                        .builder()
+                        .withId(id)
+                        .withName("history")
+                        .withSeparator(";")
+                        .withEncoding(StandardCharsets.UTF_8.name())
+                        .withFolderToScan(UUID.randomUUID().toString())
+                        .withArchiveFolder(UUID.randomUUID().toString())
+                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withContainsHeaders(new Random().nextBoolean())
+                        .withHeaders(
+                                IntStream.iterate(1, it -> it + 1)
+                                        .limit(10)
+                                        .mapToObj(it ->
+                                                Field.of(
+                                                                UUID.randomUUID().toString(),
+                                                                id,
+                                                                UUID.randomUUID().toString(),
+                                                                it,
+                                                                UUID.randomUUID().toString(),
+                                                                true,
+                                                                false,""
+                                                        )
+                                                        .get()
+                                        )
+                                        .collect(Collectors.toUnmodifiableSet())
+                        )
+                        .build()
+                        .get();
+        ;
+        this.connectorJDBCDatabaseRepository.save(
+                new ConnectorDAO(
+                        configuration
+                )
+        );
+        final var result =
+                this.connectorService
+                        .findManyByNameContainsIgnoreCase("Bill").get();
+        Collection collection = new ArrayList();
+        Assertions.assertEquals(collection, result);
     }
 
 }

@@ -98,7 +98,7 @@ public class ConnecteurCSVService  {
 
 
 
-  public static   List<ProxemDto> CSVDataToJSON(ConnectorDTO config)  {
+  public static   List<ProxemDto> CSVDataToJSON(final ConnectorDTO config)  {
       List<ProxemDto> dataList = new ArrayList<>();
       try (BufferedReader br = new BufferedReader(new FileReader(config.folderToScan()))) {
 
@@ -112,15 +112,16 @@ public class ConnecteurCSVService  {
               String[] values = parseLine(line,config.separator().charAt(0),"\"".charAt(0),"\\".charAt(0));
               ProxemDto data = new ProxemDto();
               position++;
-              data.setCorpusId("a0e04a5f-ab7c-4b0e-97be-af263a61ba49"/*config.getProject().getProjectName()*/);
-              List<FieldDTO> l =  config.headers().stream().filter(field1 -> field1.field_type()=="identifiant").collect(Collectors.toList());
+              data.setCorpusId("a0e04a5f-ab7c-4b0e-97be-af263a61ba49"/*config.getProject().getProjectName() ou project id nom doit etre unique*/);
+
+              List<FieldDTO> l =  config.headers().stream().filter(field1 -> field1.field_type().startsWith("id")).collect(Collectors.toList());
               if ((l.isEmpty() )) {
                   String recordId = generateRecordID(position, config.folderToScan());
                   data.setExternalId(recordId);
               } else {
                   data.setExternalId(values[l.get(0).position()-1]);
               }
-              List<FieldDTO> l2 = config.headers().stream().filter(field1 -> field1.field_type()=="date").collect(Collectors.toList());
+              List<FieldDTO> l2 = config.headers().stream().filter(field1 -> field1.field_type().startsWith("da")).collect(Collectors.toList());
               if (l2.isEmpty()) {
                   SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
                   data.setDocUtcDate("2023-01-04T15:00:00Z");
@@ -130,7 +131,7 @@ public class ConnecteurCSVService  {
                   data.setDocUtcDate(format2.parse(values[l2.get(0).position()-1]).toString());
               }
               Collection<Meta> metasList = new ArrayList<>();
-              config.headers().stream().filter(field1 -> field1.field_type()=="meta").forEach(x -> {
+              config.headers().stream().filter(field1 -> field1.field_type().startsWith("m")).forEach(x -> {
                   Meta meta = new Meta();
                   meta.setName(x.name());
                   meta.setValue(values[x.position()-1]);
@@ -141,13 +142,17 @@ public class ConnecteurCSVService  {
 
               TextPart titlePart = new TextPart();
               titlePart.setName("title");
-              titlePart.setContent(values[config.headers().stream().filter(field1 -> field1.field_type()=="titre").collect(Collectors.toList()).get(0).position()-1]);
+              String value =values[config.headers().stream().filter(field1 -> field1.field_type().startsWith("t")).collect(Collectors.toList()).get(0).position()-1];
+              titlePart.setContent(value);
               textPartsList.add(titlePart);
               TextPart bodyPart = new TextPart();
-              config.headers().stream().filter(field1 -> field1.field_type()=="texte").collect(Collectors.toList()).forEach(x -> {
+              config.headers().stream().filter(field1 -> field1.field_type().startsWith("ti")).collect(Collectors.toList()).forEach(x -> {
 
                   bodyPart.setName("body");
-                  bodyPart.setContent(bodyPart.getContent() + " ;" + values[x.position()-1]);
+                  if(bodyPart.getContent()!=null){
+                  bodyPart.setContent(bodyPart.getContent().toString()+ " ;" + values[x.position()-1]);}
+                  else{
+                      bodyPart.setContent(values[x.position()-1]);}
                   //concatenation of text fields otherwise each one will be considered as a ProxemDto
               });
               textPartsList.add(bodyPart);

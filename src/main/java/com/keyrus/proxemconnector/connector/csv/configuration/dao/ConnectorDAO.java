@@ -4,6 +4,7 @@ import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import io.vavr.control.Either;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -12,11 +13,14 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+
+@Data
 @Entity
 @Table(name = "connector")
 public class ConnectorDAO implements Serializable {
 
     @Id
+  //  @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, unique = true, insertable = true, updatable = true)
     private String id;
     @Column(name = "name", nullable = false, unique = true, insertable = true, updatable = true)

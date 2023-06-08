@@ -4,6 +4,7 @@ package com.keyrus.proxemconnector.connector.csv.configuration.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorDTO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,46 @@ public class ProxemPostService {
     ConnecteurCSVService connecteurCSVService;
 
     public List<ProxemDto> pushToProxem(ConnectorDTO config) {
+
         return this.updatePost(CSVDataToJSON(config));
+    }
+    public List<ProxemDto> updatePost(Collection<ProxemDto> dtos) {
+        try{
+            List<ProxemDto> proxemDto = null;
+            RestTemplate restTemplate = new RestTemplate();
+            ObjectMapper objectMapper = new ObjectMapper();
+            ArrayNode jsonArray = objectMapper.valueToTree(dtos);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+            headers.add("Authorization", "ApiKey mehdi.khayati@keyrus.com:63cdd92e-adb4-42fe-a655-8e54aeb0653f");
+
+            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+            try {
+                String json = ow.writeValueAsString(jsonArray.toString());
+                System.out.println(json);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+            HttpEntity<String> entity = new HttpEntity<>(jsonArray.toString(), headers);
+
+            ResponseEntity<Object> response = restTemplate.exchange(BASE_POST_URL, HttpMethod.PUT, entity, Object.class);
+            if (response.getStatusCode() == HttpStatus.OK) {
+                proxemDto = (List<ProxemDto>) response.getBody();
+            }
+            return proxemDto;
+        }
+        catch (Exception e){
+            throw new RuntimeException("Error: " + e.getMessage());
+
+        }
+
     }
 
 
-    public List<ProxemDto> updatePost(Collection<ProxemDto> dtos) {
+    /*public List<ProxemDto> updatePost(Collection<ProxemDto> dtos) {
+        try{
         List<ProxemDto> proxemDto = null;
         RestTemplate restTemplate = new RestTemplate();
 
@@ -51,7 +87,12 @@ public class ProxemPostService {
             proxemDto = (List<ProxemDto>) response.getBody();
         }
         return proxemDto;
+        }
+        catch (Exception e){
+            throw new RuntimeException("Error: " + e.getMessage());
+
+        }*/
 
     }
-}
+
 

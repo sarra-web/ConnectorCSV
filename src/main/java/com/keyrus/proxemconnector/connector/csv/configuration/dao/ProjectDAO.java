@@ -2,10 +2,7 @@ package com.keyrus.proxemconnector.connector.csv.configuration.dao;
 
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Project;
 import io.vavr.control.Either;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -14,9 +11,10 @@ import java.util.Collection;
 @Table(name = "project")
 public class ProjectDAO implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, unique = true, insertable = true, updatable = true)
     private String id;
-    @Column(name = "name", nullable = false, unique = false, insertable = true, updatable = true)
+    @Column(name = "name", nullable = false, unique = true, insertable = true, updatable = true)
     private String name;
     @Column(name = "proxem_token", nullable = false, unique = false, insertable = true, updatable = true)
     private String proxemToken;

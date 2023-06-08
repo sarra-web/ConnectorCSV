@@ -112,6 +112,60 @@ public final class ConnectorRestHandler {
                 .fold(Function.identity(),
                         Function.identity());
     }
+    public ResponseEntity<ConnectorDTO> findOneByName(final String name, String languageCode) {
+        return
+                this.connectorService
+                        .findOneByName(name)
+                        .mapLeft(serviceError ->
+                                ConnectorRestHandler.<ConnectorDTO>serviceErrorToRestResponse(
+                                        serviceError,
+                                        languageCode,
+                                        this.errorHeader,
+                                        this.messageSource
+                                )
+                        )
+                        .map(ConnectorRestHandler::toOkResponse)
+                        .fold(
+                                Function.identity(),
+                                Function.identity()
+                        );
+
+    }
+    public ResponseEntity<ConnectorDTO> findOneById(final String id, String languageCode) {
+        return
+                this.connectorService
+                        .findOneById(id)
+                        .mapLeft(serviceError ->
+                                ConnectorRestHandler.<ConnectorDTO>serviceErrorToRestResponse(
+                                        serviceError,
+                                        languageCode,
+                                        this.errorHeader,
+                                        this.messageSource
+                                )
+                        )
+                        .map(ConnectorRestHandler::toOkResponse)
+                        .fold(
+                                Function.identity(),
+                                Function.identity()
+                        );
+
+    }
+    public ResponseEntity<Collection<ConnectorDTO>> findManyByNameContainsIgnoreCase(final String name, final String languageCode) {
+        return this.connectorService
+                .findManyByNameContainsIgnoreCase(name)
+                .mapLeft(serviceError ->
+                        ConnectorRestHandler.<Collection<ConnectorDTO>>serviceErrorToRestResponse(
+                                serviceError,
+                                languageCode,
+                                this.errorHeader,
+                                this.messageSource
+                        )
+                )
+                .map(ConnectorRestHandler::toOkResponseForManyDTO)
+                .fold(Function.identity(),
+                        Function.identity());
+    }
+
     private static ResponseEntity<Collection<ConnectorDTO>> toOkResponseForManyDTO(
             final Collection<Connector> connectors
     ) {

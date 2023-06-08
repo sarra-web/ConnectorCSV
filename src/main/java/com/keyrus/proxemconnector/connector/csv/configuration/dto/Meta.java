@@ -21,9 +21,9 @@ public class Meta<T> {
 
     @Override
     public String toString() {
-        return "mapMeta{" +
-                "Name='" + Name + '\'' +
-                ", Value=" + Value +
-                '}';
+        return "{" +
+                "\"Name\":"+"\"" + Name + "\""  +
+                ", \"Value\":" +"\""+ Value +"\""+
+                "}";
     }
 }

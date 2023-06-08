@@ -28,3 +28,14 @@ CREATE TABLE IF NOT EXISTS project (
     proxem_token VARCHAR(255) NOT NULL CHECK(name <> ''),
     PRIMARY KEY (id)
 );
+CREATE TABLE IF NOT EXISTS connector_test(
+    id VARCHAR(255) NOT NULL CHECK(id <> ''),
+    name VARCHAR(255) NOT NULL CHECK(name <> ''),
+    separator VARCHAR(255) NOT NULL CHECK(separator <> ''),
+    encoding VARCHAR(255) NOT NULL CHECK(encoding <> ''),
+    folder_to_scan VARCHAR(255) NOT NULL CHECK(folder_to_scan <> ''),
+    archive_folder VARCHAR(255) NOT NULL CHECK(archive_folder <> ''),
+    failed_records_folder VARCHAR(255) NOT NULL CHECK(failed_records_folder <> ''),
+    contains_headers BOOLEAN NOT NULL,
+    PRIMARY KEY (id)
+);

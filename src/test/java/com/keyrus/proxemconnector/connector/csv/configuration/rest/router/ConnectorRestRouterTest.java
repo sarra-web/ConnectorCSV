@@ -595,4 +595,115 @@ class ConnectorRestRouterTest {
 
 
     }
+    @Test
+    @DisplayName("configuration rest router must return error if findOneByName method is called with configuration that have name does not exist")
+    void configuration_rest_router_must_return_error_if_findOneByName_method_is_called_with_configuration_that_have_id_does_not_exist() {
+        final var result =
+                this.restTemplate.exchange(
+                        this.baseUrl + "/" + UUID.randomUUID(),
+                        HttpMethod.GET,
+                        HttpEntity.EMPTY,
+                        ConnectorDTO.class
+                );
+
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode()),
+                () -> Assertions.assertTrue(result.getHeaders().containsKey(this.errorHeader))
+        );
+    }
+    @Test
+    @DisplayName("configuration rest router must return a liste of configurations if findManyByNameContainsIgnoreCase method is called with valid configurations that have name contain given name")
+    void configuration_rest_router_must_return_list_of_configurations_if_findManyByNameContainsIgnoreCase_method_is_called_with_valid_configurations_that_have_name_contain_given_name() {
+        final var id = UUID.randomUUID().toString();
+        final var configuration =
+                Connector.Builder
+                        .builder()
+                        .withId(id)
+                        .withName("billing history")
+                        .withSeparator(";")
+                        .withEncoding(StandardCharsets.UTF_8.name())
+                        .withFolderToScan(UUID.randomUUID().toString())
+                        .withArchiveFolder(UUID.randomUUID().toString())
+                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withContainsHeaders(new Random().nextBoolean())
+                        .withHeaders(
+                                IntStream.iterate(1, it -> it + 1)
+                                        .limit(10)
+                                        .mapToObj(it ->
+                                                Field.of(
+                                                                UUID.randomUUID().toString(),
+                                                                id,
+                                                                UUID.randomUUID().toString(),
+                                                                it,
+                                                                UUID.randomUUID().toString(),
+                                                                true,
+                                                                false,""
+                                                        )
+                                                        .get()
+                                        )
+                                        .collect(Collectors.toUnmodifiableSet())
+                        )
+                        .build()
+                        .get();
+        this.connectorJDBCDatabaseRepository.save(
+                new ConnectorDAO(
+                        configuration
+                )
+        );
+        final var id2 = UUID.randomUUID().toString();
+        final var configuration2 =
+                Connector.Builder
+                        .builder()
+                        .withId(id2)
+                        .withName(UUID.randomUUID().toString())
+                        .withSeparator(";")
+                        .withEncoding(StandardCharsets.UTF_8.name())
+                        .withFolderToScan(UUID.randomUUID().toString())
+                        .withArchiveFolder(UUID.randomUUID().toString())
+                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withContainsHeaders(new Random().nextBoolean())
+                        .withHeaders(
+                                IntStream.iterate(1, it -> it + 1)
+                                        .limit(10)
+                                        .mapToObj(it ->
+                                                Field.of(
+                                                                UUID.randomUUID().toString(),
+                                                                id,
+                                                                UUID.randomUUID().toString(),
+                                                                it,
+                                                                UUID.randomUUID().toString(),
+                                                                true,
+                                                                false,""
+                                                        )
+                                                        .get()
+                                        )
+                                        .collect(Collectors.toUnmodifiableSet())
+                        )
+                        .build()
+                        .get();
+        this.connectorJDBCDatabaseRepository.save(
+                new ConnectorDAO(
+                        configuration
+                )
+        );
+        this.connectorJDBCDatabaseRepository.save(
+                new ConnectorDAO(
+                        configuration2
+                )
+        );
+
+        final ResponseEntity<Collection<ConnectorDTO>> result = this.restTemplate.exchange(
+                this.baseUrl + "/NameContainsIgnoreCase" + "/BilL",
+                HttpMethod.GET,
+                HttpEntity.EMPTY,
+                new ParameterizedTypeReference<Collection<ConnectorDTO>>() {
+                }
+        );
+
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(HttpStatus.OK, result.getStatusCode()),
+                () -> Assertions.assertFalse(result.getHeaders().containsKey(this.errorHeader))
+        );
+    }
+
 }

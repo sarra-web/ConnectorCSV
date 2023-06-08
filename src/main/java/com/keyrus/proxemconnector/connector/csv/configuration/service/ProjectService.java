@@ -1,12 +1,18 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.service;
 
+import com.keyrus.proxemconnector.connector.csv.configuration.dao.ProjectDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Project;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.ProjectRepository;
 import io.vavr.control.Either;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 
 import java.util.Collection;
 import java.util.Objects;
 
+import static org.springframework.data.domain.PageRequest.of;
+
+@Slf4j
 public final class ProjectService {
 
 
@@ -70,6 +76,10 @@ public final class ProjectService {
                     .mapLeft(ProjectService::repositoryErrorToServiceError);
 
         }
+    public Page<ProjectDAO> findAll(int page, int size){
+        log.info("Fetching for page {} of size {}",page,size);
+        return projectRepository.findAll(of(page,size));
+    }
 
         private static ProjectService.Error repositoryErrorToServiceError(
                 final ProjectRepository.Error repositoryError
@@ -83,7 +93,13 @@ public final class ProjectService {
             throw new IllegalStateException("repository error not mapped to service error");
         }
 
-        public sealed interface Error {
+    public Page<ProjectDAO> getProjects(String name, int page, int size) {
+        log.info("Fetching users for page {} of size {}", page, size);
+        return projectRepository.findByNameContaining(name, of(page, size));
+    }
+
+
+    public sealed interface Error {
 
             default String message() {
                 return this.getClass().getCanonicalName();

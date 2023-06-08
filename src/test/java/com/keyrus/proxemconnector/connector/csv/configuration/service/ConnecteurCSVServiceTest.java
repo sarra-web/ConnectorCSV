@@ -7,6 +7,8 @@ import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -58,9 +60,24 @@ class ConnecteurCSVServiceTest {
                 .build()
                 .get();
 
-        List<ProxemDto> proxemDtos = CSVDataToJSON(new ConnectorDTO(configuration));
+        ConnectorDTO conn=new ConnectorDTO(configuration);
+        System.out.println( conn);
+        List<ProxemDto> proxemDtos = CSVDataToJSON(conn);
+        System.out.println( "voila"+proxemDtos);
         ObjectMapper objectMapper = new ObjectMapper();
        ArrayNode jsonArray = objectMapper.valueToTree(proxemDtos);
         System.out.println( jsonArray);
+        String url = "https://studio3.proxem.com/validation5a/api/v1/corpus/a0e04a5f-ab7c-4b0e-97be-af263a61ba49/documents";
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("Authorization","ApiKey mehdi.khayati@keyrus.com:63cdd92e-adb4-42fe-a655-8e54aeb0653f");
+        HttpEntity<String> entity = new HttpEntity<>(jsonArray.toString(), headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
+
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody());
     }
 }

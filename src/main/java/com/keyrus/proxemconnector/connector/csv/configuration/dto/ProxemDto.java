@@ -27,11 +27,11 @@ public class ProxemDto {
     @Override
     public String toString() {
         return "{" +
-                "\"corpusId\":"+"\"" + CorpusId +"\"" +
-                ", \"externalId\":" +"\""+ ExternalId + "\""+
-                ", \"docUtcDate\":" +"\""+ DocUtcDate + "\"" +
-                ", \"metas\":" +Metas+
-                ", \"textParts\":" + TextParts +
+                "\"CorpusId\":"+"\"" + CorpusId +"\"" +
+                ", \"ExternalId\":" +"\""+ ExternalId + "\""+
+                ", \"DocUtcDate\":" +"\""+ DocUtcDate + "\"" +
+                ", \"Metas\":" +Metas+
+                ", \"TextParts\":" + TextParts +
                 '}'+"\n";
     }
 }

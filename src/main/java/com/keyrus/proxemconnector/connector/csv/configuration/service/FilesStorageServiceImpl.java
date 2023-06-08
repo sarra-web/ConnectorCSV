@@ -7,7 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,7 +35,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
     }
   }
 
-  @Override
+ /*@Override
   public void save(MultipartFile file) {
     try {
       Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
@@ -47,7 +46,21 @@ public class FilesStorageServiceImpl implements FilesStorageService {
 
       throw new RuntimeException(e.getMessage());
     }
+  }*/
+
+ @Override
+  public void save(MultipartFile file) {
+    String name=file.getOriginalFilename();
+    try {
+      Path filePath = root.resolve(name);
+      Resource resource = new UrlResource(filePath.toUri());
+      if (resource.exists()) delete(name);
+      Files.copy(file.getInputStream(), this.root.resolve(name));
+    } catch (Exception e) {
+      throw new RuntimeException(e.getMessage());
+    }
   }
+
 
   @Override
   public Resource load(String filename) {

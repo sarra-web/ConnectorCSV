@@ -16,6 +16,9 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,8 +29,9 @@ public class FilesController {
 
   @Autowired
   FilesStorageService storageService;
+    private final Path root = Paths.get("uploads");
 
-  @PostMapping("/upload")
+ /*@PostMapping("/upload")
   public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
     String message = "";
     try {
@@ -39,8 +43,22 @@ public class FilesController {
       message = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
       return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
     }
-  }
+  }*/
+  @PostMapping("/upload")
+  public ResponseEntity<ResponseMessage>  uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
 
+      String message = "";
+      try {
+          storageService.save(file);
+
+          message = "Uploaded the file successfully: " + file.getOriginalFilename();
+          return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+      } catch (Exception e) {
+          message = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
+          return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+
+      }
+  }
   @GetMapping("/files")
   public ResponseEntity<List<FileInfo>> getListFiles() {
     List<FileInfo> fileInfos = storageService.loadAll().map(path -> {
@@ -87,10 +105,12 @@ public class FilesController {
   @GetMapping("/csv/{file}")
   public ResponseEntity<List<String>> readCsv(@PathVariable String file) {
     List<String> data = new ArrayList<>();
+    int position=0;
     try {
       BufferedReader reader = new BufferedReader(new FileReader("uploads/"+file));
       String nextLine;
-      while ((nextLine = reader.readLine()) != null) {
+      while (((nextLine = reader.readLine()) != null)& (position<=10)) {
+        position++;
         data.add(nextLine);
       }
       reader.close();

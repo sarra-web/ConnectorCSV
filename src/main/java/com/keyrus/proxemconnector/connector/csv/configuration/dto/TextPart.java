@@ -2,35 +2,26 @@ package com.keyrus.proxemconnector.connector.csv.configuration.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class TextPart {
     @JsonProperty("Name")
-    private String Name;
+    private String name;
     @JsonProperty("Content")
-    private String Content;
+    private String content;
 
-    public TextPart(String name, String content) {
-        Name = name;
-        Content = content;
-    }
 
-    public String getName() {
-        return Name;
-    }
-
-    public String getContent() {
-        return Content;
-    }
 
     @Override
     public String toString() {
-        return "mapTextPart{" +
-                "Name='" + Name + '\'' +
-                ", Content='" + Content + '\'' +
-                '}';
+        return "{" +
+                "\"Name\":" +"\""+ name+"\""  +
+                ", \"Content\":"+"\"" + content + "\"" +
+                "}";
     }
 }

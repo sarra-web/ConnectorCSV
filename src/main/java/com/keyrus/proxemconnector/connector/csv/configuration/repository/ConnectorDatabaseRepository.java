@@ -4,6 +4,8 @@ import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -106,6 +108,126 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
 
     }
 
+    @Override
+    public Either<Error, Connector> findOneByName(final String name) {
+        return
+                ConnectorDatabaseRepository.checkThenExecute(
+                        ConnectorDatabaseRepository.findConfigurationByName(
+                                name,
+                                this.connectorJDBCDatabaseRepository
+                        ),
+                        ConnectorDatabaseRepository.checkConfigurationNameAlreadyExist(
+                                name,
+                                this.connectorJDBCDatabaseRepository
+                        )
+                );
+
+    }
+    @Override
+    public Either<Error, Connector> findOneById(final String id) {
+        return
+                ConnectorDatabaseRepository.checkThenExecute(
+                        ConnectorDatabaseRepository.findConfigurationById(
+                                id,
+                                this.connectorJDBCDatabaseRepository
+                        ),
+                        ConnectorDatabaseRepository.checkConfigurationAlreadyExist(
+                                id,
+                                this.connectorJDBCDatabaseRepository
+                        )
+                );
+
+    }
+    @Override
+    public Either<Error, Collection<Connector>> findManyByNameContainsIgnoreCase(String name) {
+        return ConnectorDatabaseRepository.findAllConfiguration(this.connectorJDBCDatabaseRepository,name).get();
+    }
+
+    @Override
+    public Page<ConnectorDAO> findAll(Pageable p) {
+        return connectorJDBCDatabaseRepository.findAll(p);
+    }
+    @Override
+    public Page<ConnectorDAO> findByNameContaining(String name, Pageable page){
+        return connectorJDBCDatabaseRepository.findByNameContaining(name,page);
+    }
+
+
+    private static Supplier <Either<Error, Collection<Connector>>> findAllConfiguration(ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository,String name) {
+        return
+                ConnectorDatabaseRepository.executeOnRepositoryForManyResult(
+                        connectorJDBCDatabaseRepository,
+                        it ->
+                                it.findAll().stream()
+                                        .filter(connectorDAO -> connectorDAO.name().toLowerCase().contains(name.toLowerCase())).toList());
+
+    }
+
+
+    private static Supplier<Either<Error, Connector>> findConfigurationById(
+            final String id,
+            final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository
+    ) {
+        return () ->
+                ConnectorDatabaseRepository.executeOnRepositoryForSingleResult(
+                                connectorJDBCDatabaseRepository,
+                                it -> it.findOneById(id)
+                        )
+                        .get()
+                        .flatMap(conf ->
+                                ConnectorDatabaseRepository.findConfigurationByIdFromRepository(
+                                                id,
+                                                connectorJDBCDatabaseRepository
+                                        )
+                                        .get()
+                                        .map(Either::<Error, Connector>left)
+                                        .orElse(Either.right(conf))
+                        );
+    }
+
+    private static Supplier<Either<Error, Connector>> findConfigurationByName(
+            final String name,
+            final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository
+    ) {
+        return () ->
+                ConnectorDatabaseRepository.executeOnRepositoryForSingleResult(
+                                connectorJDBCDatabaseRepository,
+                                it -> it.findByName(name)
+                        )
+                        .get()
+                        .flatMap(conf ->
+                                ConnectorDatabaseRepository.findConfigurationByNameFromRepository(
+                                                name,
+                                                connectorJDBCDatabaseRepository
+                                        )
+                                        .get()
+                                        .map(Either::<Error, Connector>left)
+                                        .orElse(Either.right(conf))
+                        );
+    }
+    private static Supplier<Optional<Error>> findConfigurationByNameFromRepository(final String name, final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository) {
+        return () ->
+                ConnectorDatabaseRepository.tryOnRepositoryForPossibleIOException(
+                        connectorJDBCDatabaseRepository,
+                        it -> it.findByName(name)
+                );
+    }
+
+    private static Supplier<Optional<Error>> findConfigurationByIdFromRepository(final String id, final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository) {
+        return () ->
+                ConnectorDatabaseRepository.tryOnRepositoryForPossibleIOException(
+                        connectorJDBCDatabaseRepository,
+                        it -> it.findById(id)
+                );
+    }
+    private static Supplier<Optional<Error>> checkConfigurationNameAlreadyExist(final String name, final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository) {
+        return
+                ConnectorDatabaseRepository.evaluateOnRepositoryOrError(
+                        connectorJDBCDatabaseRepository,
+                        it -> it.existsByName(name),
+                        Error.NotFound::new
+                );
+    }
     private static Supplier<Either<Error, Collection<Connector>>> executeOnRepositoryForManyResult(
             final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository,
             final Function<ConnectorJDBCDatabaseRepository, Collection<ConnectorDAO>> operationOnRepositoryForManyResult
