@@ -17,6 +17,9 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 import static com.keyrus.proxemconnector.connector.csv.configuration.service.ConnecteurCSVService.CSVDataToJSON;
@@ -236,6 +239,29 @@ public class ConnectorRestRouter {
     public Collection<ProxemDto> csvToJson(@RequestBody ConnectorDTO config){
         System.out.println(config);
         return  CSVDataToJSON(config);
+    }
+
+    public static void main(String[] args) {
+        Timer timer = new Timer();
+        timer.schedule(new LireFichierTask(), 0, 60 * 1000); // Planifie la tâche toutes les minutes
+    }
+
+    static class LireFichierTask extends TimerTask {
+
+        @Override
+        public void run() {
+            String cheminFichier = "email.csv";
+
+            try (BufferedReader reader = new BufferedReader(new FileReader(cheminFichier))) {
+                String ligne;
+                while ((ligne = reader.readLine()) != null) {
+                    // Faites quelque chose avec chaque ligne
+                    System.out.println(ligne);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 

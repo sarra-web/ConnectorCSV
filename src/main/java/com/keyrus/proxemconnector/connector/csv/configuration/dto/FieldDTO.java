@@ -1,6 +1,5 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import io.vavr.control.Either;
 
@@ -10,19 +9,19 @@ import java.util.UUID;
 
 
 public record FieldDTO(
-        @JsonProperty("id")
+      //  @JsonProperty("id")
         String id,
-        @JsonProperty("name")
+     //   @JsonProperty("name")
         String name,
-        @JsonProperty("position")
+    //    @JsonProperty("position")
         int position,
-        @JsonProperty("field_type")
+     //   @JsonProperty("field_type")
         String field_type,
-        @JsonProperty("meta")
+    //    @JsonProperty("meta")
         String meta,
-        @JsonProperty("partOfDocumentIdentity")
+   //     @JsonProperty("partOfDocumentIdentity")
         boolean partOfDocumentIdentity,
-        @JsonProperty("canBeNullOrEmpty")
+    //    @JsonProperty("canBeNullOrEmpty")
         boolean canBeNullOrEmpty
 
 ) {

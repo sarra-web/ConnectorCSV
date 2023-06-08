@@ -1,6 +1,5 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import io.vavr.control.Either;
@@ -14,25 +13,25 @@ import java.util.function.Supplier;
 
 
 public record ConnectorDTO(
-        @JsonProperty("id")
+      //  @JsonProperty("id")
         String id,
-        @JsonProperty("name")
+     //   @JsonProperty("name")
         String name,
 
-        @JsonProperty("separator")
+    //    @JsonProperty("separator")
         String separator,
-        @JsonProperty("encoding")
+     //   @JsonProperty("encoding")
         String encoding,
-        @JsonProperty("folderToScan")
+    //    @JsonProperty("folderToScan")
         String folderToScan,
-        @JsonProperty("archiveFolder")
+     //   @JsonProperty("archiveFolder")
         String archiveFolder,
 
-        @JsonProperty("failedRecordsFolder")
+  //      @JsonProperty("failedRecordsFolder")
         String failedRecordsFolder,
-        @JsonProperty("containsHeaders")
+    //    @JsonProperty("containsHeaders")
         boolean containsHeaders,
-        @JsonProperty("headers")
+      //  @JsonProperty("headers")
         Collection<FieldDTO> headers
 ) {
 
