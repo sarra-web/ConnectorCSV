@@ -9,20 +9,14 @@ import java.util.UUID;
 
 
 public record FieldDTO(
-      //  @JsonProperty("id")
         String id,
-     //   @JsonProperty("name")
         String name,
-    //    @JsonProperty("position")
         int position,
-     //   @JsonProperty("field_type")
         String field_type,
-    //    @JsonProperty("meta")
         String meta,
-   //     @JsonProperty("partOfDocumentIdentity")
-        boolean partOfDocumentIdentity,
-    //    @JsonProperty("canBeNullOrEmpty")
-        boolean canBeNullOrEmpty
+        boolean included,
+        boolean partOfDocumentIdentity
+
 
 ) {
     public FieldDTO(
@@ -31,10 +25,10 @@ public record FieldDTO(
         this(
                 field.id(),
                 field.name(),
-                field.position(),field.type(),
+                field.position(),field.field_type(),
                 field.meta(),
-                field.partOfDocumentIdentity(),
-                field.canBeNullOrEmpty()
+                field.isIncluded(),
+                field.partOfDocumentIdentity()
         );
     }
 
@@ -48,8 +42,8 @@ public record FieldDTO(
                         this.name,
                         this.position,
                         this.meta,
-                        this.partOfDocumentIdentity,
-                        this.canBeNullOrEmpty,this.field_type
+                        this.field_type,
+                        this.partOfDocumentIdentity,this.included
                 );
     }
 

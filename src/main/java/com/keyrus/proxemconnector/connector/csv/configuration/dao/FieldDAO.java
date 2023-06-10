@@ -27,8 +27,8 @@ public final class FieldDAO implements Serializable {
     private String meta;
     @Column(name = "part_of_document_identity", nullable = false, unique = false, insertable = true, updatable = true)
     private boolean partOfDocumentIdentity;
-    @Column(name = "can_be_null_or_empty", nullable = false, unique = false, insertable = true, updatable = true)
-    private boolean canBeNullOrEmpty;
+    @Column(name = "included", nullable = false, unique = false, insertable = true, updatable = true)
+    private boolean included;
 
    // @Enumerated(EnumType.STRING)
     @Column(name = "field_type", nullable = false)
@@ -45,7 +45,7 @@ public final class FieldDAO implements Serializable {
             int position,
             String meta,
             boolean partOfDocumentIdentity,
-            boolean canBeNullOrEmpty, String field_type
+            boolean included, String field_type
     ) {
         this.id = id;
         this.referenceConnector = referenceConnector;
@@ -53,7 +53,7 @@ public final class FieldDAO implements Serializable {
         this.position = position;
         this.meta = meta;
         this.partOfDocumentIdentity = partOfDocumentIdentity;
-        this.canBeNullOrEmpty = canBeNullOrEmpty;
+        this.included = included;
         this.field_type = field_type;
     }
 
@@ -67,8 +67,7 @@ public final class FieldDAO implements Serializable {
                 field.position(),
                 field.meta(),
                 field.partOfDocumentIdentity(),
-                field.canBeNullOrEmpty(),field.type()
-        );
+                field.isIncluded(),field.getField_type());
     }
 
     public String getId() {
@@ -127,12 +126,12 @@ public final class FieldDAO implements Serializable {
         this.partOfDocumentIdentity = partOfDocumentIdentity;
     }
 
-    public boolean isCanBeNullOrEmpty() {
-        return canBeNullOrEmpty;
+    public boolean isincluded() {
+        return included;
     }
 
-    public void setCanBeNullOrEmpty(boolean canBeNullOrEmpty) {
-        this.canBeNullOrEmpty = canBeNullOrEmpty;
+    public void setincluded(boolean included) {
+        this.included = included;
     }
 
     public final Either<Collection<Field.Error>, Field> toHeader() {
@@ -143,8 +142,8 @@ public final class FieldDAO implements Serializable {
                         this.name,
                         this.position,
                         this.meta,
-                        this.partOfDocumentIdentity,
-                        this.canBeNullOrEmpty,this.field_type
+                        this.field_type,
+                        this.partOfDocumentIdentity,this.included
                 );
     }
 }

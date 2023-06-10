@@ -2,9 +2,9 @@ package com.keyrus.proxemconnector.connector.csv.configuration.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorDTO;
+import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorCSVDTO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
-import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
+import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.*;
@@ -30,7 +30,7 @@ class ConnecteurCSVServiceTest {
         List<String> list = List.of("titre","identifiant","texte","meta");
         final var id=UUID.randomUUID().toString();
         final var configuration =
-        Connector.Builder
+        ConnectorCSV.Builder
                 .builder()
                 .withId(id)
                 .withName(UUID.randomUUID().toString())
@@ -60,7 +60,7 @@ class ConnecteurCSVServiceTest {
                 .build()
                 .get();
 
-        ConnectorDTO conn=new ConnectorDTO(configuration);
+        ConnectorCSVDTO conn=new ConnectorCSVDTO(configuration);
         System.out.println( conn);
         List<ProxemDto> proxemDtos = CSVDataToJSON(conn);
         System.out.println( "voila"+proxemDtos);

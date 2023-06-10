@@ -1,7 +1,7 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.service;
 
-import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorDAO;
-import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
+import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorCSVDAO;
+import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.ConnectorRepository;
 import io.vavr.control.Either;
 import lombok.extern.slf4j.Slf4j;
@@ -35,29 +35,29 @@ public final class ConnectorService {
         this.connectorRepository = connectorRepository;
     }
 
-    public Either<Error, Connector> create(
-            final Connector connector
+    public Either<Error, ConnectorCSV> create(
+            final ConnectorCSV connectorCSV
     ) {
         return
                 this.connectorRepository
                         .create(
-                                connector
+                                connectorCSV
                         )
                         .mapLeft(ConnectorService::repositoryErrorToServiceError);
     }
 
-    public Either<Error, Connector> update(
-            final Connector connector
+    public Either<Error, ConnectorCSV> update(
+            final ConnectorCSV connectorCSV
     ) {
         return
                 this.connectorRepository
                         .update(
-                                connector
+                                connectorCSV
                         )
                         .mapLeft(ConnectorService::repositoryErrorToServiceError);
     }
 
-    public Either<Error, Connector> delete(
+    public Either<Error, ConnectorCSV> delete(
             final String id
     ) {
         return
@@ -68,20 +68,20 @@ public final class ConnectorService {
                         .mapLeft(ConnectorService::repositoryErrorToServiceError);
     }
 
-    public Either<Error, Collection<Connector>> findAll() {
+    public Either<Error, Collection<ConnectorCSV>> findAll() {
         return this.connectorRepository
                 .findAll()
                 .mapLeft(ConnectorService::repositoryErrorToServiceError);
 
     }
-    public Either<Error, Connector> findOneByName(String name) {
+    public Either<Error, ConnectorCSV> findOneByName(String name) {
         return this.connectorRepository
                 .findOneByName(
                         name
                 )
                 .mapLeft(ConnectorService::repositoryErrorToServiceError);
     }
-    public Either<Error, Connector> findOneById(String id) {
+    public Either<Error, ConnectorCSV> findOneById(String id) {
         return this.connectorRepository
                 .findOneById(
                         id
@@ -89,13 +89,13 @@ public final class ConnectorService {
                 .mapLeft(ConnectorService::repositoryErrorToServiceError);
     }
 
-    public Either<Error, Collection<Connector>> findManyByNameContainsIgnoreCase(String name) {
+    public Either<Error, Collection<ConnectorCSV>> findManyByNameContainsIgnoreCase(String name) {
         return this.connectorRepository
                 .findManyByNameContainsIgnoreCase(name)
                 .mapLeft(ConnectorService::repositoryErrorToServiceError);
 
     }
-    public Page<ConnectorDAO> findAll(int page,int size){
+    public Page<ConnectorCSVDAO> findAll(int page, int size){
         log.info("Fetching for page {} of size {}",page,size);
         return connectorRepository.findAll(PageRequest.of(page,size));
     }

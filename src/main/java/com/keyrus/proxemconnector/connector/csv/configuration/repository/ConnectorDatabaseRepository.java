@@ -1,7 +1,7 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.repository;
 
-import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorDAO;
-import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
+import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorCSVDAO;
+import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
 import org.springframework.data.domain.Page;
@@ -39,45 +39,45 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
     }
 
     @Override
-    public Either<Error, Connector> create(
-            final Connector connector
+    public Either<Error, ConnectorCSV> create(
+            final ConnectorCSV connectorCSV
     ) {
         return
                 ConnectorDatabaseRepository.checkThenExecute(
                         ConnectorDatabaseRepository.createConfiguration(
-                                connector,
+                                connectorCSV,
                                 this.connectorJDBCDatabaseRepository
                         ),
                         ConnectorDatabaseRepository.checkConfigurationIdDoesNotExist(
-                                connector.id(),
+                                connectorCSV.id(),
                                 this.connectorJDBCDatabaseRepository
                         ),
                         ConnectorDatabaseRepository.checkConfigurationNameDoesNotExist(
-                                connector.name(),
+                                connectorCSV.name(),
                                 this.connectorJDBCDatabaseRepository
                         )
                 );
     }
 
     @Override
-    public Either<Error, Connector> update(
-            final Connector connector
+    public Either<Error, ConnectorCSV> update(
+            final ConnectorCSV connectorCSV
     ) {
         return
                 ConnectorDatabaseRepository.checkThenExecute(
                         ConnectorDatabaseRepository.updateConfiguration(
-                                connector,
+                                connectorCSV,
                                 this.connectorJDBCDatabaseRepository
                         ),
                         ConnectorDatabaseRepository.checkConfigurationAlreadyExist(
-                                connector.id(),
+                                connectorCSV.id(),
                                 this.connectorJDBCDatabaseRepository
                         )
                 );
     }
 
     @Override
-    public Either<Error, Connector> delete(
+    public Either<Error, ConnectorCSV> delete(
             final String id
     ) {
         return
@@ -93,11 +93,11 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
                 );
     }
     @Override
-    public Either<Error, Collection<Connector>> findAll() {
+    public Either<Error, Collection<ConnectorCSV>> findAll() {
         return ConnectorDatabaseRepository.findAllConfiguration(this.connectorJDBCDatabaseRepository).get();
     }
 
-    private static Supplier <Either<Error, Collection<Connector>>> findAllConfiguration(ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository) {
+    private static Supplier <Either<Error, Collection<ConnectorCSV>>> findAllConfiguration(ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository) {
         return
                 ConnectorDatabaseRepository.executeOnRepositoryForManyResult(
                         connectorJDBCDatabaseRepository,
@@ -109,7 +109,7 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
     }
 
     @Override
-    public Either<Error, Connector> findOneByName(final String name) {
+    public Either<Error, ConnectorCSV> findOneByName(final String name) {
         return
                 ConnectorDatabaseRepository.checkThenExecute(
                         ConnectorDatabaseRepository.findConfigurationByName(
@@ -124,7 +124,7 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
 
     }
     @Override
-    public Either<Error, Connector> findOneById(final String id) {
+    public Either<Error, ConnectorCSV> findOneById(final String id) {
         return
                 ConnectorDatabaseRepository.checkThenExecute(
                         ConnectorDatabaseRepository.findConfigurationById(
@@ -139,21 +139,21 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
 
     }
     @Override
-    public Either<Error, Collection<Connector>> findManyByNameContainsIgnoreCase(String name) {
+    public Either<Error, Collection<ConnectorCSV>> findManyByNameContainsIgnoreCase(String name) {
         return ConnectorDatabaseRepository.findAllConfiguration(this.connectorJDBCDatabaseRepository,name).get();
     }
 
     @Override
-    public Page<ConnectorDAO> findAll(Pageable p) {
+    public Page<ConnectorCSVDAO> findAll(Pageable p) {
         return connectorJDBCDatabaseRepository.findAll(p);
     }
     @Override
-    public Page<ConnectorDAO> findByNameContaining(String name, Pageable page){
+    public Page<ConnectorCSVDAO> findByNameContaining(String name, Pageable page){
         return connectorJDBCDatabaseRepository.findByNameContaining(name,page);
     }
 
 
-    private static Supplier <Either<Error, Collection<Connector>>> findAllConfiguration(ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository,String name) {
+    private static Supplier <Either<Error, Collection<ConnectorCSV>>> findAllConfiguration(ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository, String name) {
         return
                 ConnectorDatabaseRepository.executeOnRepositoryForManyResult(
                         connectorJDBCDatabaseRepository,
@@ -164,7 +164,7 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
     }
 
 
-    private static Supplier<Either<Error, Connector>> findConfigurationById(
+    private static Supplier<Either<Error, ConnectorCSV>> findConfigurationById(
             final String id,
             final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository
     ) {
@@ -180,12 +180,12 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
                                                 connectorJDBCDatabaseRepository
                                         )
                                         .get()
-                                        .map(Either::<Error, Connector>left)
+                                        .map(Either::<Error, ConnectorCSV>left)
                                         .orElse(Either.right(conf))
                         );
     }
 
-    private static Supplier<Either<Error, Connector>> findConfigurationByName(
+    private static Supplier<Either<Error, ConnectorCSV>> findConfigurationByName(
             final String name,
             final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository
     ) {
@@ -201,7 +201,7 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
                                                 connectorJDBCDatabaseRepository
                                         )
                                         .get()
-                                        .map(Either::<Error, Connector>left)
+                                        .map(Either::<Error, ConnectorCSV>left)
                                         .orElse(Either.right(conf))
                         );
     }
@@ -228,9 +228,9 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
                         Error.NotFound::new
                 );
     }
-    private static Supplier<Either<Error, Collection<Connector>>> executeOnRepositoryForManyResult(
+    private static Supplier<Either<Error, Collection<ConnectorCSV>>> executeOnRepositoryForManyResult(
             final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository,
-            final Function<ConnectorJDBCDatabaseRepository, Collection<ConnectorDAO>> operationOnRepositoryForManyResult
+            final Function<ConnectorJDBCDatabaseRepository, Collection<ConnectorCSVDAO>> operationOnRepositoryForManyResult
     ) {
         return
                 () ->
@@ -241,26 +241,26 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
                                 .flatMap(ConnectorDatabaseRepository.manyConfigurationDAOToManyConfiguration());
     }
 
-    private static  Function<Collection<ConnectorDAO>, Either<Error, Collection<Connector>>> manyConfigurationDAOToManyConfiguration() {
+    private static  Function<Collection<ConnectorCSVDAO>, Either<Error, Collection<ConnectorCSV>>> manyConfigurationDAOToManyConfiguration() {
         return connectorDAOS -> {
-            return connectorDAOS.isEmpty() ? Either.right(new ArrayList<Connector>()) :  ConnectorDatabaseRepository.findAllConnectorOrRepError(connectorDAOS);
+            return connectorDAOS.isEmpty() ? Either.right(new ArrayList<ConnectorCSV>()) :  ConnectorDatabaseRepository.findAllConnectorOrRepError(connectorDAOS);
 
         };
 
 
     }
 
-    private static Either<Error, Collection<Connector>> findAllConnectorOrRepError(Collection<ConnectorDAO> connectorDAOS) {
-        Stream<Either<Error, Connector>> l=  ConnectorDatabaseRepository.manyConfigurationDAOToManyErrorOrConfiguration(connectorDAOS).stream();
-        return ConnectorDatabaseRepository.manyConfigurationDAOToManyErrorOrConfiguration(connectorDAOS).stream().filter(Either::isRight).toList().isEmpty() ? Either.left(ConnectorDatabaseRepository.manyConfigurationDAOToManyErrorOrConfiguration(connectorDAOS).stream().filter(Either::isLeft).map(Either::getLeft).findFirst().get()): Either.right(ConnectorDatabaseRepository.manyConfigurationDAOToManyErrorOrConfiguration(connectorDAOS).stream().filter(Either::isRight).map(Either::get).collect(Collectors.toList()));
+    private static Either<Error, Collection<ConnectorCSV>> findAllConnectorOrRepError(Collection<ConnectorCSVDAO> connectorCSVDAOS) {
+        Stream<Either<Error, ConnectorCSV>> l=  ConnectorDatabaseRepository.manyConfigurationDAOToManyErrorOrConfiguration(connectorCSVDAOS).stream();
+        return ConnectorDatabaseRepository.manyConfigurationDAOToManyErrorOrConfiguration(connectorCSVDAOS).stream().filter(Either::isRight).toList().isEmpty() ? Either.left(ConnectorDatabaseRepository.manyConfigurationDAOToManyErrorOrConfiguration(connectorCSVDAOS).stream().filter(Either::isLeft).map(Either::getLeft).findFirst().get()): Either.right(ConnectorDatabaseRepository.manyConfigurationDAOToManyErrorOrConfiguration(connectorCSVDAOS).stream().filter(Either::isRight).map(Either::get).collect(Collectors.toList()));
     }
 
-    private static   Collection<Either<Error, Connector>> manyConfigurationDAOToManyErrorOrConfiguration(Collection<ConnectorDAO> connectorDAOS) {
-        return connectorDAOS.stream().map(connectorDAO -> connectorDAO.toConfiguration()
+    private static   Collection<Either<Error, ConnectorCSV>> manyConfigurationDAOToManyErrorOrConfiguration(Collection<ConnectorCSVDAO> connectorCSVDAOS) {
+        return connectorCSVDAOS.stream().map(connectorDAO -> connectorDAO.toConfiguration()
                 .mapLeft(ConnectorDatabaseRepository::configurationErrorsToRespositoryError)).collect(Collectors.toList());
 
     }
-    private static Collection<Connector> findValidConnectors(final Collection<Either<Error, Connector>> collection) {
+    private static Collection<ConnectorCSV> findValidConnectors(final Collection<Either<Error, ConnectorCSV>> collection) {
         return collection.
                 stream()
                 .filter(Either::isRight).
@@ -326,7 +326,7 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
                                 );
     }
 
-    private static Supplier<Either<Error, Connector>> deleteConfiguration(
+    private static Supplier<Either<Error, ConnectorCSV>> deleteConfiguration(
             final String id,
             final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository
     ) {
@@ -342,7 +342,7 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
                                                 connectorJDBCDatabaseRepository
                                         )
                                         .get()
-                                        .map(Either::<Error, Connector>left)
+                                        .map(Either::<Error, ConnectorCSV>left)
                                         .orElse(Either.right(conf))
                         );
     }
@@ -358,8 +358,8 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
                 );
     }
 
-    private static Supplier<Either<Error, Connector>> updateConfiguration(
-            final Connector connector,
+    private static Supplier<Either<Error, ConnectorCSV>> updateConfiguration(
+            final ConnectorCSV connectorCSV,
             final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository
     ) {
         return
@@ -367,15 +367,15 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
                         connectorJDBCDatabaseRepository,
                         it ->
                                 it.save(
-                                        new ConnectorDAO(
-                                                connector
+                                        new ConnectorCSVDAO(
+                                                connectorCSV
                                         )
                                 )
                 );
     }
 
-    private static Supplier<Either<Error, Connector>> createConfiguration(
-            final Connector connector,
+    private static Supplier<Either<Error, ConnectorCSV>> createConfiguration(
+            final ConnectorCSV connectorCSV,
             final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository
     ) {
         return
@@ -383,16 +383,16 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
                         connectorJDBCDatabaseRepository,
                         it ->
                                 it.save(
-                                        new ConnectorDAO(
-                                                connector
+                                        new ConnectorCSVDAO(
+                                                connectorCSV
                                         )
                                 )
                 );
     }
 
-    private static Supplier<Either<Error, Connector>> executeOnRepositoryForSingleResult(
+    private static Supplier<Either<Error, ConnectorCSV>> executeOnRepositoryForSingleResult(
             final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository,
-            final Function<ConnectorJDBCDatabaseRepository, ConnectorDAO> operationOnRepositoryForSingleResult
+            final Function<ConnectorJDBCDatabaseRepository, ConnectorCSVDAO> operationOnRepositoryForSingleResult
     ) {
         return
                 () ->
@@ -403,7 +403,7 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
                                 .flatMap(ConnectorDatabaseRepository.configurationDAOToConfiguration());
     }
 
-    private static Function<ConnectorDAO, Either<Error, Connector>> configurationDAOToConfiguration() {
+    private static Function<ConnectorCSVDAO, Either<Error, ConnectorCSV>> configurationDAOToConfiguration() {
         return
                 configurationDAO ->
                         configurationDAO.toConfiguration()
@@ -411,12 +411,12 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
     }
 
     private static Error configurationErrorsToRespositoryError(
-            final Collection<Connector.Error> configurationErrors
+            final Collection<ConnectorCSV.Error> configurationErrors
     ) {
         return
                 new Error.IO(
                         configurationErrors.stream()
-                                .map(Connector.Error::message)
+                                .map(ConnectorCSV.Error::message)
                                 .collect(Collectors.joining(", "))
                 );
     }

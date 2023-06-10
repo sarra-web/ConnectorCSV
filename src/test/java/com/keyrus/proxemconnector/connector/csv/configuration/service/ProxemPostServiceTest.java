@@ -2,9 +2,9 @@ package com.keyrus.proxemconnector.connector.csv.configuration.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorDTO;
+import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorCSVDTO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
-import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
+import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.*;
@@ -31,7 +31,7 @@ class ProxemPostServiceTest {
         List<String> list = List.of("titre", "identifiant", "texte", "meta");
         final var id = UUID.randomUUID().toString();
         final var connnectorCSV =
-                Connector.Builder
+                ConnectorCSV.Builder
                         .builder()
                         .withId(id)
                         .withName(UUID.randomUUID().toString())
@@ -62,7 +62,7 @@ class ProxemPostServiceTest {
                         .get();
 
 
-        List<ProxemDto> proxemDtos = CSVDataToJSON(new ConnectorDTO(connnectorCSV));
+        List<ProxemDto> proxemDtos = CSVDataToJSON(new ConnectorCSVDTO(connnectorCSV));
         System.out.println(proxemDtos);
         ObjectMapper objectMapper = new ObjectMapper();
         ArrayNode jsonArray = objectMapper.valueToTree(proxemDtos);
@@ -85,7 +85,7 @@ class ProxemPostServiceTest {
         List<String> list = List.of("titre", "identifiant", "texte", "meta");
         final var id = UUID.randomUUID().toString();
         final var connnectorCSV =
-                Connector.Builder
+                ConnectorCSV.Builder
                         .builder()
                         .withId(id)
                         .withName(UUID.randomUUID().toString())
@@ -116,7 +116,7 @@ class ProxemPostServiceTest {
                         .get();
 
 
-        List<ProxemDto> proxemDtos =proxemPostService.updatePost( CSVDataToJSON((new ConnectorDTO(connnectorCSV))));
+        List<ProxemDto> proxemDtos =proxemPostService.updatePost( CSVDataToJSON((new ConnectorCSVDTO(connnectorCSV))));
         System.out.println(proxemDtos );
 
 

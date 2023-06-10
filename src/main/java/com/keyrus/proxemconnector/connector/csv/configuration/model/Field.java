@@ -1,6 +1,7 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.model;
 
 import io.vavr.control.Either;
+import lombok.Data;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,6 +12,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+@Data
 
 public final class Field {
     private final String id;
@@ -21,7 +23,7 @@ public final class Field {
     private final String field_type;
     private final String meta;
     private final boolean partOfDocumentIdentity;
-    private final boolean canBeNullOrEmpty;
+    private final boolean included;
 
     private Field(
             final String id,
@@ -29,16 +31,19 @@ public final class Field {
             final String name,
             final int position,
             final String meta,
-            final boolean partOfDocumentIdentity,
-            final boolean canBeNullOrEmpty,final String field_type
-    ) {
+            // final boolean partOfDocumentIdentity,
+            //  final boolean canBeNullOrEmpty,
+            final String field_type,
+            boolean partOfDocumentIdentity, boolean included) {
         this.id = id;
         this.referenceConnector = referenceConnector;
         this.name = name;
         this.position = position;
         this.meta = meta;
         this.partOfDocumentIdentity = partOfDocumentIdentity;
-        this.canBeNullOrEmpty = canBeNullOrEmpty;
+        this.included = included;
+        //this.partOfDocumentIdentity = partOfDocumentIdentity;
+       // this.canBeNullOrEmpty = canBeNullOrEmpty;
         this.field_type = field_type;
     }
 
@@ -57,50 +62,19 @@ public final class Field {
     public int position() {
         return this.position;
     }
+    public boolean partOfDocumentIdentity() {
+        return this.partOfDocumentIdentity;
+    }
 
 
-    public String type(){ return this.field_type; };
+    public String field_type(){ return this.field_type; };
 
     public String meta() {
         return this.meta;
     }
 
-    public boolean partOfDocumentIdentity() {
-        return this.partOfDocumentIdentity;
-    }
 
-    public boolean canBeNullOrEmpty() {
-        return this.canBeNullOrEmpty;
-    }
 
-    public String field_type() {
-        return this.meta;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Field field = (Field) o;
-        return position == field.position
-                && partOfDocumentIdentity == field.partOfDocumentIdentity
-                && canBeNullOrEmpty == field.canBeNullOrEmpty && id.equals(field.id)
-                && referenceConnector.equals(field.referenceConnector)
-                && name.equals(field.name)
-                && field_type.equals(field.field_type) && meta.equals(field.meta);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id,
-                referenceConnector,
-                name,
-                position,
-                field_type,
-                meta,
-                partOfDocumentIdentity,
-                canBeNullOrEmpty);
-    }
 
     @Override
     public String toString() {
@@ -112,8 +86,7 @@ public final class Field {
                             name=%s,
                             position=%d,
                             meta=%s,
-                            partOfDocumentIdentity=%s,
-                            canBeNullOrEmpty=%s
+                          
                         ]
                         """
                         .formatted(
@@ -122,8 +95,6 @@ public final class Field {
                                 this.name,
                                 this.position,
                                 this.meta,
-                                this.partOfDocumentIdentity,
-                                this.canBeNullOrEmpty,
                                 this.field_type
                         );
     }
@@ -134,9 +105,9 @@ public final class Field {
             final String name,
             final int position,
             final String meta,
-            final boolean partOfDocumentIdentity,
-            final boolean canBeNullOrEmpty,
-            final String field_type
+            final String field_type,
+            final boolean partofDocumentIdentity,
+            final boolean included
     ) {
         return
                 Field.checkThenInstantiate(
@@ -146,8 +117,9 @@ public final class Field {
                                 name,
                                 position,
                                 meta,
-                                partOfDocumentIdentity,
-                                canBeNullOrEmpty, field_type
+                                field_type,
+                                partofDocumentIdentity,
+                                included
                         ),
                         Field.checkId(
                                 id
@@ -163,10 +135,6 @@ public final class Field {
                         ),
                         Field.checkMeta(
                                 meta
-                        ),
-                        Field.checkNullOrEmptyValueRestriction(
-                                partOfDocumentIdentity,
-                                canBeNullOrEmpty
                         )
                 );
     }
@@ -189,9 +157,9 @@ public final class Field {
             final String name,
             final int position,
             final String meta,
+            final String field_type,
             final boolean partOfDocumentIdentity,
-            final boolean canBeNullOrEmpty,
-            final String field_type
+            final boolean included
     ) {
         return
                 () ->
@@ -201,10 +169,8 @@ public final class Field {
                                 name,
                                 position,
                                 meta,
-                                partOfDocumentIdentity,
-                                canBeNullOrEmpty,
-                                field_type
-                        );
+                                field_type,
+                                partOfDocumentIdentity, included);
     }
 
     private static Supplier<Optional<Error>> checkId(

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorDTO;
+import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorCSVDTO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -24,7 +24,7 @@ public class ProxemPostService {
     @Autowired
     ConnecteurCSVService connecteurCSVService;
 
-    public List<ProxemDto> pushToProxem(ConnectorDTO config) {
+    public List<ProxemDto> pushToProxem(ConnectorCSVDTO config) {
 
         return this.updatePost(CSVDataToJSON(config));
     }

@@ -3,11 +3,15 @@ package com.keyrus.proxemconnector.connector.csv.configuration.dao;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Project;
 import io.vavr.control.Either;
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Collection;
 
 @Entity
+@NoArgsConstructor
+@Data
 @Table(name = "project")
 public class ProjectDAO implements Serializable {
     @Id
@@ -19,9 +23,7 @@ public class ProjectDAO implements Serializable {
     @Column(name = "proxem_token", nullable = false, unique = false, insertable = true, updatable = true)
     private String proxemToken;
 
-    public ProjectDAO() {
 
-    }
 
     public ProjectDAO(final Project project) {
 
@@ -33,29 +35,6 @@ public class ProjectDAO implements Serializable {
 
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getProxemToken() {
-        return proxemToken;
-    }
-
-    public void setProxemToken(String proxemToken) {
-        this.proxemToken = proxemToken;
-    }
 
     public ProjectDAO(String id, String name, String proxemToken) {
         this.id = id;

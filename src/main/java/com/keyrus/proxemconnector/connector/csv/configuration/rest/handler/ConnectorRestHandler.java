@@ -1,7 +1,7 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.rest.handler;
 
-import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorDTO;
-import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
+import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorCSVDTO;
+import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
 import com.keyrus.proxemconnector.connector.csv.configuration.service.ConnectorService;
 import io.vavr.control.Either;
 import org.springframework.context.MessageSource;
@@ -46,14 +46,14 @@ public final class ConnectorRestHandler {
         this.messageSource = messageSource;
     }
 
-    public ResponseEntity<ConnectorDTO> create(
-            final ConnectorDTO connectorDTO,
+    public ResponseEntity<ConnectorCSVDTO> create(
+            final ConnectorCSVDTO connectorCSVDTO,
             final String languageCode
     ) {
         return
                 ConnectorRestHandler.convertConfigurationDTOToConfigurationThenApplyOnServiceOperation(
                         this.connectorService,
-                        connectorDTO,
+                        connectorCSVDTO,
                         ConnectorService::create,
                         languageCode,
                         this.errorHeader,
@@ -61,14 +61,14 @@ public final class ConnectorRestHandler {
                 );
     }
 
-    public ResponseEntity<ConnectorDTO> update(
-            final ConnectorDTO connectorDTO,
+    public ResponseEntity<ConnectorCSVDTO> update(
+            final ConnectorCSVDTO connectorCSVDTO,
             final String languageCode
     ) {
         return
                 ConnectorRestHandler.convertConfigurationDTOToConfigurationThenApplyOnServiceOperation(
                         this.connectorService,
-                        connectorDTO,
+                        connectorCSVDTO,
                         ConnectorService::update,
                         languageCode,
                         this.errorHeader,
@@ -76,7 +76,7 @@ public final class ConnectorRestHandler {
                 );
     }
 
-    public ResponseEntity<ConnectorDTO> delete(
+    public ResponseEntity<ConnectorCSVDTO> delete(
             final String id,
             final String languageCode
     ) {
@@ -84,7 +84,7 @@ public final class ConnectorRestHandler {
                 this.connectorService
                         .delete(id)
                         .mapLeft(serviceError ->
-                                ConnectorRestHandler.<ConnectorDTO>serviceErrorToRestResponse(
+                                ConnectorRestHandler.<ConnectorCSVDTO>serviceErrorToRestResponse(
                                         serviceError,
                                         languageCode,
                                         this.errorHeader,
@@ -97,11 +97,11 @@ public final class ConnectorRestHandler {
                                 Function.identity()
                         );
     }
-    public ResponseEntity<Collection<ConnectorDTO>> findAll(final String languageCode) {
+    public ResponseEntity<Collection<ConnectorCSVDTO>> findAll(final String languageCode) {
         return this.connectorService
                 .findAll()
                 .mapLeft(serviceError ->
-                        ConnectorRestHandler.<Collection<ConnectorDTO>>serviceErrorToRestResponse(
+                        ConnectorRestHandler.<Collection<ConnectorCSVDTO>>serviceErrorToRestResponse(
                                 serviceError,
                                 languageCode,
                                 this.errorHeader,
@@ -112,12 +112,12 @@ public final class ConnectorRestHandler {
                 .fold(Function.identity(),
                         Function.identity());
     }
-    public ResponseEntity<ConnectorDTO> findOneByName(final String name, String languageCode) {
+    public ResponseEntity<ConnectorCSVDTO> findOneByName(final String name, String languageCode) {
         return
                 this.connectorService
                         .findOneByName(name)
                         .mapLeft(serviceError ->
-                                ConnectorRestHandler.<ConnectorDTO>serviceErrorToRestResponse(
+                                ConnectorRestHandler.<ConnectorCSVDTO>serviceErrorToRestResponse(
                                         serviceError,
                                         languageCode,
                                         this.errorHeader,
@@ -131,12 +131,12 @@ public final class ConnectorRestHandler {
                         );
 
     }
-    public ResponseEntity<ConnectorDTO> findOneById(final String id, String languageCode) {
+    public ResponseEntity<ConnectorCSVDTO> findOneById(final String id, String languageCode) {
         return
                 this.connectorService
                         .findOneById(id)
                         .mapLeft(serviceError ->
-                                ConnectorRestHandler.<ConnectorDTO>serviceErrorToRestResponse(
+                                ConnectorRestHandler.<ConnectorCSVDTO>serviceErrorToRestResponse(
                                         serviceError,
                                         languageCode,
                                         this.errorHeader,
@@ -150,11 +150,11 @@ public final class ConnectorRestHandler {
                         );
 
     }
-    public ResponseEntity<Collection<ConnectorDTO>> findManyByNameContainsIgnoreCase(final String name, final String languageCode) {
+    public ResponseEntity<Collection<ConnectorCSVDTO>> findManyByNameContainsIgnoreCase(final String name, final String languageCode) {
         return this.connectorService
                 .findManyByNameContainsIgnoreCase(name)
                 .mapLeft(serviceError ->
-                        ConnectorRestHandler.<Collection<ConnectorDTO>>serviceErrorToRestResponse(
+                        ConnectorRestHandler.<Collection<ConnectorCSVDTO>>serviceErrorToRestResponse(
                                 serviceError,
                                 languageCode,
                                 this.errorHeader,
@@ -166,14 +166,14 @@ public final class ConnectorRestHandler {
                         Function.identity());
     }
 
-    private static ResponseEntity<Collection<ConnectorDTO>> toOkResponseForManyDTO(
-            final Collection<Connector> connectors
+    private static ResponseEntity<Collection<ConnectorCSVDTO>> toOkResponseForManyDTO(
+            final Collection<ConnectorCSV> connectorCSVS
     ) {
         return
                 ResponseEntity.ok(
 
-                        connectors.stream().map(
-                                ConnectorDTO::new
+                        connectorCSVS.stream().map(
+                                ConnectorCSVDTO::new
                         ).toList()
 
                 );
@@ -181,17 +181,17 @@ public final class ConnectorRestHandler {
 
     }
 
-    private static ResponseEntity<ConnectorDTO> convertConfigurationDTOToConfigurationThenApplyOnServiceOperation(
+    private static ResponseEntity<ConnectorCSVDTO> convertConfigurationDTOToConfigurationThenApplyOnServiceOperation(
             final ConnectorService connectorService,
-            final ConnectorDTO connectorDTO,
-            final BiFunction<ConnectorService, Connector, Either<ConnectorService.Error, Connector>> serviceOperation,
+            final ConnectorCSVDTO connectorCSVDTO,
+            final BiFunction<ConnectorService, ConnectorCSV, Either<ConnectorService.Error, ConnectorCSV>> serviceOperation,
             final String languageCode,
             final String errorHeader,
             final MessageSource messageSource
     ) {
         return
-                ConnectorRestHandler.<ConnectorDTO>configurationDTOToConfiguration(
-                                connectorDTO,
+                ConnectorRestHandler.<ConnectorCSVDTO>configurationDTOToConfiguration(
+                                connectorCSVDTO,
                                 languageCode,
                                 errorHeader,
                                 messageSource
@@ -212,9 +212,9 @@ public final class ConnectorRestHandler {
                         );
     }
 
-    private static Function<Connector, Either<ResponseEntity<ConnectorDTO>, Connector>> executeOnService(
+    private static Function<ConnectorCSV, Either<ResponseEntity<ConnectorCSVDTO>, ConnectorCSV>> executeOnService(
             final ConnectorService connectorService,
-            final BiFunction<ConnectorService, Connector, Either<ConnectorService.Error, Connector>> serviceOperation,
+            final BiFunction<ConnectorService, ConnectorCSV, Either<ConnectorService.Error, ConnectorCSV>> serviceOperation,
             final String languageCode,
             final String errorHeader,
             final MessageSource messageSource
@@ -235,14 +235,14 @@ public final class ConnectorRestHandler {
                                 );
     }
 
-    private static <RESPONSE> Either<ResponseEntity<RESPONSE>, Connector> configurationDTOToConfiguration(
-            final ConnectorDTO connectorDTO,
+    private static <RESPONSE> Either<ResponseEntity<RESPONSE>, ConnectorCSV> configurationDTOToConfiguration(
+            final ConnectorCSVDTO connectorCSVDTO,
             final String languageCode,
             final String errorHeader,
             final MessageSource messageSource
     ) {
         return
-                connectorDTO.toConfiguration()
+                connectorCSVDTO.toConfiguration()
                         .mapLeft(configurationErrors ->
                                 ConnectorRestHandler.configurationErrorsToRestResponse(
                                         configurationErrors,
@@ -253,13 +253,13 @@ public final class ConnectorRestHandler {
                         );
     }
 
-    private static ResponseEntity<ConnectorDTO> toOkResponse(
-            final Connector connector
+    private static ResponseEntity<ConnectorCSVDTO> toOkResponse(
+            final ConnectorCSV connectorCSV
     ) {
         return
                 ResponseEntity.ok(
-                        new ConnectorDTO(
-                                connector
+                        new ConnectorCSVDTO(
+                                connectorCSV
                         )
                 );
     }
@@ -291,7 +291,7 @@ public final class ConnectorRestHandler {
     }
 
     private static <RESPONSE> ResponseEntity<RESPONSE> configurationErrorsToRestResponse(
-            final Collection<Connector.Error> configurationErrors,
+            final Collection<ConnectorCSV.Error> configurationErrors,
             final String languageCode,
             final String errorHeader,
             final MessageSource messageSource
@@ -311,7 +311,7 @@ public final class ConnectorRestHandler {
     }
 
     private static String[] configurationErrorsToRestHeaders(
-            final Collection<Connector.Error> configurationErrors,
+            final Collection<ConnectorCSV.Error> configurationErrors,
             final String languageCode,
             final MessageSource messageSource
     ) {
@@ -328,7 +328,7 @@ public final class ConnectorRestHandler {
     }
 
     private static String configurationErrorToRestHeader(
-            final Connector.Error configurationError,
+            final ConnectorCSV.Error configurationError,
             final String languageCode,
             final MessageSource messageSource
     ) {

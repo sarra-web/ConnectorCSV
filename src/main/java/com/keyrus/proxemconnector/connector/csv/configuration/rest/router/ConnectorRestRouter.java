@@ -2,8 +2,8 @@ package com.keyrus.proxemconnector.connector.csv.configuration.rest.router;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorDAO;
-import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorDTO;
+import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorCSVDAO;
+import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorCSVDTO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.ConnectorJDBCDatabaseRepository;
 import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ConnectorRestHandler;
@@ -17,9 +17,6 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 
 import static com.keyrus.proxemconnector.connector.csv.configuration.service.ConnecteurCSVService.CSVDataToJSON;
@@ -62,7 +59,7 @@ public class ConnectorRestRouter {
         return this.connectorJDBCDatabaseRepository.findOneById(id);
     }*/
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Collection<ConnectorDTO>> findAll(
+    public ResponseEntity<Collection<ConnectorCSVDTO>> findAll(
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
     ) {
         return this.connectorRestHandler.findAll(
@@ -79,10 +76,10 @@ public class ConnectorRestRouter {
     ) {
 
         try {
-            List<ConnectorDAO> connectors = new ArrayList<ConnectorDAO>();
+            List<ConnectorCSVDAO> connectors = new ArrayList<ConnectorCSVDAO>();
             Pageable paging = PageRequest.of(page, size);
 
-            Page<ConnectorDAO> pageTuts;
+            Page<ConnectorCSVDAO> pageTuts;
 
             pageTuts = connectorJDBCDatabaseRepository.findByNameContaining(name, paging);
 
@@ -122,7 +119,7 @@ public class ConnectorRestRouter {
 
 
     @GetMapping(value = "/NameContainsIgnoreCase/{name}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Collection<ConnectorDTO>> findManyByNameContainsIgnoreCase(
+    public ResponseEntity<Collection<ConnectorCSVDTO>> findManyByNameContainsIgnoreCase(
             @PathVariable("name") final String name,
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
     ) {
@@ -132,7 +129,7 @@ public class ConnectorRestRouter {
 
 
     @GetMapping(value = "/{name}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ConnectorDTO> findOneByName(
+    public ResponseEntity<ConnectorCSVDTO> findOneByName(
             @PathVariable("name") final String name,
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
     ) {
@@ -145,7 +142,7 @@ public class ConnectorRestRouter {
     }
 
     @GetMapping(value = "findById/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ConnectorDTO> findOneById(
+    public ResponseEntity<ConnectorCSVDTO> findOneById(
             @PathVariable("id") final String id,
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
     ) {
@@ -159,34 +156,34 @@ public class ConnectorRestRouter {
 
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ConnectorDTO> create(
-            @RequestBody final ConnectorDTO connectorDTO,
+    public ResponseEntity<ConnectorCSVDTO> create(
+            @RequestBody final ConnectorCSVDTO connectorCSVDTO,
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
     ) {
         return
                 this.connectorRestHandler
                         .create(
-                                connectorDTO,
+                                connectorCSVDTO,
                                 languageCode
                         );
     }
 
 
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ConnectorDTO> update(
-            @RequestBody final ConnectorDTO connectorDTO,
+    public ResponseEntity<ConnectorCSVDTO> update(
+            @RequestBody final ConnectorCSVDTO connectorCSVDTO,
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
     ) {
         return
                 this.connectorRestHandler
                         .update(
-                                connectorDTO,
+                                connectorCSVDTO,
                                 languageCode
                         );
     }
 
     @DeleteMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ConnectorDTO> delete(
+    public ResponseEntity<ConnectorCSVDTO> delete(
             @PathVariable("id") final String id,
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
     ) {
@@ -220,7 +217,7 @@ public class ConnectorRestRouter {
    }*/
 
     @PutMapping(value = "/pushToProxem",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> pushToProxem(@RequestBody ConnectorDTO config){
+    public ResponseEntity<String> pushToProxem(@RequestBody ConnectorCSVDTO config){
         List<ProxemDto> proxemDtos = CSVDataToJSON(config);
         ObjectMapper objectMapper = new ObjectMapper();
         ArrayNode jsonArray = objectMapper.valueToTree(proxemDtos);
@@ -236,17 +233,17 @@ public class ConnectorRestRouter {
         return response;
     }
     @GetMapping(value = "csvToJson")
-    public Collection<ProxemDto> csvToJson(@RequestBody ConnectorDTO config){
+    public Collection<ProxemDto> csvToJson(@RequestBody ConnectorCSVDTO config){
         System.out.println(config);
         return  CSVDataToJSON(config);
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Timer timer = new Timer();
         timer.schedule(new LireFichierTask(), 0, 60 * 1000); // Planifie la tâche toutes les minutes
-    }
+    }*/
 
-    static class LireFichierTask extends TimerTask {
+   /* static class LireFichierTask extends TimerTask {
 
         @Override
         public void run() {
@@ -262,7 +259,7 @@ public class ConnectorRestRouter {
                 e.printStackTrace();
             }
         }
-    }
+    }*/
 
 
 }

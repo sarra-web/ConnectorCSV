@@ -7,11 +7,11 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.UUID;
 
-public class ProjectDTO {
+public record ProjectDTO (
 
-    private String id;
-    private String name;
-    private String proxemToken;
+     String id,
+     String name,
+     String proxemToken){
 
     public ProjectDTO(Project project)
         {
@@ -21,31 +21,6 @@ public class ProjectDTO {
                     project.proxemToken()
             );
         }
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getProxemToken() {
-        return proxemToken;
-    }
-
-    public void setProxemToken(String proxemToken) {
-        this.proxemToken = proxemToken;
-    }
 
     public ProjectDTO(String id, String name, String proxemToken) {
         this.id = id;

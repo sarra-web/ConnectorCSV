@@ -98,9 +98,9 @@ public class ConnecteurCSVService  {
 
 
 
-  public static   List<ProxemDto> CSVDataToJSON(final ConnectorDTO config)  {
+  public static   List<ProxemDto> CSVDataToJSON(final ConnectorCSVDTO config)  {
       List<ProxemDto> dataList = new ArrayList<>();
-      try (BufferedReader br = new BufferedReader(new FileReader(config.folderToScan()))) {
+      try (BufferedReader br = new BufferedReader(new FileReader(config.path()))) {
 
           int position = 0;
           String line;
@@ -109,14 +109,14 @@ public class ConnecteurCSVService  {
           }
           while ((line = br.readLine()) != null) {
 
-              String[] values = parseLine(line,config.separator().charAt(0),"\"".charAt(0),"\\".charAt(0));
+              String[] values = parseLine(line,config.separator().charAt(0),config.quotingCaracter().charAt(0),config.escapingCaracter().charAt(0));
               ProxemDto data = new ProxemDto();
               position++;
               data.setCorpusId("a0e04a5f-ab7c-4b0e-97be-af263a61ba49"/*config.getProject().getProjectName() ou project id nom doit etre unique*/);
 
               List<FieldDTO> l =  config.headers().stream().filter(field1 -> field1.field_type().startsWith("id")).collect(Collectors.toList());
               if ((l.isEmpty() )) {
-                  String recordId = generateRecordID(position, config.folderToScan());
+                  String recordId = generateRecordID(position, config.path());
                   data.setExternalId(recordId);
               } else {
                   data.setExternalId(values[l.get(0).position()-1]);
