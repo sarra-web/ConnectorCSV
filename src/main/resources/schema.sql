@@ -1,4 +1,5 @@
 CREATE TABLE IF NOT EXISTS connector (
+    connector_type       VARCHAR(255)     NOT NULL,
     id VARCHAR(255) NOT NULL CHECK(id <> ''),
     name VARCHAR(255) NOT NULL CHECK(name <> ''),
     separator VARCHAR(255) NOT NULL CHECK(separator <> ''),

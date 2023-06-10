@@ -12,21 +12,18 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public final class ConnectorCSV {
-    private final String id;
-    private final String name;
+public final class ConnectorCSV extends Connector{
+
     private final String separator;
     private final String encoding;
     private final String path;
-    //private final String quotingCaracter;
-    //private final String escapingCaracter;
     private final String quotingCaracter;
     private final String escapingCaracter;
 
 
     private final boolean containsHeaders;
-    private final Collection<Field> fields;
-  //  private final Project project;
+
+
 
     private ConnectorCSV(
             final String id,
@@ -39,15 +36,13 @@ public final class ConnectorCSV {
             final boolean containsHeaders,
             final Collection<Field> fields,
             Project project) {
-        this.id = id;
-        this.name = name;
+        super(id,name,fields);
         this.separator = separator;
         this.encoding = encoding;
         this.path = path;
         this.quotingCaracter = quotingCaracter;
         this.escapingCaracter = escapingCaracter;
         this.containsHeaders = containsHeaders;
-        this.fields = fields;
        // this.project = project;
     }
 

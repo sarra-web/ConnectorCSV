@@ -7,7 +7,6 @@ import io.vavr.control.Either;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
@@ -17,15 +16,11 @@ import java.util.function.Supplier;
 
 @Data
 @Entity
-@Table(name = "connector")
-public class ConnectorCSVDAO implements Serializable {
+@DiscriminatorValue("connecteurCSV")
+public class ConnectorCSVDAO extends ConnectorDAO{
 
-    @Id
+
   //  @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false, unique = true, insertable = true, updatable = true)
-    private String id;
-    @Column(name = "name", nullable = false, unique = true, insertable = true, updatable = true)
-    private String name;
     @Column(name = "separator", nullable = false, unique = false, insertable = true, updatable = true)
     private String separator;
     @Column(name = "encoding", nullable = false, unique = false, insertable = true, updatable = true)
@@ -38,8 +33,7 @@ public class ConnectorCSVDAO implements Serializable {
     private String escapingCaracter;
     @Column(name = "contains_headers", nullable = false, unique = false, insertable = true, updatable = true)
     private boolean containsHeaders;
-    @OneToMany(mappedBy = "referenceConnector", fetch = FetchType.EAGER, targetEntity = FieldDAO.class, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Collection<FieldDAO> fields;
+
 
   /*  @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "project_id", nullable = false)
@@ -61,15 +55,15 @@ public class ConnectorCSVDAO implements Serializable {
             Collection<FieldDAO> fields
           //  ProjectDAO projectDAO
     ) {
-        this.id = id;
-        this.name = name;
+        this.id=id;
+        this.name=name;
         this.separator = separator;
         this.encoding = encoding;
         this.path = path;
         this.quotingCaracter = quotingCaracter;
         this.escapingCaracter = escapingCaracter;
         this.containsHeaders = containsHeaders;
-        this.fields = fields;
+        this.fields=fields;
        // this.projectDAO=projectDAO;
     }
 
