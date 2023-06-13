@@ -19,8 +19,8 @@ class FieldTest {
                                 UUID.randomUUID().toString(),
                                 new Random().nextInt(1, 10),
                                 UUID.randomUUID().toString(),
-                                false,
-                                new Random().nextBoolean(), "texte"
+                                "texte",
+                                new Random().nextBoolean(), true
                         )
                         .getLeft();
 
@@ -40,8 +40,8 @@ class FieldTest {
                                 UUID.randomUUID().toString(),
                                 new Random().nextInt(1, 10),
                                 UUID.randomUUID().toString(),
-                                false,
-                                new Random().nextBoolean(), "texte"
+                                "texte",
+                                new Random().nextBoolean(), true
                         )
                         .getLeft();
 
@@ -61,8 +61,8 @@ class FieldTest {
                                 " ",
                                 new Random().nextInt(1, 10),
                                 UUID.randomUUID().toString(),
-                                false,
-                                new Random().nextBoolean(), "texte"
+                                "texte",
+                                new Random().nextBoolean(), true
                         )
                         .getLeft();
 
@@ -82,8 +82,8 @@ class FieldTest {
                                 UUID.randomUUID().toString(),
                                 -1,
                                 UUID.randomUUID().toString(),
-                                false,
-                                new Random().nextBoolean(), "texte"
+                                "texte",
+                                new Random().nextBoolean(), true
                         )
                         .getLeft();
 
@@ -103,8 +103,8 @@ class FieldTest {
                                 UUID.randomUUID().toString(),
                                 new Random().nextInt(1, 10),
                                 " ",
-                                false,
-                                new Random().nextBoolean(), "texte"
+                                "texte",
+                                new Random().nextBoolean(), true
                         )
                         .getLeft();
 
@@ -124,8 +124,8 @@ class FieldTest {
                                 UUID.randomUUID().toString(),
                                 new Random().nextInt(1, 10),
                                 UUID.randomUUID().toString(),
-                                true,
-                                true, "texte"
+                                "texte",
+                                true, true
                         )
                         .getLeft();
 
@@ -145,8 +145,8 @@ class FieldTest {
                                 null,
                                 -1,
                                 " ",
-                                true,
-                                true, "texte"
+                                "texte",
+                                true, true
                         )
                         .getLeft();
 
@@ -179,8 +179,8 @@ class FieldTest {
                                 name,
                                 position,
                                 meta,
-                                partOfDocumentIdentity,
-                                canBeNullOrEmpty, "texte"
+                                "texte",
+                                canBeNullOrEmpty, true
                         )
                         .get();
 
@@ -191,7 +191,7 @@ class FieldTest {
                 () -> Assertions.assertEquals(position, result.position()),
                 () -> Assertions.assertEquals(meta, result.meta()),
                 () -> Assertions.assertEquals(partOfDocumentIdentity, result.partOfDocumentIdentity()),
-                () -> Assertions.assertEquals(canBeNullOrEmpty, result.canBeNullOrEmpty())
+                () -> Assertions.assertEquals(canBeNullOrEmpty, result.isIncluded())
         );
     }
 }

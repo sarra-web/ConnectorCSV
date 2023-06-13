@@ -4,7 +4,7 @@ import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorCSVDA
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorCSVDTO;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
-import com.keyrus.proxemconnector.connector.csv.configuration.repository.ConnectorJDBCDatabaseRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.ConnectorJDBCDatabaseRepository;
 import com.keyrus.proxemconnector.initializer.PostgreSQLInitializer;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,9 +82,9 @@ class ConnectorCSVRestRouterTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -96,8 +96,8 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false, "texte"
+                                                                "texte",
+                                                                false, true
                                                         )
                                                         .get()
                                         )
@@ -112,9 +112,9 @@ class ConnectorCSVRestRouterTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -126,8 +126,8 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false, "texte"
+                                                                "texte",
+                                                                false, true
                                                         )
                                                         .get()
                                         )
@@ -165,9 +165,9 @@ class ConnectorCSVRestRouterTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -179,8 +179,8 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false, "texte"
+                                                                "texte",
+                                                                false, true
                                                         )
                                                         .get()
                                         )
@@ -196,9 +196,9 @@ class ConnectorCSVRestRouterTest {
                         .withName(configuration1.name())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -210,8 +210,8 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false, "texte"
+                                                                "texte",
+                                                                false, true
                                                         )
                                                         .get()
                                         )
@@ -249,9 +249,9 @@ class ConnectorCSVRestRouterTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -263,8 +263,8 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false, "texte"
+                                                                "texte",
+                                                                false, true
                                                         )
                                                         .get()
                                         )
@@ -297,9 +297,9 @@ class ConnectorCSVRestRouterTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -311,8 +311,8 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false, "texte"
+                                                                "texte",
+                                                                false, true
                                                         )
                                                         .get()
                                         )
@@ -346,9 +346,9 @@ class ConnectorCSVRestRouterTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -360,8 +360,8 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false, "texte"
+                                                                "texte",
+                                                                false, true
                                                         )
                                                         .get()
                                         )
@@ -376,9 +376,9 @@ class ConnectorCSVRestRouterTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -390,8 +390,8 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false, "texte"
+                                                                "texte",
+                                                                false, true
                                                         )
                                                         .get()
                                         )
@@ -447,9 +447,9 @@ class ConnectorCSVRestRouterTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -461,8 +461,8 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false, "texte"
+                                                                "texte",
+                                                                false, true
                                                         )
                                                         .get()
                                         )
@@ -500,9 +500,9 @@ class ConnectorCSVRestRouterTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -514,8 +514,8 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false,""
+                                                                "meta",
+                                                                false,true
                                                         )
                                                         .get()
                                         )
@@ -536,9 +536,9 @@ class ConnectorCSVRestRouterTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -550,8 +550,8 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false,""
+                                                                "meta",
+                                                                false,true
                                                         )
                                                         .get()
                                         )
@@ -622,9 +622,9 @@ class ConnectorCSVRestRouterTest {
                         .withName("billing history")
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -636,8 +636,8 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false,""
+                                                                "meta",
+                                                                false,true
                                                         )
                                                         .get()
                                         )
@@ -658,9 +658,9 @@ class ConnectorCSVRestRouterTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -672,8 +672,8 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false,""
+                                                                "meta",
+                                                                false,true
                                                         )
                                                         .get()
                                         )

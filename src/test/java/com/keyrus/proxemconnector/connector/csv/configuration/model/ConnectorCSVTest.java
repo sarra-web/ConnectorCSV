@@ -22,9 +22,9 @@ class ConnectorCSVTest {
         final var name = UUID.randomUUID().toString();
         final var separator = ";";
         final var encoding = StandardCharsets.US_ASCII.name();
-        final var folderToScan = UUID.randomUUID().toString();
-        final var archiveFolder = UUID.randomUUID().toString();
-        final var failedRecordsFolder = UUID.randomUUID().toString();
+        final var path = UUID.randomUUID().toString();
+        final var quotingCaracter = UUID.randomUUID().toString();
+        final var escapingCaracter = UUID.randomUUID().toString();
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(2, it -> it + 1)
@@ -61,9 +61,9 @@ class ConnectorCSVTest {
                         .withName(name)
                         .withSeparator(separator)
                         .withEncoding(encoding)
-                        .withpath(folderToScan)
-                        .withquotingCaracter(archiveFolder)
-                        .withescapingCaracter(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder)
@@ -83,9 +83,9 @@ class ConnectorCSVTest {
         final var name = " ";
         final var separator = ";";
         final var encoding = StandardCharsets.US_ASCII.name();
-        final var folderToScan = UUID.randomUUID().toString();
-        final var archiveFolder = UUID.randomUUID().toString();
-        final var failedRecordsFolder = UUID.randomUUID().toString();
+        final var path = UUID.randomUUID().toString();
+        final var quotingCaracter = UUID.randomUUID().toString();
+        final var escapingCaracter = UUID.randomUUID().toString();
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(2, it -> it + 1)
@@ -122,9 +122,9 @@ class ConnectorCSVTest {
                         .withName(name)
                         .withSeparator(separator)
                         .withEncoding(encoding)
-                        .withpath(folderToScan)
-                        .withquotingCaracter(archiveFolder)
-                        .withescapingCaracter(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder)
@@ -144,9 +144,9 @@ class ConnectorCSVTest {
         final var name = UUID.randomUUID().toString();
         final var separator = "abc123";
         final var encoding = StandardCharsets.US_ASCII.name();
-        final var folderToScan = UUID.randomUUID().toString();
-        final var archiveFolder = UUID.randomUUID().toString();
-        final var failedRecordsFolder = UUID.randomUUID().toString();
+        final var path = UUID.randomUUID().toString();
+        final var quotingCaracter = UUID.randomUUID().toString();
+        final var escapingCaracter = UUID.randomUUID().toString();
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(2, it -> it + 1)
@@ -158,8 +158,8 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                true,
-                                                false, "texte"
+                                                "texte",
+                                                false, true
                                         )
                                         .get()
                         )
@@ -172,8 +172,8 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                true,
-                                false, "texte"
+                                "texte",
+                                false, true
                         );
 
         final var result =
@@ -183,9 +183,9 @@ class ConnectorCSVTest {
                         .withName(name)
                         .withSeparator(separator)
                         .withEncoding(encoding)
-                        .withFolderToScan(folderToScan)
-                        .withArchiveFolder(archiveFolder)
-                        .withFailedRecordsFolder(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder)
@@ -205,9 +205,9 @@ class ConnectorCSVTest {
         final var name = UUID.randomUUID().toString();
         final var separator = ";";
         final var encoding = StandardCharsets.US_ASCII.name() + "a";
-        final var folderToScan = UUID.randomUUID().toString();
-        final var archiveFolder = UUID.randomUUID().toString();
-        final var failedRecordsFolder = UUID.randomUUID().toString();
+        final var path = UUID.randomUUID().toString();
+        final var quotingCaracter = UUID.randomUUID().toString();
+        final var escapingCaracter = UUID.randomUUID().toString();
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(2, it -> it + 1)
@@ -219,8 +219,8 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                true,
-                                                false, "texte"
+                                                "texte",
+                                                false, true
                                         )
                                         .get()
                         )
@@ -233,8 +233,8 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                true,
-                                false, "texte"
+                                "texte",
+                                false, true
                         );
 
         final var result =
@@ -244,9 +244,9 @@ class ConnectorCSVTest {
                         .withName(name)
                         .withSeparator(separator)
                         .withEncoding(encoding)
-                        .withFolderToScan(folderToScan)
-                        .withArchiveFolder(archiveFolder)
-                        .withFailedRecordsFolder(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder)
@@ -266,9 +266,9 @@ class ConnectorCSVTest {
         final var name = UUID.randomUUID().toString();
         final var separator = ";";
         final var encoding = StandardCharsets.US_ASCII.name();
-        final var folderToScan = "";
-        final var archiveFolder = UUID.randomUUID().toString();
-        final var failedRecordsFolder = UUID.randomUUID().toString();
+        final var path = "";
+        final var quotingCaracter = UUID.randomUUID().toString();
+        final var escapingCaracter = UUID.randomUUID().toString();
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(2, it -> it + 1)
@@ -280,8 +280,8 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                true,
-                                                false, "texte"
+                                                "texte",
+                                                false, true
                                         )
                                         .get()
                         )
@@ -294,8 +294,8 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                true,
-                                false, "texte"
+                                "texte",
+                                false, true
                         );
 
         final var result =
@@ -305,9 +305,9 @@ class ConnectorCSVTest {
                         .withName(name)
                         .withSeparator(separator)
                         .withEncoding(encoding)
-                        .withFolderToScan(folderToScan)
-                        .withArchiveFolder(archiveFolder)
-                        .withFailedRecordsFolder(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder)
@@ -316,7 +316,7 @@ class ConnectorCSVTest {
 
         Assertions.assertAll(
                 () -> Assertions.assertEquals(1, result.size()),
-                () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof ConnectorCSV.Error.FolderToScanMalformed))
+                () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof ConnectorCSV.Error.quotingCaracterMalformed))
         );
     }
 
@@ -327,9 +327,9 @@ class ConnectorCSVTest {
         final var name = UUID.randomUUID().toString();
         final var separator = ";";
         final var encoding = StandardCharsets.US_ASCII.name();
-        final var folderToScan = UUID.randomUUID().toString();
-        final var archiveFolder = " ";
-        final var failedRecordsFolder = UUID.randomUUID().toString();
+        final var path = UUID.randomUUID().toString();
+        final var quotingCaracter = " ";
+        final var escapingCaracter = UUID.randomUUID().toString();
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(2, it -> it + 1)
@@ -341,8 +341,8 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                true,
-                                                false, "texte"
+                                                "texte",
+                                                false,true
                                         )
                                         .get()
                         )
@@ -355,8 +355,8 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                true,
-                                false, "texte"
+                                "texte",
+                                false, true
                         );
 
         final var result =
@@ -366,9 +366,9 @@ class ConnectorCSVTest {
                         .withName(name)
                         .withSeparator(separator)
                         .withEncoding(encoding)
-                        .withFolderToScan(folderToScan)
-                        .withArchiveFolder(archiveFolder)
-                        .withFailedRecordsFolder(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder)
@@ -377,7 +377,7 @@ class ConnectorCSVTest {
 
         Assertions.assertAll(
                 () -> Assertions.assertEquals(1, result.size()),
-                () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof ConnectorCSV.Error.ArchiveFolderMalformed))
+                () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof ConnectorCSV.Error.quotingCaracterMalformed))
         );
     }
 
@@ -388,9 +388,9 @@ class ConnectorCSVTest {
         final var name = UUID.randomUUID().toString();
         final var separator = ";";
         final var encoding = StandardCharsets.US_ASCII.name();
-        final var folderToScan = UUID.randomUUID().toString();
-        final var archiveFolder = UUID.randomUUID().toString();
-        final var failedRecordsFolder = " ";
+        final var path = UUID.randomUUID().toString();
+        final var quotingCaracter = UUID.randomUUID().toString();
+        final var escapingCaracter = " ";
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(2, it -> it + 1)
@@ -402,8 +402,8 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                true,
-                                                false, "texte"
+                                                "texte",
+                                                false, true
                                         )
                                         .get()
                         )
@@ -416,8 +416,8 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                true,
-                                false, "texte"
+                                "texte",
+                                false, true
                         );
 
         final var result =
@@ -427,9 +427,9 @@ class ConnectorCSVTest {
                         .withName(name)
                         .withSeparator(separator)
                         .withEncoding(encoding)
-                        .withFolderToScan(folderToScan)
-                        .withArchiveFolder(archiveFolder)
-                        .withFailedRecordsFolder(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder)
@@ -438,7 +438,7 @@ class ConnectorCSVTest {
 
         Assertions.assertAll(
                 () -> Assertions.assertEquals(1, result.size()),
-                () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof ConnectorCSV.Error.FailedRecordsFolderMalformed))
+                () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof ConnectorCSV.Error.quotingCaracterMalformed))
         );
     }
 
@@ -449,9 +449,9 @@ class ConnectorCSVTest {
         final var name = UUID.randomUUID().toString();
         final var separator = ";";
         final var encoding = StandardCharsets.US_ASCII.name();
-        final var folderToScan = UUID.randomUUID().toString();
-        final var archiveFolder = UUID.randomUUID().toString();
-        final var failedRecordsFolder = UUID.randomUUID().toString();
+        final var path = UUID.randomUUID().toString();
+        final var quotingCaracter = UUID.randomUUID().toString();
+        final var escapingCaracter = UUID.randomUUID().toString();
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields = null;
 
@@ -462,9 +462,9 @@ class ConnectorCSVTest {
                         .withName(name)
                         .withSeparator(separator)
                         .withEncoding(encoding)
-                        .withFolderToScan(folderToScan)
-                        .withArchiveFolder(archiveFolder)
-                        .withFailedRecordsFolder(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .build()
@@ -483,9 +483,9 @@ class ConnectorCSVTest {
         final var name = UUID.randomUUID().toString();
         final var separator = ";";
         final var encoding = StandardCharsets.US_ASCII.name();
-        final var folderToScan = UUID.randomUUID().toString();
-        final var archiveFolder = UUID.randomUUID().toString();
-        final var failedRecordsFolder = UUID.randomUUID().toString();
+        final var path = UUID.randomUUID().toString();
+        final var quotingCaracter = UUID.randomUUID().toString();
+        final var escapingCaracter = UUID.randomUUID().toString();
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(2, it -> it + 1)
@@ -497,8 +497,8 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                true,
-                                                false, "texte"
+                                                "texte",
+                                                false, true
                                         )
                                         .get()
                         )
@@ -511,8 +511,8 @@ class ConnectorCSVTest {
                                 "",
                                 1,
                                 UUID.randomUUID().toString(),
-                                true,
-                                false, "texte"
+                                "texte",
+                                false, true
                         );
 
         final var result =
@@ -522,9 +522,9 @@ class ConnectorCSVTest {
                         .withName(name)
                         .withSeparator(separator)
                         .withEncoding(encoding)
-                        .withFolderToScan(folderToScan)
-                        .withArchiveFolder(archiveFolder)
-                        .withFailedRecordsFolder(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder)
@@ -545,9 +545,9 @@ class ConnectorCSVTest {
         final var name = UUID.randomUUID().toString();
         final var separator = ";";
         final var encoding = StandardCharsets.US_ASCII.name();
-        final var folderToScan = UUID.randomUUID().toString();
-        final var archiveFolder = UUID.randomUUID().toString();
-        final var failedRecordsFolder = UUID.randomUUID().toString();
+        final var path = UUID.randomUUID().toString();
+        final var quotingCaracter = UUID.randomUUID().toString();
+        final var escapingCaracter = UUID.randomUUID().toString();
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(2, it -> it + 1)
@@ -559,8 +559,8 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                false,
-                                                false, "texte"
+                                                "texte",
+                                                false, true
                                         )
                                         .get()
                         )
@@ -573,8 +573,8 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                false,
-                                false, "texte"
+                                "texte",
+                                false, true
                         );
 
         final var result =
@@ -584,9 +584,9 @@ class ConnectorCSVTest {
                         .withName(name)
                         .withSeparator(separator)
                         .withEncoding(encoding)
-                        .withFolderToScan(folderToScan)
-                        .withArchiveFolder(archiveFolder)
-                        .withFailedRecordsFolder(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder)
@@ -606,9 +606,9 @@ class ConnectorCSVTest {
         final var name = UUID.randomUUID().toString();
         final var separator = ";";
         final var encoding = StandardCharsets.US_ASCII.name();
-        final var folderToScan = UUID.randomUUID().toString();
-        final var archiveFolder = UUID.randomUUID().toString();
-        final var failedRecordsFolder = UUID.randomUUID().toString();
+        final var path = UUID.randomUUID().toString();
+        final var quotingCaracter = UUID.randomUUID().toString();
+        final var escapingCaracter = UUID.randomUUID().toString();
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(2, it -> it + 1)
@@ -620,8 +620,8 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position * 10,
                                                 UUID.randomUUID().toString(),
-                                                true,
-                                                false, "texte"
+                                                "texte",
+                                                false, true
                                         )
                                         .get()
                         )
@@ -634,8 +634,8 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                true,
-                                false, "texte"
+                                "texte",
+                                false, true
                         );
 
         final var result =
@@ -645,9 +645,9 @@ class ConnectorCSVTest {
                         .withName(name)
                         .withSeparator(separator)
                         .withEncoding(encoding)
-                        .withFolderToScan(folderToScan)
-                        .withArchiveFolder(archiveFolder)
-                        .withFailedRecordsFolder(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder)
@@ -667,9 +667,9 @@ class ConnectorCSVTest {
         final var name = UUID.randomUUID().toString();
         final var separator = ";";
         final var encoding = StandardCharsets.US_ASCII.name();
-        final var folderToScan = UUID.randomUUID().toString();
-        final var archiveFolder = UUID.randomUUID().toString();
-        final var failedRecordsFolder = UUID.randomUUID().toString();
+        final var path = UUID.randomUUID().toString();
+        final var quotingCaracter = UUID.randomUUID().toString();
+        final var escapingCaracter = UUID.randomUUID().toString();
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(1, it -> it + 1)
@@ -681,8 +681,8 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                true,
-                                                false, "texte"
+                                                "texte",
+                                                false, true
                                         )
                                         .get()
                         )
@@ -695,8 +695,8 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                true,
-                                false, "texte"
+                                "texte",
+                                false, true
                         );
 
         final var result =
@@ -706,9 +706,9 @@ class ConnectorCSVTest {
                         .withName(name)
                         .withSeparator(separator)
                         .withEncoding(encoding)
-                        .withFolderToScan(folderToScan)
-                        .withArchiveFolder(archiveFolder)
-                        .withFailedRecordsFolder(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder)
@@ -726,9 +726,9 @@ class ConnectorCSVTest {
     void configuration_must_return_error_if_build_method_is_called_with_multiple_invalid_parameters() {
         final var id = "";
         final var name = "";
-        final var folderToScan = "";
-        final var archiveFolder = " ";
-        final var failedRecordsFolder = " ";
+        final var path = "";
+        final var quotingCaracter = " ";
+        final var escapingCaracter = " ";
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(2, it -> it + 1)
@@ -740,8 +740,8 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                false,
-                                                false, "texte"
+                                                "texte",
+                                                false, true
                                         )
                                         .get()
                         )
@@ -754,8 +754,8 @@ class ConnectorCSVTest {
                                 "",
                                 1,
                                 UUID.randomUUID().toString(),
-                                false,
-                                false, "texte"
+                                "texte",
+                                false, true
                         );
 
         final var result =
@@ -763,9 +763,9 @@ class ConnectorCSVTest {
                         .builder()
                         .withId(id)
                         .withName(name)
-                        .withFolderToScan(folderToScan)
-                        .withArchiveFolder(archiveFolder)
-                        .withFailedRecordsFolder(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder)
@@ -776,9 +776,9 @@ class ConnectorCSVTest {
                 () -> Assertions.assertEquals(7, result.size()),
                 () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof ConnectorCSV.Error.IdMalformed)),
                 () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof ConnectorCSV.Error.NameMalformed)),
-                () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof ConnectorCSV.Error.FolderToScanMalformed)),
-                () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof ConnectorCSV.Error.ArchiveFolderMalformed)),
-                () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof ConnectorCSV.Error.FailedRecordsFolderMalformed)),
+                () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof ConnectorCSV.Error.pathMalformed)),
+                () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof ConnectorCSV.Error.quotingCaracterMalformed)),
+                () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof ConnectorCSV.Error.EncodingMalformed)),
                 () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof ConnectorCSV.Error.Header)),
                 () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof ConnectorCSV.Error.HeaderMalformed))
         );
@@ -791,9 +791,9 @@ class ConnectorCSVTest {
         final var name = UUID.randomUUID().toString();
         final var separator = ";";
         final var encoding = StandardCharsets.US_ASCII.name();
-        final var folderToScan = UUID.randomUUID().toString();
-        final var archiveFolder = UUID.randomUUID().toString();
-        final var failedRecordsFolder = UUID.randomUUID().toString();
+        final var path = UUID.randomUUID().toString();
+        final var quotingCaracter = UUID.randomUUID().toString();
+        final var escapingCaracter = UUID.randomUUID().toString();
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(3, it -> it + 1)
@@ -805,8 +805,8 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                true,
-                                                false, "texte"
+                                                "texte",
+                                                false, true
                                         )
                                         .get()
                         )
@@ -819,8 +819,8 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                true,
-                                false, "texte"
+                                "texte",
+                                false, true
                         );
         final Supplier<Either<Collection<Field.Error>, Field>> headerBuilder2 =
                 () ->
@@ -830,8 +830,8 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 2,
                                 UUID.randomUUID().toString(),
-                                true,
-                                false, "texte"
+                                "texte",
+                                false, true
                         );
 
         final var result =
@@ -841,9 +841,9 @@ class ConnectorCSVTest {
                         .withName(name)
                         .withSeparator(separator)
                         .withEncoding(encoding)
-                        .withFolderToScan(folderToScan)
-                        .withArchiveFolder(archiveFolder)
-                        .withFailedRecordsFolder(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder1)
@@ -856,9 +856,9 @@ class ConnectorCSVTest {
                 () -> Assertions.assertEquals(name, result.name()),
                 () -> Assertions.assertEquals(separator, result.separator()),
                 () -> Assertions.assertEquals(encoding, result.encoding()),
-                () -> Assertions.assertEquals(folderToScan, result.folderToScan()),
-                () -> Assertions.assertEquals(archiveFolder, result.archiveFolder()),
-                () -> Assertions.assertEquals(failedRecordsFolder, result.failedRecordsFolder()),
+                () -> Assertions.assertEquals(path, result.path()),
+                () -> Assertions.assertEquals(quotingCaracter, result.quotingCaracter()),
+                () -> Assertions.assertEquals(escapingCaracter, result.escapingCaracter()),
                 () -> Assertions.assertEquals(containsHeaders, result.containsHeaders()),
                 () -> Assertions.assertFalse(result.fields().isEmpty())
         );
@@ -869,9 +869,9 @@ class ConnectorCSVTest {
     void configuration_must_return_instance_if_build_method_is_called_with_valid_parameters_without_separator_and_encoding() {
         final var id = UUID.randomUUID().toString();
         final var name = UUID.randomUUID().toString();
-        final var folderToScan = UUID.randomUUID().toString();
-        final var archiveFolder = UUID.randomUUID().toString();
-        final var failedRecordsFolder = UUID.randomUUID().toString();
+        final var path = UUID.randomUUID().toString();
+        final var quotingCaracter = UUID.randomUUID().toString();
+        final var escapingCaracter = UUID.randomUUID().toString();
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(2, it -> it + 1)
@@ -883,8 +883,8 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                true,
-                                                false, "texte"
+                                                "texte",
+                                                false, true
                                         )
                                         .get()
                         )
@@ -897,8 +897,8 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                true,
-                                false, "texte"
+                                "texte",
+                                false, true
                         );
 
         final var result =
@@ -906,9 +906,9 @@ class ConnectorCSVTest {
                         .builder()
                         .withId(id)
                         .withName(name)
-                        .withFolderToScan(folderToScan)
-                        .withArchiveFolder(archiveFolder)
-                        .withFailedRecordsFolder(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder)
@@ -920,9 +920,9 @@ class ConnectorCSVTest {
                 () -> Assertions.assertEquals(name, result.name()),
                 () -> Assertions.assertEquals(",", result.separator()),
                 () -> Assertions.assertEquals(StandardCharsets.UTF_8.name(), result.encoding()),
-                () -> Assertions.assertEquals(folderToScan, result.folderToScan()),
-                () -> Assertions.assertEquals(archiveFolder, result.archiveFolder()),
-                () -> Assertions.assertEquals(failedRecordsFolder, result.failedRecordsFolder()),
+                () -> Assertions.assertEquals(path, result.path()),
+                () -> Assertions.assertEquals(quotingCaracter, result.quotingCaracter()),
+                () -> Assertions.assertEquals(escapingCaracter, result.escapingCaracter()),
                 () -> Assertions.assertEquals(containsHeaders, result.containsHeaders()),
                 () -> Assertions.assertFalse(result.fields().isEmpty())
         );
@@ -934,9 +934,9 @@ class ConnectorCSVTest {
         final var id = UUID.randomUUID().toString();
         final var name = UUID.randomUUID().toString();
         final var separator = ";";
-        final var folderToScan = UUID.randomUUID().toString();
-        final var archiveFolder = UUID.randomUUID().toString();
-        final var failedRecordsFolder = UUID.randomUUID().toString();
+        final var path = UUID.randomUUID().toString();
+        final var quotingCaracter = UUID.randomUUID().toString();
+        final var escapingCaracter = UUID.randomUUID().toString();
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(2, it -> it + 1)
@@ -948,8 +948,8 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                true,
-                                                false, "texte"
+                                                "texte",
+                                                false, true
                                         )
                                         .get()
                         )
@@ -962,8 +962,8 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                true,
-                                false, "texte"
+                                "texte",
+                                false, true
                         );
 
         final var result =
@@ -972,9 +972,9 @@ class ConnectorCSVTest {
                         .withId(id)
                         .withName(name)
                         .withSeparator(separator)
-                        .withFolderToScan(folderToScan)
-                        .withArchiveFolder(archiveFolder)
-                        .withFailedRecordsFolder(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder)
@@ -986,9 +986,9 @@ class ConnectorCSVTest {
                 () -> Assertions.assertEquals(name, result.name()),
                 () -> Assertions.assertEquals(separator, result.separator()),
                 () -> Assertions.assertEquals(StandardCharsets.UTF_8.name(), result.encoding()),
-                () -> Assertions.assertEquals(folderToScan, result.folderToScan()),
-                () -> Assertions.assertEquals(archiveFolder, result.archiveFolder()),
-                () -> Assertions.assertEquals(failedRecordsFolder, result.failedRecordsFolder()),
+                () -> Assertions.assertEquals(path, result.path()),
+                () -> Assertions.assertEquals(quotingCaracter, result.quotingCaracter()),
+                () -> Assertions.assertEquals(escapingCaracter, result.escapingCaracter()),
                 () -> Assertions.assertEquals(containsHeaders, result.containsHeaders()),
                 () -> Assertions.assertFalse(result.fields().isEmpty())
         );
@@ -1001,9 +1001,9 @@ class ConnectorCSVTest {
         final var name = UUID.randomUUID().toString();
         final var separator = ";";
         final var encoding = StandardCharsets.US_ASCII.name();
-        final var folderToScan = UUID.randomUUID().toString();
-        final var archiveFolder = UUID.randomUUID().toString();
-        final var failedRecordsFolder = UUID.randomUUID().toString();
+        final var path = UUID.randomUUID().toString();
+        final var quotingCaracter = UUID.randomUUID().toString();
+        final var escapingCaracter = UUID.randomUUID().toString();
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(2, it -> it + 1)
@@ -1015,8 +1015,8 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                true,
-                                                false, "texte"
+                                                "texte",
+                                                false, true
                                         )
                                         .get()
                         )
@@ -1029,8 +1029,8 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                true,
-                                false, "texte"
+                                "texte",
+                                false, true
                         );
 
         final var result =
@@ -1040,9 +1040,9 @@ class ConnectorCSVTest {
                         .withName(name)
                         .withSeparator(separator)
                         .withEncoding(encoding)
-                        .withFolderToScan(folderToScan)
-                        .withArchiveFolder(archiveFolder)
-                        .withFailedRecordsFolder(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder)
@@ -1055,9 +1055,9 @@ class ConnectorCSVTest {
                 () -> Assertions.assertEquals(name, result.name()),
                 () -> Assertions.assertEquals(separator, result.separator()),
                 () -> Assertions.assertEquals(encoding, result.encoding()),
-                () -> Assertions.assertEquals(folderToScan, result.folderToScan()),
-                () -> Assertions.assertEquals(archiveFolder, result.archiveFolder()),
-                () -> Assertions.assertEquals(failedRecordsFolder, result.failedRecordsFolder()),
+                () -> Assertions.assertEquals(path, result.path()),
+                () -> Assertions.assertEquals(quotingCaracter, result.quotingCaracter()),
+                () -> Assertions.assertEquals(escapingCaracter, result.escapingCaracter()),
                 () -> Assertions.assertEquals(containsHeaders, result.containsHeaders()),
                 () -> Assertions.assertFalse(result.fields().isEmpty())
         );
@@ -1070,9 +1070,9 @@ class ConnectorCSVTest {
         final var name = UUID.randomUUID().toString();
         final var separator = ";";
         final var encoding = StandardCharsets.US_ASCII.name();
-        final var folderToScan = UUID.randomUUID().toString();
-        final var archiveFolder = UUID.randomUUID().toString();
-        final var failedRecordsFolder = UUID.randomUUID().toString();
+        final var path = UUID.randomUUID().toString();
+        final var quotingCaracter = UUID.randomUUID().toString();
+        final var escapingCaracter = UUID.randomUUID().toString();
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(2, it -> it + 1)
@@ -1084,8 +1084,8 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                true,
-                                                false, "texte"
+                                                "texte",
+                                                false, true
                                         )
                                         .get()
                         )
@@ -1098,8 +1098,8 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                true,
-                                false, "texte"
+                                "texte",
+                                false, true
                         );
 
         final var result =
@@ -1109,9 +1109,9 @@ class ConnectorCSVTest {
                         .withName(name)
                         .withSeparator(separator)
                         .withEncoding(encoding)
-                        .withFolderToScan(folderToScan)
-                        .withArchiveFolder(archiveFolder)
-                        .withFailedRecordsFolder(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder)
@@ -1124,9 +1124,9 @@ class ConnectorCSVTest {
                 () -> Assertions.assertEquals(name, result.name()),
                 () -> Assertions.assertEquals(separator, result.separator()),
                 () -> Assertions.assertEquals(encoding, result.encoding()),
-                () -> Assertions.assertEquals(folderToScan, result.folderToScan()),
-                () -> Assertions.assertEquals(archiveFolder, result.archiveFolder()),
-                () -> Assertions.assertEquals(failedRecordsFolder, result.failedRecordsFolder()),
+                () -> Assertions.assertEquals(path, result.path()),
+                () -> Assertions.assertEquals(quotingCaracter, result.quotingCaracter()),
+                () -> Assertions.assertEquals(escapingCaracter, result.escapingCaracter()),
                 () -> Assertions.assertEquals(containsHeaders, result.containsHeaders()),
                 () -> Assertions.assertFalse(result.fields().isEmpty())
         );
@@ -1139,9 +1139,9 @@ class ConnectorCSVTest {
         final var name = UUID.randomUUID().toString();
         final var separator = ";";
         final var encoding = StandardCharsets.US_ASCII.name();
-        final var folderToScan = UUID.randomUUID().toString();
-        final var archiveFolder = UUID.randomUUID().toString();
-        final var failedRecordsFolder = UUID.randomUUID().toString();
+        final var path = UUID.randomUUID().toString();
+        final var quotingCaracter = UUID.randomUUID().toString();
+        final var escapingCaracter = UUID.randomUUID().toString();
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(2, it -> it + 1)
@@ -1153,8 +1153,8 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                true,
-                                                false, "texte"
+                                                "texte",
+                                                false, true
                                         )
                                         .get()
                         )
@@ -1167,8 +1167,8 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                true,
-                                false, "texte"
+                                "texte",
+                                false, true
                         );
 
         final var result =
@@ -1178,9 +1178,9 @@ class ConnectorCSVTest {
                         .withName(name)
                         .withSeparator(separator)
                         .withEncoding(encoding)
-                        .withFolderToScan(folderToScan)
-                        .withArchiveFolder(archiveFolder)
-                        .withFailedRecordsFolder(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder)
@@ -1193,9 +1193,9 @@ class ConnectorCSVTest {
                 () -> Assertions.assertEquals(name, result.name()),
                 () -> Assertions.assertEquals(separator, result.separator()),
                 () -> Assertions.assertEquals(encoding, result.encoding()),
-                () -> Assertions.assertEquals(folderToScan, result.folderToScan()),
-                () -> Assertions.assertEquals(archiveFolder, result.archiveFolder()),
-                () -> Assertions.assertEquals(failedRecordsFolder, result.failedRecordsFolder()),
+                () -> Assertions.assertEquals(path, result.path()),
+                () -> Assertions.assertEquals(quotingCaracter, result.quotingCaracter()),
+                () -> Assertions.assertEquals(escapingCaracter, result.escapingCaracter()),
                 () -> Assertions.assertEquals(containsHeaders, result.containsHeaders()),
                 () -> Assertions.assertFalse(result.fields().isEmpty())
         );
@@ -1208,9 +1208,9 @@ class ConnectorCSVTest {
         final var name = UUID.randomUUID().toString();
         final var separator = ";";
         final var encoding = StandardCharsets.US_ASCII.name();
-        final var folderToScan = UUID.randomUUID().toString();
-        final var archiveFolder = UUID.randomUUID().toString();
-        final var failedRecordsFolder = UUID.randomUUID().toString();
+        final var path = UUID.randomUUID().toString();
+        final var quotingCaracter = UUID.randomUUID().toString();
+        final var escapingCaracter = UUID.randomUUID().toString();
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(2, it -> it + 1)
@@ -1222,8 +1222,8 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                true,
-                                                false, "texte"
+                                                "texte",
+                                                false, true
                                         )
                                         .get()
                         )
@@ -1236,8 +1236,8 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                true,
-                                false, "texte"
+                                "texte",
+                                false, true
                         );
 
         final var result =
@@ -1247,9 +1247,9 @@ class ConnectorCSVTest {
                         .withName(name)
                         .withSeparator(separator)
                         .withEncoding(encoding)
-                        .withFolderToScan(folderToScan)
-                        .withArchiveFolder(archiveFolder)
-                        .withFailedRecordsFolder(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder)
@@ -1262,9 +1262,9 @@ class ConnectorCSVTest {
                 () -> Assertions.assertEquals(name, result.name()),
                 () -> Assertions.assertEquals(separator, result.separator()),
                 () -> Assertions.assertEquals(encoding, result.encoding()),
-                () -> Assertions.assertEquals(folderToScan, result.folderToScan()),
-                () -> Assertions.assertEquals(archiveFolder, result.archiveFolder()),
-                () -> Assertions.assertEquals(failedRecordsFolder, result.failedRecordsFolder()),
+                () -> Assertions.assertEquals(path, result.path()),
+                () -> Assertions.assertEquals(quotingCaracter, result.quotingCaracter()),
+                () -> Assertions.assertEquals(escapingCaracter, result.escapingCaracter()),
                 () -> Assertions.assertEquals(containsHeaders, result.containsHeaders()),
                 () -> Assertions.assertFalse(result.fields().isEmpty())
         );
@@ -1277,9 +1277,9 @@ class ConnectorCSVTest {
         final var name = UUID.randomUUID().toString();
         final var separator = ";";
         final var encoding = StandardCharsets.US_ASCII.name();
-        final var folderToScan = UUID.randomUUID().toString();
-        final var archiveFolder = UUID.randomUUID().toString();
-        final var failedRecordsFolder = UUID.randomUUID().toString();
+        final var path = UUID.randomUUID().toString();
+        final var quotingCaracter = UUID.randomUUID().toString();
+        final var escapingCaracter = UUID.randomUUID().toString();
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(2, it -> it + 1)
@@ -1291,8 +1291,8 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                true,
-                                                false, "texte"
+                                                "texte",
+                                                false, true
                                         )
                                         .get()
                         )
@@ -1305,8 +1305,8 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                true,
-                                false, "texte"
+                                "texte",
+                                false, true
                         );
 
         final var result =
@@ -1316,13 +1316,13 @@ class ConnectorCSVTest {
                         .withName(name)
                         .withSeparator(separator)
                         .withEncoding(encoding)
-                        .withFolderToScan(folderToScan)
-                        .withArchiveFolder(archiveFolder)
-                        .withFailedRecordsFolder(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder)
-                        .withFolderToScan(null)
+                        .withpath(null)
                         .build()
                         .get();
 
@@ -1331,9 +1331,9 @@ class ConnectorCSVTest {
                 () -> Assertions.assertEquals(name, result.name()),
                 () -> Assertions.assertEquals(separator, result.separator()),
                 () -> Assertions.assertEquals(encoding, result.encoding()),
-                () -> Assertions.assertEquals(folderToScan, result.folderToScan()),
-                () -> Assertions.assertEquals(archiveFolder, result.archiveFolder()),
-                () -> Assertions.assertEquals(failedRecordsFolder, result.failedRecordsFolder()),
+                () -> Assertions.assertEquals(path, result.path()),
+                () -> Assertions.assertEquals(quotingCaracter, result.quotingCaracter()),
+                () -> Assertions.assertEquals(escapingCaracter, result.escapingCaracter()),
                 () -> Assertions.assertEquals(containsHeaders, result.containsHeaders()),
                 () -> Assertions.assertFalse(result.fields().isEmpty())
         );
@@ -1346,9 +1346,9 @@ class ConnectorCSVTest {
         final var name = UUID.randomUUID().toString();
         final var separator = ";";
         final var encoding = StandardCharsets.US_ASCII.name();
-        final var folderToScan = UUID.randomUUID().toString();
-        final var archiveFolder = UUID.randomUUID().toString();
-        final var failedRecordsFolder = UUID.randomUUID().toString();
+        final var path = UUID.randomUUID().toString();
+        final var quotingCaracter = UUID.randomUUID().toString();
+        final var escapingCaracter = UUID.randomUUID().toString();
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(2, it -> it + 1)
@@ -1360,8 +1360,8 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                true,
-                                                false, "texte"
+                                                "texte",
+                                                false, true
                                         )
                                         .get()
                         )
@@ -1374,8 +1374,8 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                true,
-                                false, "texte"
+                                "texte",
+                                false, true
                         );
 
         final var result =
@@ -1385,13 +1385,13 @@ class ConnectorCSVTest {
                         .withName(name)
                         .withSeparator(separator)
                         .withEncoding(encoding)
-                        .withFolderToScan(folderToScan)
-                        .withArchiveFolder(archiveFolder)
-                        .withFailedRecordsFolder(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder)
-                        .withArchiveFolder(null)
+                        .withquotingCaracter(null)
                         .build()
                         .get();
 
@@ -1400,9 +1400,9 @@ class ConnectorCSVTest {
                 () -> Assertions.assertEquals(name, result.name()),
                 () -> Assertions.assertEquals(separator, result.separator()),
                 () -> Assertions.assertEquals(encoding, result.encoding()),
-                () -> Assertions.assertEquals(folderToScan, result.folderToScan()),
-                () -> Assertions.assertEquals(archiveFolder, result.archiveFolder()),
-                () -> Assertions.assertEquals(failedRecordsFolder, result.failedRecordsFolder()),
+                () -> Assertions.assertEquals(path, result.path()),
+                () -> Assertions.assertEquals(quotingCaracter, result.quotingCaracter()),
+                () -> Assertions.assertEquals(escapingCaracter, result.escapingCaracter()),
                 () -> Assertions.assertEquals(containsHeaders, result.containsHeaders()),
                 () -> Assertions.assertFalse(result.fields().isEmpty())
         );
@@ -1415,9 +1415,9 @@ class ConnectorCSVTest {
         final var name = UUID.randomUUID().toString();
         final var separator = ";";
         final var encoding = StandardCharsets.US_ASCII.name();
-        final var folderToScan = UUID.randomUUID().toString();
-        final var archiveFolder = UUID.randomUUID().toString();
-        final var failedRecordsFolder = UUID.randomUUID().toString();
+        final var path = UUID.randomUUID().toString();
+        final var quotingCaracter = UUID.randomUUID().toString();
+        final var escapingCaracter = UUID.randomUUID().toString();
         final var containsHeaders = new Random().nextBoolean();
         final Collection<Field> fields =
                 IntStream.iterate(2, it -> it + 1)
@@ -1429,8 +1429,8 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                true,
-                                                false, "texte"
+                                                "texte",
+                                                false, true
                                         )
                                         .get()
                         )
@@ -1443,8 +1443,8 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                true,
-                                false, "texte"
+                                "texte",
+                                false, true
                         );
 
         final var result =
@@ -1454,13 +1454,13 @@ class ConnectorCSVTest {
                         .withName(name)
                         .withSeparator(separator)
                         .withEncoding(encoding)
-                        .withFolderToScan(folderToScan)
-                        .withArchiveFolder(archiveFolder)
-                        .withFailedRecordsFolder(failedRecordsFolder)
+                        .withpath(path)
+                        .withquotingCaracter(quotingCaracter)
+                        .withescapingCaracter(escapingCaracter)
                         .withContainsHeaders(containsHeaders)
                         .withHeaders(fields)
                         .withHeaders(headerBuilder)
-                        .withFailedRecordsFolder(null)
+                        .withescapingCaracter(null)
                         .build()
                         .get();
 
@@ -1469,9 +1469,9 @@ class ConnectorCSVTest {
                 () -> Assertions.assertEquals(name, result.name()),
                 () -> Assertions.assertEquals(separator, result.separator()),
                 () -> Assertions.assertEquals(encoding, result.encoding()),
-                () -> Assertions.assertEquals(folderToScan, result.folderToScan()),
-                () -> Assertions.assertEquals(archiveFolder, result.archiveFolder()),
-                () -> Assertions.assertEquals(failedRecordsFolder, result.failedRecordsFolder()),
+                () -> Assertions.assertEquals(path, result.path()),
+                () -> Assertions.assertEquals(quotingCaracter, result.quotingCaracter()),
+                () -> Assertions.assertEquals(escapingCaracter, result.escapingCaracter()),
                 () -> Assertions.assertEquals(containsHeaders, result.containsHeaders()),
                 () -> Assertions.assertFalse(result.fields().isEmpty())
         );

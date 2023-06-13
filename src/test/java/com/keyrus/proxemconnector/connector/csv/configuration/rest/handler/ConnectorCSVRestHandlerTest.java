@@ -2,9 +2,10 @@ package com.keyrus.proxemconnector.connector.csv.configuration.rest.handler;
 
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorCSVDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorCSVDTO;
+import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProjectDTO;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
-import com.keyrus.proxemconnector.connector.csv.configuration.repository.ConnectorJDBCDatabaseRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.ConnectorJDBCDatabaseRepository;
 import com.keyrus.proxemconnector.initializer.PostgreSQLInitializer;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,7 @@ class ConnectorCSVRestHandlerTest {
     @Test
     @DisplayName("configuration rest handler must return error if create method is called with invalid configuration dto")
     void configuration_rest_handler_must_return_error_if_create_method_is_called_with_invalid_configuration_dto() {
+        ProjectDTO project= new ProjectDTO("id","name","prox");
         final var result =
                 this.connectorRestHandler
                         .create(
@@ -72,9 +74,8 @@ class ConnectorCSVRestHandlerTest {
                                         " ",
                                         " ",
                                         " ",
-                                        " ",
-                                        true,
-                                        Collections.emptySet()
+                                        " ",true,Collections.emptySet(),project
+
                                 ),
                                 null
                         );
@@ -96,9 +97,9 @@ class ConnectorCSVRestHandlerTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -110,8 +111,8 @@ class ConnectorCSVRestHandlerTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false, "texte"
+                                                                "texte",
+                                                                false, true
                                                         )
                                                         .get()
                                         )
@@ -149,9 +150,9 @@ class ConnectorCSVRestHandlerTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -163,8 +164,8 @@ class ConnectorCSVRestHandlerTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false, "texte"
+                                                                "texte",
+                                                                false, true
                                                         )
                                                         .get()
                                         )
@@ -189,6 +190,7 @@ class ConnectorCSVRestHandlerTest {
     @Test
     @DisplayName("configuration rest handler must return error if update method is called with invalid configuration dto")
     void configuration_rest_handler_must_return_error_if_update_method_is_called_with_invalid_configuration_dto() {
+        ProjectDTO project= new ProjectDTO("id","name","prox");
         final var result =
                 this.connectorRestHandler
                         .update(
@@ -199,9 +201,7 @@ class ConnectorCSVRestHandlerTest {
                                         " ",
                                         " ",
                                         " ",
-                                        " ",
-                                        true,
-                                        Collections.emptySet()
+                                        " ",true,Collections.emptySet(),project
                                 ),
                                 null
                         );
@@ -223,9 +223,9 @@ class ConnectorCSVRestHandlerTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -237,8 +237,8 @@ class ConnectorCSVRestHandlerTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false, "texte"
+                                                                "texte",
+                                                                false, true
                                                         )
                                                         .get()
                                         )
@@ -271,9 +271,9 @@ class ConnectorCSVRestHandlerTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -285,8 +285,8 @@ class ConnectorCSVRestHandlerTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false, "texte"
+                                                                "texte",
+                                                                false, true
                                                         )
                                                         .get()
                                         )
@@ -340,9 +340,9 @@ class ConnectorCSVRestHandlerTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -354,8 +354,8 @@ class ConnectorCSVRestHandlerTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false, "texte"
+                                                                "texte",
+                                                                false, true
                                                         )
                                                         .get()
                                         )
@@ -392,9 +392,9 @@ class ConnectorCSVRestHandlerTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -406,8 +406,8 @@ class ConnectorCSVRestHandlerTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false,""
+                                                                "texte",
+                                                                false,true
                                                         )
                                                         .get()
                                         )
@@ -469,9 +469,9 @@ class ConnectorCSVRestHandlerTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -483,8 +483,8 @@ class ConnectorCSVRestHandlerTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false,""
+                                                                "texte",
+                                                                false,true
                                                         )
                                                         .get()
                                         )
@@ -521,9 +521,9 @@ class ConnectorCSVRestHandlerTest {
                         .withName("billing history")
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -535,8 +535,8 @@ class ConnectorCSVRestHandlerTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false,""
+                                                                "texte",
+                                                                false,true
                                                         )
                                                         .get()
                                         )

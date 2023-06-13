@@ -15,7 +15,6 @@ import java.util.Collection;
 @Table(name = "project")
 public class ProjectDAO implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, unique = true, insertable = true, updatable = true)
     private String id;
     @Column(name = "name", nullable = false, unique = true, insertable = true, updatable = true)

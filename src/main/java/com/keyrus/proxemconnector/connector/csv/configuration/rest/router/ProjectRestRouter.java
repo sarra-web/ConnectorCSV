@@ -3,7 +3,7 @@ package com.keyrus.proxemconnector.connector.csv.configuration.rest.router;
 
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ProjectDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProjectDTO;
-import com.keyrus.proxemconnector.connector.csv.configuration.repository.ProjectJDBCDatabaseRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.project.ProjectJDBCDatabaseRepository;
 import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.HttpResponse;
 import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ProjectRestHandler;
 import com.keyrus.proxemconnector.connector.csv.configuration.service.ProjectService;

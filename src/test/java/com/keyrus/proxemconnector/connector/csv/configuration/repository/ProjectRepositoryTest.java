@@ -2,6 +2,8 @@ package com.keyrus.proxemconnector.connector.csv.configuration.repository;
 
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ProjectDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Project;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.project.ProjectJDBCDatabaseRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.project.ProjectRepository;
 import com.keyrus.proxemconnector.initializer.PostgreSQLInitializer;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;

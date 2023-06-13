@@ -4,7 +4,9 @@ import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Project;
 import io.vavr.control.Either;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 import lombok.Data;
 
 import java.util.Collection;
@@ -35,11 +37,62 @@ public class ConnectorCSVDAO extends ConnectorDAO{
     private boolean containsHeaders;
 
 
-  /*  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "project_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private ProjectDAO projectDAO;*/
+    public String getId() {
+        return this.id;
+    }
+    public void setId(String id) {
+         this.id=id;
+    }
+
+    public String getSeparator() {
+        return separator;
+    }
+
+    public void setSeparator(String separator) {
+        this.separator = separator;
+    }
+
+    public String getEncoding() {
+        return encoding;
+    }
+
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getQuotingCaracter() {
+        return quotingCaracter;
+    }
+
+    public void setQuotingCaracter(String quotingCaracter) {
+        this.quotingCaracter = quotingCaracter;
+    }
+
+    public String getEscapingCaracter() {
+        return escapingCaracter;
+    }
+
+    public void setEscapingCaracter(String escapingCaracter) {
+        this.escapingCaracter = escapingCaracter;
+    }
+
+    public boolean isContainsHeaders() {
+        return containsHeaders;
+    }
+
+    public void setContainsHeaders(boolean containsHeaders) {
+        this.containsHeaders = containsHeaders;
+    }
+
+
     public ConnectorCSVDAO() {
     }
 
@@ -53,7 +106,7 @@ public class ConnectorCSVDAO extends ConnectorDAO{
             String escapingCaracter,
             boolean containsHeaders,
             Collection<FieldDAO> fields
-          //  ProjectDAO projectDAO
+           // ProjectDAO projectDAO
     ) {
         this.id=id;
         this.name=name;
@@ -82,7 +135,7 @@ public class ConnectorCSVDAO extends ConnectorDAO{
                 ConnectorCSVDAO.headersToHeaderDAOs(
                         connectorCSV.id(),
                         connectorCSV.fields())
-                //,ConnectorDAO.projectToProjectDAO(connector.project())
+               // ,ConnectorCSVDAO.projectToProjectDAO(connectorCSV.project())
         );
     }
 
@@ -139,45 +192,53 @@ public class ConnectorCSVDAO extends ConnectorDAO{
                         .withescapingCaracter(this.escapingCaracter)
                         .withContainsHeaders(this.containsHeaders)
                         .withHeaders(ConnectorCSVDAO.headerDAOsToHeaderBuilders(this.fields))
+                                //.
+                        //withProject(ConnectorCSVDAO.projectDAOToProject(this.projectDAO))
                         .build();
     }
+    /*private static Supplier<Either<Collection<Project.Error>, Project>> projectDAOToProject(
+            final Project project
+    ) {
+        final Function<ProjectDAO, Supplier<Either<Collection<Project.Error>, Project>>> projectBuilder =
+                projectDAO ->
+                        projectDAO::toProject;
+        return
+                Objects.nonNull(project)
+                        ?
+                        project.
+                                .toArray(Supplier[]::new)
+                        :
+                        Collections.emptySet()
+                                .toArray(Supplier[]::new);
+    }*/
+
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (ConnectorCSVDAO) obj;
-        return
-                Objects.equals(this.id, that.id) &&
-                Objects.equals(this.name, that.name) &&
-                Objects.equals(this.separator, that.separator) &&
-                Objects.equals(this.encoding, that.encoding) &&
-                Objects.equals(this.path, that.path) &&
-                Objects.equals(this.quotingCaracter, that.quotingCaracter) &&
-                Objects.equals(this.escapingCaracter, that.escapingCaracter) &&
-                this.containsHeaders == that.containsHeaders &&
-                (
-                        Objects.nonNull(this.fields) &&
-                        Objects.nonNull(that.fields)
-                                ? this.fields.containsAll(that.fields)
-                                : Objects.isNull(that.fields)
-                );
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        ConnectorCSVDAO that = (ConnectorCSVDAO) o;
+
+        if (containsHeaders != that.containsHeaders) return false;
+        if (!separator.equals(that.separator)) return false;
+        if (!encoding.equals(that.encoding)) return false;
+        if (!path.equals(that.path)) return false;
+        if (!quotingCaracter.equals(that.quotingCaracter)) return false;
+        return escapingCaracter.equals(that.escapingCaracter);
     }
 
     @Override
     public int hashCode() {
-        return
-                Objects.hash(
-                        this.id,
-                        this.name,
-                        this.separator,
-                        this.encoding,
-                        this.path,
-                        this.quotingCaracter,
-                        this.escapingCaracter,
-                        this.containsHeaders,
-                        this.fields
-                );
+        int result = super.hashCode();
+        result = 31 * result + separator.hashCode();
+        result = 31 * result + encoding.hashCode();
+        result = 31 * result + path.hashCode();
+        result = 31 * result + quotingCaracter.hashCode();
+        result = 31 * result + escapingCaracter.hashCode();
+        result = 31 * result + (containsHeaders ? 1 : 0);
+        return result;
     }
 
     @Override

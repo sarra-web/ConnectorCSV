@@ -1,8 +1,8 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.config;
 
-import com.keyrus.proxemconnector.connector.csv.configuration.repository.ProjectDatabaseRepository;
-import com.keyrus.proxemconnector.connector.csv.configuration.repository.ProjectJDBCDatabaseRepository;
-import com.keyrus.proxemconnector.connector.csv.configuration.repository.ProjectRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.project.ProjectDatabaseRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.project.ProjectJDBCDatabaseRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.project.ProjectRepository;
 import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ProjectRestHandler;
 import com.keyrus.proxemconnector.connector.csv.configuration.service.ProjectService;
 import org.springframework.beans.factory.annotation.Value;

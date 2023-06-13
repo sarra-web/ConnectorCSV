@@ -3,7 +3,8 @@ package com.keyrus.proxemconnector.connector.csv.configuration.service;
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorCSVDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
-import com.keyrus.proxemconnector.connector.csv.configuration.repository.ConnectorJDBCDatabaseRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.ConnectorJDBCDatabaseRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService;
 import com.keyrus.proxemconnector.initializer.PostgreSQLInitializer;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +21,15 @@ import java.util.stream.IntStream;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ConnectorCSVServiceTest {
 
-    private final ConnectorService connectorService;
+    private final ConnectorCSVService connectorCSVService;
     private final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository;
 
     @Autowired
     ConnectorCSVServiceTest(
-            final ConnectorService connectorService,
+            final ConnectorCSVService connectorCSVService,
             final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository
     ) {
-        this.connectorService = connectorService;
+        this.connectorCSVService = connectorCSVService;
         this.connectorJDBCDatabaseRepository = connectorJDBCDatabaseRepository;
     }
 
@@ -63,9 +64,9 @@ class ConnectorCSVServiceTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -77,8 +78,8 @@ class ConnectorCSVServiceTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false, "texte"
+                                                                "texte",
+                                                                false, true
                                                         )
                                                         .get()
                                         )
@@ -93,7 +94,7 @@ class ConnectorCSVServiceTest {
         );
 
         final var result =
-                this.connectorService
+                this.connectorCSVService
                         .create(
                                 configuration
                         )
@@ -113,9 +114,9 @@ class ConnectorCSVServiceTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -127,8 +128,8 @@ class ConnectorCSVServiceTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false, "texte"
+                                                                "texte",
+                                                                false, true
                                                         )
                                                         .get()
                                         )
@@ -138,7 +139,7 @@ class ConnectorCSVServiceTest {
                         .get();
 
         final var result =
-                this.connectorService
+                this.connectorCSVService
                         .create(
                                 configuration
                         )
@@ -158,9 +159,9 @@ class ConnectorCSVServiceTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -172,8 +173,8 @@ class ConnectorCSVServiceTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false, "texte"
+                                                                "texte",
+                                                                false, true
                                                         )
                                                         .get()
                                         )
@@ -183,7 +184,7 @@ class ConnectorCSVServiceTest {
                         .get();
 
         final var result =
-                this.connectorService
+                this.connectorCSVService
                         .update(
                                 configuration
                         )
@@ -203,9 +204,9 @@ class ConnectorCSVServiceTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -217,8 +218,8 @@ class ConnectorCSVServiceTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false, "texte"
+                                                                "texte",
+                                                                false, true
                                                         )
                                                         .get()
                                         )
@@ -233,7 +234,7 @@ class ConnectorCSVServiceTest {
         );
 
         final var result =
-                this.connectorService
+                this.connectorCSVService
                         .update(
                                 configuration
                         )
@@ -246,7 +247,7 @@ class ConnectorCSVServiceTest {
     @DisplayName("configuration service must return error if delete method is called with invalid configuration")
     void configuration_service_must_return_error_if_delete_method_is_called_with_invalid_configuration() {
         final var result =
-                this.connectorService
+                this.connectorCSVService
                         .delete(
                                 UUID.randomUUID().toString()
                         )
@@ -266,9 +267,9 @@ class ConnectorCSVServiceTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -280,8 +281,8 @@ class ConnectorCSVServiceTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false, "texte"
+                                                                "texte",
+                                                                false, true
                                                         )
                                                         .get()
                                         )
@@ -296,7 +297,7 @@ class ConnectorCSVServiceTest {
         );
 
         final var result =
-                this.connectorService
+                this.connectorCSVService
                         .delete(
                                 configuration.id()
                         )
@@ -316,9 +317,9 @@ class ConnectorCSVServiceTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -330,8 +331,8 @@ class ConnectorCSVServiceTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false,""
+                                                                "texte",
+                                                                false,true
                                                         )
                                                         .get()
                                         )
@@ -346,7 +347,7 @@ class ConnectorCSVServiceTest {
         );
 
         final var result =
-                this.connectorService
+                this.connectorCSVService
                         .findAll().get();
 
 
@@ -357,7 +358,7 @@ class ConnectorCSVServiceTest {
     @DisplayName("configuration service must return empty list  if findAll method is called with no configurations exist")
     void configuration_service_must_return_empty_list_if_findAll_method_is_called_with_no_configurations_exist() {
         final var result =
-                this.connectorService
+                this.connectorCSVService
                         .findAll().get();
 
         Assertions.assertTrue(result.isEmpty());
@@ -366,7 +367,7 @@ class ConnectorCSVServiceTest {
     @DisplayName("configuration service must return error if findOneByName method is called with invalid configuration")
     void configuration_service_must_return_error_if_findOneByName_method_is_called_with_invalid_configuration() {
         final var result =
-                this.connectorService
+                this.connectorCSVService
                         .findOneByName(
                                 UUID.randomUUID().toString()
                         )
@@ -386,9 +387,9 @@ class ConnectorCSVServiceTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -400,8 +401,8 @@ class ConnectorCSVServiceTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false,""
+                                                                "texte",
+                                                                false,true
                                                         )
                                                         .get()
                                         )
@@ -416,7 +417,7 @@ class ConnectorCSVServiceTest {
         );
 
         final var result =
-                this.connectorService
+                this.connectorCSVService
                         .findOneByName(
                                 configuration.name()
                         )
@@ -435,9 +436,9 @@ class ConnectorCSVServiceTest {
                         .withName("billing history")
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -449,8 +450,8 @@ class ConnectorCSVServiceTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false,""
+                                                                "texte",
+                                                                false,true
                                                         )
                                                         .get()
                                         )
@@ -467,9 +468,9 @@ class ConnectorCSVServiceTest {
                         .withName("actual bills")
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -481,8 +482,8 @@ class ConnectorCSVServiceTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false,""
+                                                                "texte",
+                                                                false,true
                                                         )
                                                         .get()
                                         )
@@ -498,9 +499,9 @@ class ConnectorCSVServiceTest {
                         .withName("history")
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -512,8 +513,8 @@ class ConnectorCSVServiceTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false,""
+                                                                "texte",
+                                                                false,true
                                                         )
                                                         .get()
                                         )
@@ -539,7 +540,7 @@ class ConnectorCSVServiceTest {
         );
 
         final var result =
-                this.connectorService
+                this.connectorCSVService
                         .findManyByNameContainsIgnoreCase("BiLl").get();
 
 
@@ -557,9 +558,9 @@ class ConnectorCSVServiceTest {
                         .withName("history")
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan(UUID.randomUUID().toString())
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath(UUID.randomUUID().toString())
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -571,8 +572,8 @@ class ConnectorCSVServiceTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false,""
+                                                                "texte",
+                                                                false,true
                                                         )
                                                         .get()
                                         )
@@ -587,7 +588,7 @@ class ConnectorCSVServiceTest {
                 )
         );
         final var result =
-                this.connectorService
+                this.connectorCSVService
                         .findManyByNameContainsIgnoreCase("Bill").get();
         Collection collection = new ArrayList();
         Assertions.assertEquals(collection, result);

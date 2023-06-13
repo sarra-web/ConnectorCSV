@@ -5,10 +5,9 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorCSVDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorCSVDTO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
-import com.keyrus.proxemconnector.connector.csv.configuration.repository.ConnectorJDBCDatabaseRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.ConnectorJDBCDatabaseRepository;
 import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ConnectorRestHandler;
-import com.keyrus.proxemconnector.connector.csv.configuration.service.ConnectorService;
-import com.keyrus.proxemconnector.connector.csv.configuration.service.ProxemPostService;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,9 +16,12 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
-import static com.keyrus.proxemconnector.connector.csv.configuration.service.ConnecteurCSVService.CSVDataToJSON;
+import static com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService.CSVDataToJSON;
 import static org.springframework.http.HttpStatus.OK;
 
 
@@ -32,8 +34,7 @@ public class ConnectorRestRouter {
     private final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository;
     private final ConnectorRestHandler connectorRestHandler;
 
-    private final ConnectorService connectorService;
-    private final ProxemPostService proxemPostService;
+    private final ConnectorCSVService connectorCSVService;
 
     private Sort.Direction getSortDirection(String direction) {
         if (direction.equals("asc")) {
@@ -47,11 +48,11 @@ public class ConnectorRestRouter {
 
     public ConnectorRestRouter(
             final ConnectorRestHandler connectorRestHandler,
-            ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository, ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository1, ConnectorService connectorService, ProxemPostService proxemPostService) {
+            ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository, ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository1, ConnectorCSVService connectorCSVService) {
         this.connectorRestHandler = connectorRestHandler;
         this.connectorJDBCDatabaseRepository = connectorJDBCDatabaseRepository1;
-        this.connectorService = connectorService;
-        this.proxemPostService = proxemPostService;
+        this.connectorCSVService = connectorCSVService;
+
     }
 
     /*@GetMapping(value = "/findById/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -215,7 +216,8 @@ public class ConnectorRestRouter {
    public ResponseEntity<?> pushToProxem(@RequestBody final ConnectorDTO config){
        return  ResponseEntity.ok(proxemPostService.updatePost(CSVDataToJSON(config)));
    }*/
-
+    //@Scheduled(cron = "2 * * * * *")
+    //@Async
     @PutMapping(value = "/pushToProxem",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> pushToProxem(@RequestBody ConnectorCSVDTO config){
         List<ProxemDto> proxemDtos = CSVDataToJSON(config);
@@ -238,12 +240,13 @@ public class ConnectorRestRouter {
         return  CSVDataToJSON(config);
     }
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         Timer timer = new Timer();
-        timer.schedule(new LireFichierTask(), 0, 60 * 1000); // Planifie la tâche toutes les minutes
-    }*/
+        int a=60;
+        timer.schedule(new LireFichierTask(), 0, a * 1000); // Planifie la tâche toutes les minutes
+    }
 
-   /* static class LireFichierTask extends TimerTask {
+    static class LireFichierTask extends TimerTask {
 
         @Override
         public void run() {
@@ -259,7 +262,7 @@ public class ConnectorRestRouter {
                 e.printStackTrace();
             }
         }
-    }*/
+    }
 
 
 }

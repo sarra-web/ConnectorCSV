@@ -6,6 +6,7 @@ import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorCSVDT
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
@@ -17,13 +18,13 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.keyrus.proxemconnector.connector.csv.configuration.service.ConnecteurCSVService.CSVDataToJSON;
+import static com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService.CSVDataToJSON;
 
 class ProxemPostServiceTest {
-    private final  ProxemPostService proxemPostService;
+    private final ConnectorCSVService connectorCSVService;
 
-    ProxemPostServiceTest(ProxemPostService proxemPostService) {
-        this.proxemPostService = proxemPostService;
+    ProxemPostServiceTest( ConnectorCSVService connectorCSVService) {
+        this.connectorCSVService = connectorCSVService;
     }
 
     @Test
@@ -37,9 +38,9 @@ class ProxemPostServiceTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan("email.csv")
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
+                        .withpath("email.csv")
+                        .withquotingCaracter(UUID.randomUUID().toString())
+                        .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -51,8 +52,8 @@ class ProxemPostServiceTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false, list.get(it - 1)
+                                                                list.get(it - 1),
+                                                                false,true
                                                         )
                                                         .get()
                                         )
@@ -81,8 +82,10 @@ class ProxemPostServiceTest {
         System.out.println(response.getBody());
     }
     @Test
+   // @Scheduled(cron = "2 * * * * *")
+    //@Async
     void updatePost_test2() {
-        List<String> list = List.of("titre", "identifiant", "texte", "meta");
+        List<String> list = List.of("Titre", "Identifiant", "Texte", "Meta");
         final var id = UUID.randomUUID().toString();
         final var connnectorCSV =
                 ConnectorCSV.Builder
@@ -91,10 +94,10 @@ class ProxemPostServiceTest {
                         .withName(UUID.randomUUID().toString())
                         .withSeparator(";")
                         .withEncoding(StandardCharsets.UTF_8.name())
-                        .withFolderToScan("email.csv")
-                        .withArchiveFolder(UUID.randomUUID().toString())
-                        .withFailedRecordsFolder(UUID.randomUUID().toString())
-                        .withContainsHeaders(new Random().nextBoolean())
+                        .withpath("email.csv")
+                        .withquotingCaracter("\"")
+                        .withescapingCaracter("\\")
+                        .withContainsHeaders(true)
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
                                         .limit(4)
@@ -105,8 +108,8 @@ class ProxemPostServiceTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                true,
-                                                                false, list.get(it - 1)
+                                                                list.get(it - 1),
+                                                                false, true
                                                         )
                                                         .get()
                                         )
@@ -115,8 +118,9 @@ class ProxemPostServiceTest {
                         .build()
                         .get();
 
-
-        List<ProxemDto> proxemDtos =proxemPostService.updatePost( CSVDataToJSON((new ConnectorCSVDTO(connnectorCSV))));
+        ConnectorCSVDTO dto=(new ConnectorCSVDTO(connnectorCSV));
+        System.out.println(dto);
+        List<ProxemDto> proxemDtos =connectorCSVService.updatePost( CSVDataToJSON(dto));
         System.out.println(proxemDtos );
 
 

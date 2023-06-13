@@ -17,7 +17,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.keyrus.proxemconnector.connector.csv.configuration.service.ConnecteurCSVService.CSVDataToJSON;
+import static com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService.CSVDataToJSON;
+
 
 class ConnecteurCSVServiceTest {
 
@@ -36,9 +37,9 @@ class ConnecteurCSVServiceTest {
                 .withName(UUID.randomUUID().toString())
                 .withSeparator(";")
                 .withEncoding(StandardCharsets.UTF_8.name())
-                .withFolderToScan("email.csv")
-                .withArchiveFolder(UUID.randomUUID().toString())
-                .withFailedRecordsFolder(UUID.randomUUID().toString())
+                .withpath("email.csv")
+                .withquotingCaracter(UUID.randomUUID().toString())
+                .withescapingCaracter(UUID.randomUUID().toString())
                 .withContainsHeaders(new Random().nextBoolean())
                 .withHeaders(
                         IntStream.iterate(1, it -> it + 1)
@@ -50,8 +51,8 @@ class ConnecteurCSVServiceTest {
                                                         UUID.randomUUID().toString(),
                                                         it,
                                                         UUID.randomUUID().toString(),
-                                                        true,
-                                                        false, list.get(it-1)
+                                                        "meta",
+                                                        false, true
                                                 )
                                                 .get()
                                 )

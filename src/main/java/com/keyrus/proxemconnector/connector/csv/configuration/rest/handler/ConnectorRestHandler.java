@@ -2,7 +2,7 @@ package com.keyrus.proxemconnector.connector.csv.configuration.rest.handler;
 
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorCSVDTO;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
-import com.keyrus.proxemconnector.connector.csv.configuration.service.ConnectorService;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService;
 import io.vavr.control.Either;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
@@ -18,30 +18,30 @@ public final class ConnectorRestHandler {
     private static ConnectorRestHandler instance = null;
 
     public static ConnectorRestHandler instance(
-            final ConnectorService connectorService,
+            final ConnectorCSVService connectorCSVService,
             final String errorHeader,
             final MessageSource messageSource
     ) {
         if (Objects.isNull(instance))
             instance =
                     new ConnectorRestHandler(
-                            connectorService,
+                            connectorCSVService,
                             errorHeader,
                             messageSource
                     );
         return instance;
     }
 
-    private final ConnectorService connectorService;
+    private final ConnectorCSVService connectorCSVService;
     private final String errorHeader;
     private final MessageSource messageSource;
 
     private ConnectorRestHandler(
-            final ConnectorService connectorService,
+            final ConnectorCSVService connectorCSVService,
             final String errorHeader,
             final MessageSource messageSource
     ) {
-        this.connectorService = connectorService;
+        this.connectorCSVService = connectorCSVService;
         this.errorHeader = errorHeader;
         this.messageSource = messageSource;
     }
@@ -52,9 +52,9 @@ public final class ConnectorRestHandler {
     ) {
         return
                 ConnectorRestHandler.convertConfigurationDTOToConfigurationThenApplyOnServiceOperation(
-                        this.connectorService,
+                        this.connectorCSVService,
                         connectorCSVDTO,
-                        ConnectorService::create,
+                        ConnectorCSVService::create,
                         languageCode,
                         this.errorHeader,
                         this.messageSource
@@ -67,9 +67,9 @@ public final class ConnectorRestHandler {
     ) {
         return
                 ConnectorRestHandler.convertConfigurationDTOToConfigurationThenApplyOnServiceOperation(
-                        this.connectorService,
+                        this.connectorCSVService,
                         connectorCSVDTO,
-                        ConnectorService::update,
+                        ConnectorCSVService::update,
                         languageCode,
                         this.errorHeader,
                         this.messageSource
@@ -81,7 +81,7 @@ public final class ConnectorRestHandler {
             final String languageCode
     ) {
         return
-                this.connectorService
+                this.connectorCSVService
                         .delete(id)
                         .mapLeft(serviceError ->
                                 ConnectorRestHandler.<ConnectorCSVDTO>serviceErrorToRestResponse(
@@ -98,7 +98,7 @@ public final class ConnectorRestHandler {
                         );
     }
     public ResponseEntity<Collection<ConnectorCSVDTO>> findAll(final String languageCode) {
-        return this.connectorService
+        return this.connectorCSVService
                 .findAll()
                 .mapLeft(serviceError ->
                         ConnectorRestHandler.<Collection<ConnectorCSVDTO>>serviceErrorToRestResponse(
@@ -114,7 +114,7 @@ public final class ConnectorRestHandler {
     }
     public ResponseEntity<ConnectorCSVDTO> findOneByName(final String name, String languageCode) {
         return
-                this.connectorService
+                this.connectorCSVService
                         .findOneByName(name)
                         .mapLeft(serviceError ->
                                 ConnectorRestHandler.<ConnectorCSVDTO>serviceErrorToRestResponse(
@@ -133,7 +133,7 @@ public final class ConnectorRestHandler {
     }
     public ResponseEntity<ConnectorCSVDTO> findOneById(final String id, String languageCode) {
         return
-                this.connectorService
+                this.connectorCSVService
                         .findOneById(id)
                         .mapLeft(serviceError ->
                                 ConnectorRestHandler.<ConnectorCSVDTO>serviceErrorToRestResponse(
@@ -151,7 +151,7 @@ public final class ConnectorRestHandler {
 
     }
     public ResponseEntity<Collection<ConnectorCSVDTO>> findManyByNameContainsIgnoreCase(final String name, final String languageCode) {
-        return this.connectorService
+        return this.connectorCSVService
                 .findManyByNameContainsIgnoreCase(name)
                 .mapLeft(serviceError ->
                         ConnectorRestHandler.<Collection<ConnectorCSVDTO>>serviceErrorToRestResponse(
@@ -182,9 +182,9 @@ public final class ConnectorRestHandler {
     }
 
     private static ResponseEntity<ConnectorCSVDTO> convertConfigurationDTOToConfigurationThenApplyOnServiceOperation(
-            final ConnectorService connectorService,
+            final ConnectorCSVService connectorCSVService,
             final ConnectorCSVDTO connectorCSVDTO,
-            final BiFunction<ConnectorService, ConnectorCSV, Either<ConnectorService.Error, ConnectorCSV>> serviceOperation,
+            final BiFunction<ConnectorCSVService, ConnectorCSV, Either<ConnectorCSVService.Error, ConnectorCSV>> serviceOperation,
             final String languageCode,
             final String errorHeader,
             final MessageSource messageSource
@@ -198,7 +198,7 @@ public final class ConnectorRestHandler {
                         )
                         .flatMap(
                                 ConnectorRestHandler.executeOnService(
-                                        connectorService,
+                                        connectorCSVService,
                                         serviceOperation,
                                         languageCode,
                                         errorHeader,
@@ -213,8 +213,8 @@ public final class ConnectorRestHandler {
     }
 
     private static Function<ConnectorCSV, Either<ResponseEntity<ConnectorCSVDTO>, ConnectorCSV>> executeOnService(
-            final ConnectorService connectorService,
-            final BiFunction<ConnectorService, ConnectorCSV, Either<ConnectorService.Error, ConnectorCSV>> serviceOperation,
+            final ConnectorCSVService connectorCSVService,
+            final BiFunction<ConnectorCSVService, ConnectorCSV, Either<ConnectorCSVService.Error, ConnectorCSV>> serviceOperation,
             final String languageCode,
             final String errorHeader,
             final MessageSource messageSource
@@ -222,7 +222,7 @@ public final class ConnectorRestHandler {
         return
                 configuration ->
                         serviceOperation.apply(
-                                        connectorService,
+                                        connectorCSVService,
                                         configuration
                                 )
                                 .mapLeft(serviceError ->
@@ -265,13 +265,13 @@ public final class ConnectorRestHandler {
     }
 
     private static <RESPONSE> ResponseEntity<RESPONSE> serviceErrorToRestResponse(
-            final ConnectorService.Error serviceError,
+            final ConnectorCSVService.Error serviceError,
             final String languageCode,
             final String errorHeader,
             final MessageSource messageSource
     ) {
         return
-                serviceError instanceof ConnectorService.Error.IO
+                serviceError instanceof ConnectorCSVService.Error.IO
                         ?
                         ResponseEntity
                                 .internalServerError()

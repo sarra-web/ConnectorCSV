@@ -6,16 +6,19 @@ public abstract class Connector {
     protected final String id;
     protected final String name;
     protected final Collection<Field> fields;
-    //  private final Project project;
+    //protected final Project project;
 
     protected Connector(
             final String id,
             final String name,
             final Collection<Field> fields
+            //,
+            //Project project
     ) {
         this.id = id;
         this.name = name;
         this.fields = fields;
+      //  this.project = project;
     }
 
 

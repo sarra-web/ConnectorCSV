@@ -1,16 +1,21 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.config;
 
-import com.keyrus.proxemconnector.connector.csv.configuration.repository.ConnectorDatabaseRepository;
-import com.keyrus.proxemconnector.connector.csv.configuration.repository.ConnectorJDBCDatabaseRepository;
-import com.keyrus.proxemconnector.connector.csv.configuration.repository.ConnectorRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.ConnectorDatabaseRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.ConnectorJDBCDatabaseRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.ConnectorRepository;
 import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ConnectorRestHandler;
-import com.keyrus.proxemconnector.connector.csv.configuration.service.ConnectorService;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
+@EnableScheduling
+//@ConditionalOnProperty(name = "scheduler.enabled",matchIfMissing = true)
+@EnableAsync
 public class ConfigurationConfig {
 
     @Bean
@@ -24,24 +29,24 @@ public class ConfigurationConfig {
     }
 
     @Bean
-    public ConnectorService configurationService(
+    public ConnectorCSVService configurationService(
             final ConnectorRepository connectorRepository
     ) {
         return
-                ConnectorService.instance(
+                ConnectorCSVService.instance(
                         connectorRepository
                 );
     }
 
     @Bean
     public ConnectorRestHandler configurationRestHandler(
-            final ConnectorService connectorService,
+            final ConnectorCSVService connectorCSVService,
             @Value("${connectors.rest.error-header:error}") final String errorHeader,
             final ResourceBundleMessageSource messageSource
     ) {
         return
                 ConnectorRestHandler.instance(
-                        connectorService,
+                        connectorCSVService,
                         errorHeader,
                         messageSource
                 );

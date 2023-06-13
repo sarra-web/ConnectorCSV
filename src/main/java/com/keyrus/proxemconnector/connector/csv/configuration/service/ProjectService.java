@@ -2,7 +2,7 @@ package com.keyrus.proxemconnector.connector.csv.configuration.service;
 
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ProjectDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Project;
-import com.keyrus.proxemconnector.connector.csv.configuration.repository.ProjectRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.project.ProjectRepository;
 import io.vavr.control.Either;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
