@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:4200")
+import java.util.List;
+
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/squeduler")
 public class SquedulerController {
@@ -19,18 +21,18 @@ public class SquedulerController {
     @Autowired
     private SquedulerJDBC squedulerJDBC;
 
-    /*@GetMapping("/ConnectorDAOs/{ConnectorDAOId}/SquedulerDAOs")
+    @GetMapping("/ConnectorDAOs/{ConnectorDAOId}/SquedulerDAOs")
     public ResponseEntity<List<SquedulerDAO>> getAllSquedulerDAOsByConnectorDAOId(@PathVariable(value = "ConnectorDAOId") String connectorDAOId) {
         if (!connectorJDBCDatabaseRepository.existsById(connectorDAOId)) {
             throw new ResourceNotFoundException("Not found ConnectorDAO with id = " + connectorDAOId);
         }
 
-        List<SquedulerDAO> squedulerDAOs = squedulerJDBC.findByConnectorId(connectorDAOId);
+        List<SquedulerDAO> squedulerDAOs = squedulerJDBC.findByConnectorDAOId(connectorDAOId);
         return new ResponseEntity<>(squedulerDAOs, HttpStatus.OK);
-    }*/
+    }
 
     @GetMapping("/SquedulerDAOs/{id}")
-    public ResponseEntity<SquedulerDAO> getSquedulerDAOsByConnectorDAOId(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<SquedulerDAO> getSquedulerById(@PathVariable(value = "id") Long id) {
         SquedulerDAO SquedulerDAO = squedulerJDBC.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found SquedulerDAO with id = " + id));
 
@@ -65,13 +67,13 @@ public class SquedulerController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-  /*  @DeleteMapping("/ConnectorDAOs/{ConnectorDAOId}/SquedulerDAOs")
+   @DeleteMapping("/ConnectorDAOs/{ConnectorDAOId}/SquedulerDAOs")
     public ResponseEntity<List<SquedulerDAO>> deleteAllSquedulerDAOsOfConnectorDAO(@PathVariable(value = "ConnectorDAOId") String connectorDAOId) {
         if (!connectorJDBCDatabaseRepository.existsById(connectorDAOId)) {
             throw new ResourceNotFoundException("Not found ConnectorDAO with id = " + connectorDAOId);
         }
 
-        squedulerJDBC.deleteByConnectorId(connectorDAOId);
+        squedulerJDBC.deleteByConnectorDAOId(connectorDAOId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }*/
+    }
 }

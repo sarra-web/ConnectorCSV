@@ -35,9 +35,9 @@ public class ProjectDatabaseRepository implements ProjectRepository{
     private final ProjectJDBCDatabaseRepository projectJDBCDatabaseRepository;
 
     private ProjectDatabaseRepository(
-            final ProjectJDBCDatabaseRepository ProjectJDBCDatabaseRepository
+            final ProjectJDBCDatabaseRepository projectJDBCDatabaseRepository
     ) {
-        this.projectJDBCDatabaseRepository = ProjectJDBCDatabaseRepository;
+        this.projectJDBCDatabaseRepository = projectJDBCDatabaseRepository;
     }
 
     @Override

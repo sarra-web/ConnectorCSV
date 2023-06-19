@@ -2,6 +2,7 @@ package com.keyrus.proxemconnector.connector.csv.configuration.repository.csvCon
 
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorCSVDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.project.ProjectJDBCDatabaseRepository;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import java.util.stream.Stream;
 
 public final class ConnectorDatabaseRepository implements ConnectorRepository {
 
+    private static ProjectJDBCDatabaseRepository projectJDBCDatabaseRepository;
     private static ConnectorDatabaseRepository instance = null;
 
     public static ConnectorDatabaseRepository instance(
@@ -37,7 +39,6 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
     ) {
         this.connectorJDBCDatabaseRepository = connectorJDBCDatabaseRepository;
     }
-
     @Override
     public Either<Error, ConnectorCSV> create(
             final ConnectorCSV connectorCSV
@@ -47,6 +48,27 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
                         ConnectorDatabaseRepository.createConfiguration(
                                 connectorCSV,
                                 this.connectorJDBCDatabaseRepository
+                        ),
+                        ConnectorDatabaseRepository.checkConfigurationIdDoesNotExist(
+                                connectorCSV.id(),
+                                this.connectorJDBCDatabaseRepository
+                        ),
+                        ConnectorDatabaseRepository.checkConfigurationNameDoesNotExist(
+                                connectorCSV.name(),
+                                this.connectorJDBCDatabaseRepository
+                        )
+                );
+    }
+
+    @Override
+    public Either<Error, ConnectorCSV> create2(
+            final ConnectorCSV connectorCSV,String projectId
+    ) {
+        return
+                ConnectorDatabaseRepository.checkThenExecute(
+                        ConnectorDatabaseRepository.createConfiguration2(
+                                connectorCSV,
+                                this.connectorJDBCDatabaseRepository,projectId
                         ),
                         ConnectorDatabaseRepository.checkConfigurationIdDoesNotExist(
                                 connectorCSV.id(),
@@ -373,7 +395,6 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
                                 )
                 );
     }
-
     private static Supplier<Either<Error, ConnectorCSV>> createConfiguration(
             final ConnectorCSV connectorCSV,
             final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository
@@ -388,6 +409,27 @@ public final class ConnectorDatabaseRepository implements ConnectorRepository {
                                         )
                                 )
                 );
+    }
+
+    private static Supplier<Either<Error, ConnectorCSV>> createConfiguration2(
+            final ConnectorCSV connectorCSV,
+            final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository
+            ,final String idProject
+    ) {
+        ConnectorCSVDAO connectorCSVDAO=new ConnectorCSVDAO(
+                connectorCSV);
+       //  connectorCSVDAO.setProjectDAO(projectJDBCDatabaseRepository.findOneById(idProject));
+
+
+        return
+                ConnectorDatabaseRepository.executeOnRepositoryForSingleResult(
+                        connectorJDBCDatabaseRepository,
+                        it ->
+                                it.save(connectorCSVDAO
+
+                                        )
+                                );
+
     }
 
     private static Supplier<Either<Error, ConnectorCSV>> executeOnRepositoryForSingleResult(

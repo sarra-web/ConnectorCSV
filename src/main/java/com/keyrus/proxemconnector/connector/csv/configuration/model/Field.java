@@ -1,5 +1,6 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.model;
 
+import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.FieldType;
 import io.vavr.control.Either;
 import lombok.Data;
 
@@ -20,7 +21,7 @@ public final class Field {
     private final String name;
     private final int position;
 
-    private final String field_type;
+    private final FieldType field_type;
     private final String meta;
     private final boolean partOfDocumentIdentity;
     private final boolean included;
@@ -33,7 +34,7 @@ public final class Field {
             final String meta,
             // final boolean partOfDocumentIdentity,
             //  final boolean canBeNullOrEmpty,
-            final String field_type,
+            final FieldType field_type,
             boolean partOfDocumentIdentity, boolean included) {
         this.id = id;
         this.referenceConnector = referenceConnector;
@@ -67,7 +68,7 @@ public final class Field {
     }
 
 
-    public String field_type(){ return this.field_type; };
+    public FieldType field_type(){ return this.field_type; };
 
     public String meta() {
         return this.meta;
@@ -105,7 +106,7 @@ public final class Field {
             final String name,
             final int position,
             final String meta,
-            final String field_type,
+            final FieldType field_type,
             final boolean partofDocumentIdentity,
             final boolean included
     ) {
@@ -157,7 +158,7 @@ public final class Field {
             final String name,
             final int position,
             final String meta,
-            final String field_type,
+            final FieldType field_type,
             final boolean partOfDocumentIdentity,
             final boolean included
     ) {
@@ -170,7 +171,8 @@ public final class Field {
                                 position,
                                 meta,
                                 field_type,
-                                partOfDocumentIdentity, included);
+                                partOfDocumentIdentity
+                                , included);
     }
 
     private static Supplier<Optional<Error>> checkId(

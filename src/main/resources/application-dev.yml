@@ -1,6 +1,9 @@
 server:
   port: 8081
 spring:
+  logging:
+    level:
+      com.keyrus.proxemconnector.connector.csv.configuration.rest.router: DEBUG
   application:
     name: proxemconnectordev
   sql:

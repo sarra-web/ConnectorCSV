@@ -23,7 +23,8 @@ public record ConnectorCSVDTO(
         String escapingCaracter,
         boolean containsHeaders,
         Collection<FieldDTO> headers
-       // ProjectDTO projectDTO
+
+       //ProjectDTO projectDTO
 ) {
 
     public ConnectorCSVDTO(
@@ -39,6 +40,7 @@ public record ConnectorCSVDTO(
                 connectorCSV.escapingCaracter(),
                 connectorCSV.containsHeaders(),
                 ConnectorCSVDTO.headersToHeaderDTOs(connectorCSV.fields())
+                //,connectorCSV.id()
 
                 //, ConnectorCSVDTO.projectToProjectDTO(connectorCSV.project())
         );

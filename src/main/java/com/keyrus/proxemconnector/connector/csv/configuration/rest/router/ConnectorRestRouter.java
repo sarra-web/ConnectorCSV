@@ -8,6 +8,9 @@ import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.ConnectorJDBCDatabaseRepository;
 import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ConnectorRestHandler;
 import com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,12 +28,13 @@ import static com.keyrus.proxemconnector.connector.csv.configuration.service.csv
 import static org.springframework.http.HttpStatus.OK;
 
 
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/configuration")
+@Slf4j
 public class ConnectorRestRouter {
 
-
+Logger logger= LoggerFactory.getLogger(ConnectorRestRouter.class);
     private final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository;
     private final ConnectorRestHandler connectorRestHandler;
 
@@ -62,11 +66,23 @@ public class ConnectorRestRouter {
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Collection<ConnectorCSVDTO>> findAll(
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
-    ) {
+    ) {//logger.info("getAll is called");
         return this.connectorRestHandler.findAll(
                 languageCode
         );
+
+
     }
+
+   /* @GetMapping("/message")
+    public String getMessage(){
+        logger.info("[getMessage] info message");
+        logger.warn("[getMessage] warn message");
+        logger.error("[getMessage] error message");
+        logger.debug("[getMessage] debug message");
+        logger.trace("[getMessage] trace message");
+        return "open console to show";
+    }*/
 
 
     @GetMapping("/connectors")
@@ -168,6 +184,18 @@ public class ConnectorRestRouter {
                                 languageCode
                         );
     }
+    @PostMapping(value = "add/{idProject}",produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ConnectorCSVDTO> create2(@PathVariable(value = "idProject") final String idProject,
+            @RequestBody final ConnectorCSVDTO connectorCSVDTO,
+            @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
+    ) {
+        return
+                this.connectorRestHandler
+                        .create2(
+                                idProject,connectorCSVDTO,
+                                languageCode
+                        );
+    }
 
 
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
@@ -242,7 +270,7 @@ public class ConnectorRestRouter {
 
     public static void main(String[] args) {
         Timer timer = new Timer();
-        int a=60;
+        int a=2;
         timer.schedule(new LireFichierTask(), 0, a * 1000); // Planifie la tâche toutes les minutes
     }
 
@@ -263,6 +291,9 @@ public class ConnectorRestRouter {
             }
         }
     }
+
+
+
 
 
 }

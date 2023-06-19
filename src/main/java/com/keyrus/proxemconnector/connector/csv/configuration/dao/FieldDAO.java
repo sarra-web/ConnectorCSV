@@ -1,12 +1,10 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.dao;
 
 
+import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.FieldType;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import io.vavr.control.Either;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -30,9 +28,9 @@ public final class FieldDAO implements Serializable {
     @Column(name = "included", nullable = false, unique = false, insertable = true, updatable = true)
     private boolean included;
 
-   // @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     @Column(name = "field_type", nullable = false)
-    private String field_type;
+    private FieldType FieldType;
 
 
     public FieldDAO() {
@@ -45,7 +43,8 @@ public final class FieldDAO implements Serializable {
             int position,
             String meta,
             boolean partOfDocumentIdentity,
-            boolean included, String field_type
+            boolean included
+            , FieldType FieldType
     ) {
         this.id = id;
         this.referenceConnector = referenceConnector;
@@ -54,7 +53,7 @@ public final class FieldDAO implements Serializable {
         this.meta = meta;
         this.partOfDocumentIdentity = partOfDocumentIdentity;
         this.included = included;
-        this.field_type = field_type;
+        this.FieldType = FieldType;
     }
 
     public FieldDAO(
@@ -67,7 +66,8 @@ public final class FieldDAO implements Serializable {
                 field.position(),
                 field.meta(),
                 field.partOfDocumentIdentity(),
-                field.isIncluded(),field.getField_type());
+                field.isIncluded()
+                ,field.getField_type());
     }
 
     public String getId() {
@@ -94,12 +94,12 @@ public final class FieldDAO implements Serializable {
         this.name = name;
     }
 
-    public String getType() {
-        return field_type;
+    public FieldType getType() {
+        return FieldType;
     }
 
-    public void setType(String field_type) {
-        this.field_type = field_type;
+    public void setType(FieldType FieldType) {
+        this.FieldType = FieldType;
     }
 
     public int getPosition() {
@@ -142,7 +142,7 @@ public final class FieldDAO implements Serializable {
                         this.name,
                         this.position,
                         this.meta,
-                        this.field_type,
+                        this.FieldType,
                         this.partOfDocumentIdentity,this.included
                 );
     }

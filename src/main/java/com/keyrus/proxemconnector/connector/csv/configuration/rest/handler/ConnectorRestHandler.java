@@ -61,6 +61,24 @@ public final class ConnectorRestHandler {
                 );
     }
 
+    public ResponseEntity<ConnectorCSVDTO> create2(String idProject,
+            final ConnectorCSVDTO connectorCSVDTO,
+            final String languageCode
+    ) {
+        return
+                ConnectorRestHandler.convertConfigurationDTOToConfigurationThenApplyOnServiceCreateOperation(
+                        this.connectorCSVService,
+                        connectorCSVDTO
+                        ,idProject,
+                        ConnectorCSVService::create2,
+                        languageCode,
+                        this.errorHeader,
+                        this.messageSource
+                );
+    }
+
+
+
     public ResponseEntity<ConnectorCSVDTO> update(
             final ConnectorCSVDTO connectorCSVDTO,
             final String languageCode
@@ -211,6 +229,38 @@ public final class ConnectorRestHandler {
                                 Function.identity()
                         );
     }
+    private static ResponseEntity<ConnectorCSVDTO> convertConfigurationDTOToConfigurationThenApplyOnServiceCreateOperation(
+            final ConnectorCSVService connectorCSVService,
+            final ConnectorCSVDTO connectorCSVDTO
+            ,final String idProject,
+            final  TriFunction<ConnectorCSVService, ConnectorCSV,String, Either<ConnectorCSVService.Error, ConnectorCSV>>  serviceOperation,
+            final String languageCode,
+            final String errorHeader,
+            final MessageSource messageSource
+    ) {
+        return
+                ConnectorRestHandler.<ConnectorCSVDTO>configurationDTOToConfiguration(
+                                connectorCSVDTO,
+                                languageCode,
+                                errorHeader,
+                                messageSource
+                        )
+                        .flatMap(
+                                ConnectorRestHandler.executeOnCreateService(
+                                        connectorCSVService,
+                                        serviceOperation,
+                                        languageCode,
+                                        errorHeader,
+                                        messageSource
+                                        ,idProject
+                                )
+                        )
+                        .map(ConnectorRestHandler::toOkResponse)
+                        .fold(
+                                Function.identity(),
+                                Function.identity()
+                        );
+    }
 
     private static Function<ConnectorCSV, Either<ResponseEntity<ConnectorCSVDTO>, ConnectorCSV>> executeOnService(
             final ConnectorCSVService connectorCSVService,
@@ -224,6 +274,29 @@ public final class ConnectorRestHandler {
                         serviceOperation.apply(
                                         connectorCSVService,
                                         configuration
+                                )
+                                .mapLeft(serviceError ->
+                                        ConnectorRestHandler.serviceErrorToRestResponse(
+                                                serviceError,
+                                                languageCode,
+                                                errorHeader,
+                                                messageSource
+                                        )
+                                );
+    }
+    private static Function<ConnectorCSV, Either<ResponseEntity<ConnectorCSVDTO>, ConnectorCSV>> executeOnCreateService(
+            final ConnectorCSVService connectorCSVService,
+            final TriFunction<ConnectorCSVService, ConnectorCSV,String, Either<ConnectorCSVService.Error, ConnectorCSV>> serviceOperation,
+            final String languageCode,
+            final String errorHeader,
+            final MessageSource messageSource
+            ,final String idProject
+    ) {
+        return
+                configuration->
+                        serviceOperation.apply(
+                                        connectorCSVService
+                                        ,configuration,idProject
                                 )
                                 .mapLeft(serviceError ->
                                         ConnectorRestHandler.serviceErrorToRestResponse(
@@ -357,5 +430,15 @@ public final class ConnectorRestHandler {
         } catch (Exception exception) {
             return code;
         }
+    }
+}
+@FunctionalInterface
+ interface TriFunction<T, U, V, R> {
+
+    R apply(T t, U u, V v);
+
+    default <K> TriFunction<T, U, V, K> andThen(Function<? super R, ? extends K> after) {
+        Objects.requireNonNull(after);
+        return (T t, U u, V v) -> after.apply(apply(t, u, v));
     }
 }

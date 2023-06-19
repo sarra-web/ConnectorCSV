@@ -20,12 +20,32 @@ public class SquedulerDAO implements Serializable {
     @Id
     @Column(name = "id", nullable = false, unique = true, insertable = true, updatable = true)
     private Long id;
-
     @Column(name = "name")
     private String name;
+
+  //
+  // @Enumerated(EnumType.STRING)
+    @Column(name = "scan_mode")
+    private String scanMode;
+    /*@Column(name = "checkPoint")
+    private String scheckPoint;
+    @Column(name = "s")
+    private String s;*/
+
+    @Column(name = "scan_type")
+    private String scanType;
+    @Column(name = "starts_time")
+    private String startsTime;
+    @Column(name = "execution_time")
+    private String executionTime;
+
+
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "connector_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private ConnectorDAO connectorDAO;
+
+
 }

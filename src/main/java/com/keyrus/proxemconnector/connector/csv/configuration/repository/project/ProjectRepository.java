@@ -11,9 +11,9 @@ import java.util.Collection;
 
 public interface ProjectRepository {
 
-    Either<ProjectRepository.Error, Project> create(final Project Project);
+    Either<ProjectRepository.Error, Project> create(final Project project);
 
-    Either<ProjectRepository.Error, Project> update(final Project Project);
+    Either<ProjectRepository.Error, Project> update(final Project project);
 
     Either<ProjectRepository.Error, Project> delete(final String id);
     Either<ProjectRepository.Error, Collection<Project>>  findAll();

@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS connector (
     escaping_caracter VARCHAR(255) NOT NULL CHECK(escaping_caracter <> ''),
     contains_headers BOOLEAN NOT NULL,
     PRIMARY KEY (id)
+
 );
 
 CREATE TABLE IF NOT EXISTS field (
@@ -34,7 +35,30 @@ CREATE TABLE IF NOT EXISTS field (
 CREATE TABLE IF NOT EXISTS scheduler (
     id INTEGER NOT NULL ,
     name VARCHAR(255) NOT NULL CHECK(name <> ''),
+    scan_mode VARCHAR(255),
+    scan_type VARCHAR(255),
+    starts_time VARCHAR(255),
+    execution_time VARCHAR(255),
     PRIMARY KEY (id),
     connector_id VARCHAR(255)  NOT NULL REFERENCES connector(id)
-
 );
+
+CREATE TABLE IF NOT EXISTS roles (
+    id INTEGER NOT NULL ,
+    name VARCHAR(255) NOT NULL CHECK(name <> ''),
+    PRIMARY KEY (id)
+    );
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER NOT NULL ,
+        username VARCHAR(255) NOT NULL CHECK(username <> ''),
+        email VARCHAR(255),
+        password VARCHAR(255),
+        PRIMARY KEY (id)
+    );
+        CREATE TABLE IF NOT EXISTS user_roles (
+            user_id INTEGER NOT NULL  REFERENCES users(id) ,
+            role_id INTEGER NOT NULL REFERENCES roles(id),
+
+            PRIMARY KEY (user_id,role_id)
+        );
+

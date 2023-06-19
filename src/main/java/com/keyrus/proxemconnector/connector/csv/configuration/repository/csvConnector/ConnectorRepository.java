@@ -10,8 +10,9 @@ import java.util.Collection;
 
 public interface ConnectorRepository {
 
-    Either<Error, ConnectorCSV> create(final ConnectorCSV connectorCSV);
+    Either<Error, ConnectorCSV> create2(final ConnectorCSV connectorCSV,String idProject);
 
+    Either<Error, ConnectorCSV> create(final ConnectorCSV connectorCSV);
     Either<Error, ConnectorCSV> update(final ConnectorCSV connectorCSV);
 
     Either<Error, ConnectorCSV> delete(final String id);

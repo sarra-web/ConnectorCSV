@@ -19,7 +19,7 @@ import static java.time.LocalTime.now;
 import static java.util.Map.of;
 import static org.springframework.http.HttpStatus.OK;
 
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/project")
 public class ProjectRestRouter {

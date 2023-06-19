@@ -33,11 +33,11 @@ public final class ConnectorCSV extends Connector{
             final String escapingCaracter,
             final boolean containsHeaders,
             final Collection<Field> fields
-            //, final Project project
-            ) {
+            , final Project project
+    ) {
         super(id,name,fields
-           // , project
-            );
+                , project
+        );
         this.separator = separator;
         this.encoding = encoding;
         this.path = path;
@@ -55,7 +55,7 @@ public final class ConnectorCSV extends Connector{
             final String escapingCaracter,
             final boolean containsHeaders,
             final Collection<Field> fields
-            //, final Project project
+            , final Project project
     ) {
         this(
                 id,
@@ -66,7 +66,7 @@ public final class ConnectorCSV extends Connector{
                 quotingCaracter,
                 escapingCaracter,
                 containsHeaders,fields
-               // project
+                , project
         );
     }
 
@@ -79,8 +79,7 @@ public final class ConnectorCSV extends Connector{
             final String escapingCaracter,
             final boolean containsHeaders,
             final Collection<Field> fields
-            //,
-           // final Project project
+            , final Project project
     ) {
         this(
                 id,
@@ -92,10 +91,11 @@ public final class ConnectorCSV extends Connector{
                 escapingCaracter,
                 containsHeaders,
                 fields
-                //,
-        //        project
+                , project
         );
     }
+
+
 
     public String name() {
         return this.name;
@@ -132,9 +132,9 @@ public final class ConnectorCSV extends Connector{
     public Collection<Field> fields() {
         return this.fields;
     }
-   /*public Project project() {
+    public Project project() {
         return this.project;
-    }*/
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -191,7 +191,7 @@ public final class ConnectorCSV extends Connector{
                                 this.escapingCaracter,
                                 this.containsHeaders,
                                 this.fields
-                             //   this.project
+                                ,this.project
                         );
     }
 
@@ -205,7 +205,7 @@ public final class ConnectorCSV extends Connector{
             final String escapingCaracter,
             final boolean containsHeaders,
             final Collection<Field> fields
-           // final Project project
+            ,final Project project
     ) {
         return
                 ConnectorCSV.checkThenInstantiate(
@@ -219,7 +219,7 @@ public final class ConnectorCSV extends Connector{
                                 escapingCaracter,
                                 containsHeaders,
                                 fields
-                                //,project
+                                ,project
                         ),
                         ConnectorCSV.checkId(
                                 id
@@ -257,11 +257,11 @@ public final class ConnectorCSV extends Connector{
             final String escapingCaracter,
             final boolean containsHeaders,
             final Collection<Field> fields
-           // final Project project
+            , final Project project
     ) {
         if (
                 Objects.isNull(separator) &&
-                Objects.isNull(encoding)
+                        Objects.isNull(encoding)
         )
             return
                     () ->
@@ -273,7 +273,7 @@ public final class ConnectorCSV extends Connector{
                                     escapingCaracter,
                                     containsHeaders,
                                     fields
-                                   // , project
+                                    , project
                             );
         if (Objects.isNull(encoding))
             return
@@ -287,7 +287,7 @@ public final class ConnectorCSV extends Connector{
                                     escapingCaracter,
                                     containsHeaders,
                                     fields
-                                    //,project
+                                    ,project
                             );
         return
 
@@ -302,7 +302,7 @@ public final class ConnectorCSV extends Connector{
                                 escapingCaracter,
                                 containsHeaders,
                                 fields
-                                //project
+                                ,project
                         );
     }
 
@@ -393,13 +393,13 @@ public final class ConnectorCSV extends Connector{
                         ConnectorCSV.checkHeaderFormat(fields)
                                 .or(() ->
                                         ConnectorCSV.checkHeadersIds(fields)
-                                );
-                                //.or(() ->
-                                      //  ConnectorCSV.checkHeadersPositions(fields)
-                               // );
+                                )
+                                .or( () ->
+                ConnectorCSV.checkHeadersPositions(fields)
+        );
     }
 
-  /*  private static Optional<Error> checkHeadersPositions(
+    private static Optional<Error> checkHeadersPositions(
             final Collection<Field> fields
     ) {
         return
@@ -408,7 +408,7 @@ public final class ConnectorCSV extends Connector{
                         Error.HeadersSequenceMalformed::new,
                         ConnectorCSV::checkHeadersPositionSequence
                 );
-    }*/
+    }
 
     private static Optional<Error> checkHeadersIds(
             final Collection<Field> fields
@@ -436,21 +436,21 @@ public final class ConnectorCSV extends Connector{
     ) {
         return
                 Objects.nonNull(fields) &&
-                fields.stream()
-                        .anyMatch(Field::partOfDocumentIdentity);
+                        fields.stream()
+                                .anyMatch(Field::partOfDocumentIdentity);
     }
 
-   /* private static boolean checkHeadersPositionSequence(
+    private static boolean checkHeadersPositionSequence(
             final Collection<Field> fields
     ) {
         return
                 Objects.nonNull(fields) &&
-                fields.stream()
-                        .map(Field::position)
-                        .max(Comparator.naturalOrder())
-                        .map(max -> fields.size() == max)
-                        .orElse(false);
-    }*/
+                        fields.stream()
+                                .map(Field::position)
+                                .max(Comparator.naturalOrder())
+                                .map(max -> fields.size() == max)
+                                .orElse(false);
+    }
 
     private static boolean checkSeparatorIsNotComposedOfLettersOrDigits(
             final String separator
@@ -624,9 +624,10 @@ public final class ConnectorCSV extends Connector{
                             this.quotingCaracter,
                             this.escapingCaracter,
                             this.containsHeaders,
-                            this.fields,
-                            this.project,
-                            projectBuilder, this.headerBuilders
+                            this.fields
+                           , this.project,
+                            projectBuilder
+                            , this.headerBuilders
                     );
         }
         public Builder withProject(
@@ -664,9 +665,10 @@ public final class ConnectorCSV extends Connector{
                             this.quotingCaracter,
                             this.escapingCaracter,
                             this.containsHeaders,
-                            this.fields,
-                            this.project,
-                            projectBuilder, this.headerBuilders
+                            this.fields
+                            ,this.project
+                            ,projectBuilder
+                            , this.headerBuilders
                     );
         }
 
@@ -688,7 +690,8 @@ public final class ConnectorCSV extends Connector{
                             this.containsHeaders,
                             this.fields,
                             this.project,
-                            projectBuilder, this.headerBuilders
+                            projectBuilder,
+                            this.headerBuilders
                     );
         }
 
@@ -708,9 +711,10 @@ public final class ConnectorCSV extends Connector{
                             this.quotingCaracter,
                             this.escapingCaracter,
                             this.containsHeaders,
-                            this.fields,
-                            this.project,
-                            projectBuilder, this.headerBuilders
+                            this.fields
+                           , this.project
+                            , projectBuilder
+                            , this.headerBuilders
                     );
         }
 
@@ -732,7 +736,8 @@ public final class ConnectorCSV extends Connector{
                             this.containsHeaders,
                             this.fields,
                             this.project,
-                            projectBuilder, this.headerBuilders
+                            projectBuilder,
+                            this.headerBuilders
                     );
         }
 
@@ -752,9 +757,10 @@ public final class ConnectorCSV extends Connector{
                             ),
                             this.escapingCaracter,
                             this.containsHeaders,
-                            this.fields,
-                            this.project,
-                            projectBuilder, this.headerBuilders
+                            this.fields
+                            ,this.project
+                          ,  projectBuilder
+                            , this.headerBuilders
                     );
         }
 
@@ -774,9 +780,10 @@ public final class ConnectorCSV extends Connector{
                                     this.escapingCaracter
                             ),
                             this.containsHeaders,
-                            this.fields,
-                            this.project,
-                            projectBuilder, this.headerBuilders
+                            this.fields
+                            , this.project
+                            ,projectBuilder
+                            , this.headerBuilders
                     );
         }
 
@@ -793,9 +800,10 @@ public final class ConnectorCSV extends Connector{
                             this.quotingCaracter,
                             this.escapingCaracter,
                             containsHeaders,
-                            this.fields,
-                            this.project,
-                            projectBuilder, this.headerBuilders
+                            this.fields
+                           ,this.project
+                           , projectBuilder
+                            , this.headerBuilders
                     );
         }
 
@@ -815,9 +823,10 @@ public final class ConnectorCSV extends Connector{
                             Builder.addToCollection(
                                     this.fields,
                                     fields
-                            ),
-                            this.project,
-                            projectBuilder, this.headerBuilders
+                            )
+                            ,this.project
+                            ,projectBuilder
+                            , this.headerBuilders
                     );
         }
 
@@ -835,12 +844,14 @@ public final class ConnectorCSV extends Connector{
                             this.quotingCaracter,
                             this.escapingCaracter,
                             this.containsHeaders,
-                            this.fields,
-                            this.project,
-                            projectBuilder, Builder.addToCollection(
-                                    this.headerBuilders,
-                                    headerBuilders
-                            )
+                            this.fields
+
+                            ,this.project
+                            ,projectBuilder
+                            , Builder.addToCollection(
+                            this.headerBuilders,
+                            headerBuilders
+                    )
                     );
         }
 
@@ -859,8 +870,8 @@ public final class ConnectorCSV extends Connector{
                                             this.path,
                                             this.quotingCaracter,
                                             this.escapingCaracter,
-                                            this.containsHeaders,
-                                            this.project
+                                            this.containsHeaders
+                                           // ,this.project
                                     )
                             )
                             .flatMap(
@@ -872,8 +883,8 @@ public final class ConnectorCSV extends Connector{
                                             this.path,
                                             this.quotingCaracter,
                                             this.escapingCaracter,
-                                            this.containsHeaders,
-                                            this.project
+                                            this.containsHeaders
+                                           , this.project
                                     )
                             );
         }
@@ -890,8 +901,7 @@ public final class ConnectorCSV extends Connector{
                             null,
                             true,
                             null,
-                           null,
-                             null,null
+                            null,null,null
                     );
         }
 
@@ -903,8 +913,8 @@ public final class ConnectorCSV extends Connector{
                 final String path,
                 final String quotingCaracter,
                 final String escapingCaracter,
-                final boolean containsHeaders,
-                final Project project
+                final boolean containsHeaders
+               // final Project project
         ) {
             return
                     headersErrors ->
@@ -919,8 +929,8 @@ public final class ConnectorCSV extends Connector{
                                                     quotingCaracter,
                                                     escapingCaracter,
                                                     containsHeaders,
-                                                    null
-                                                    //,project
+                                                    null,
+                                                   null
                                             )
                                             .fold(
                                                     Function.identity(),
@@ -939,6 +949,7 @@ public final class ConnectorCSV extends Connector{
                 final String escapingCaracter,
                 final boolean containsHeaders,
                 final Project project
+
         ) {
             return
                     fields ->
@@ -950,9 +961,11 @@ public final class ConnectorCSV extends Connector{
                                     path,
                                     quotingCaracter,
                                     escapingCaracter,
-                                    containsHeaders,
-                                    fields
-                                    //,project
+                                    containsHeaders
+                                    ,fields
+                                    ,project
+
+
                             );
         }
 
@@ -972,9 +985,9 @@ public final class ConnectorCSV extends Connector{
                             ? Either.right(validHeaders.get())
                             : Either.left(errors);
         }
-        /*private static Either<Collection<Error>, Project> buildProject(
+        private static Either<Collection<Error>, Project> buildProject(
                 final Project project,
-                final Supplier<Either<Collection<Project.Error>, Field>> projectBuilder
+                final Supplier<Either<Collection<Project.Error>, Project>> projectBuilder
         ) {
             final var errors = Builder.buildProjectForErrors(projectBuilder);
             final Supplier<Project> validProject =
@@ -987,7 +1000,24 @@ public final class ConnectorCSV extends Connector{
                     errors.isEmpty()
                             ? Either.right(validProject.get())
                             : Either.left(errors);
-        }*/
+        }
+        private static Collection<Error> buildProjectForErrors(
+                final Supplier<Either<Collection<Project.Error>, Project>> projectBuilder
+        ) {
+            return
+                    Objects.nonNull(List.of(projectBuilder))
+                            ?
+                            List.of(projectBuilder).stream()
+                                    .map(Supplier::get)
+                                    .filter(Either::isLeft)
+                                    .map(Either::getLeft)
+                                    .flatMap(Collection::stream)
+                                    .map(Builder::projectErrorToConfigurationError)
+                                    .collect(Collectors.toUnmodifiableSet())
+                            :
+                            Collections.emptySet();
+
+        }
 
         private static Collection<Field> mergeHeaders(
                 final Collection<Field> fields,
@@ -1007,19 +1037,24 @@ public final class ConnectorCSV extends Connector{
                                     Collections.emptySet()
                     );
         }
-      /*  private static Project mergeProject(
+       private static Project mergeProject(
                 final Project project,
                 final Supplier <Either <Collection<Project.Error>,Project>> projectBuilder
-        ) {
-            return
+        )
+       {   //return projectBuilder.get().getOrElse(new Project("default","default","defaukt" ));
 
-                            Objects.nonNull(projectBuilder)
-                                    ?
-                                    projectBuilder.get().toStream().
+               return
+
+                               Objects.nonNull(projectBuilder)
+                                       ?
+                                       projectBuilder.get().get()
+
+                                       :
+                                       null;
 
 
 
-        }*/
+        }
 
         private static Collection<Error> buildHeadersForErrors(
                 final Collection<Supplier<Either<Collection<Field.Error>, Field>>> headerBuilders
@@ -1053,6 +1088,16 @@ public final class ConnectorCSV extends Connector{
                 return new Error.Header.MetaMalformed();
             if (headerError instanceof Field.Error.NullOrEmptyRestrictionCombination)
                 return new Error.Header.NullOrEmptyRestrictionCombination();
+            throw new IllegalStateException("header error not mapped to connector error");
+        }
+        private static Error projectErrorToConfigurationError(
+                final Project.Error projectError
+        ) {
+            if (projectError instanceof Project.Error.IdMalformed)
+                return new Error.Header.IdMalformed();
+
+            if (projectError instanceof Project.Error.NameMalformed)
+                return new Error.Header.NameMalformed();
             throw new IllegalStateException("header error not mapped to connector error");
         }
 

@@ -66,6 +66,16 @@ public final class ConnectorCSVService {
                         )
                         .mapLeft(ConnectorCSVService::repositoryErrorToServiceError);
     }
+    public Either<Error, ConnectorCSV> create2(
+            final ConnectorCSV connectorCSV ,final String idProject
+    ) {
+        return
+                this.connectorRepository
+                        .create2(
+                                connectorCSV,idProject
+                        )
+                        .mapLeft(ConnectorCSVService::repositoryErrorToServiceError);
+    }
 
     public Either<Error, ConnectorCSV> update(
             final ConnectorCSV connectorCSV
@@ -214,14 +224,14 @@ public final class ConnectorCSVService {
                 position++;//pp les lignes
                 data.setCorpusId("a0e04a5f-ab7c-4b0e-97be-af263a61ba49"/*config.getProject().getProjectName() ou project id nom doit etre unique*/);
 
-                List<FieldDTO> l =  config.headers().stream().filter(field1 -> field1.field_type().startsWith("Id")).collect(Collectors.toList());
+                List<FieldDTO> l =  config.headers().stream().filter(field1 -> field1.field_type().toString()=="Identifier").collect(Collectors.toList());
                 if ((l.isEmpty() )) {
                     String recordId = generateRecordID(position, config.path());
                     data.setExternalId(recordId);
                 } else {
                     data.setExternalId(position+"_"+values[l.get(0).position()-1]);//pour garantir l'unicité car les donne provenant des fichier j'ai pas controle sur eux
                 }
-                List<FieldDTO> l2 = config.headers().stream().filter(field1 -> field1.field_type().startsWith("Da")).collect(Collectors.toList());
+                List<FieldDTO> l2 = config.headers().stream().filter(field1 -> field1.field_type().toString()=="Date").collect(Collectors.toList());
                 if (l2.isEmpty()) {
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
                     data.setDocUtcDate(LocalDateTime.now().toString());
@@ -234,7 +244,7 @@ public final class ConnectorCSVService {
 
 
                 List<FieldDTO> l22= config.headers().stream().filter(field1 -> field1.included()==true
-                ).filter(field1 -> field1.field_type().startsWith("Me")).toList();
+                ).filter(field1 -> field1.field_type().toString()=="Meta").toList();
                 if(!l22.isEmpty()) {
                     l22.forEach(x -> {
                         Meta meta = new Meta();
@@ -248,13 +258,13 @@ public final class ConnectorCSVService {
 
                 TextPart titlePart = new TextPart();
                 titlePart.setName("title");
-                List<FieldDTO> l3=config.headers().stream().filter(field1 -> field1.field_type().startsWith("Tit")).collect(Collectors.toList());
+                List<FieldDTO> l3=config.headers().stream().filter(field1 -> field1.field_type().toString()=="Title").collect(Collectors.toList());
                 if (!l3.isEmpty()){
                 String value =values[l3.get(0).position()-1];
                 titlePart.setContent(value);
                 textPartsList.add(titlePart);}
                 TextPart bodyPart = new TextPart();
-                config.headers().stream().filter(field1 -> field1.field_type().startsWith("Text")).collect(Collectors.toList()).forEach(x -> {
+                config.headers().stream().filter(field1 -> field1.field_type().toString()=="Text").collect(Collectors.toList()).forEach(x -> {
 
                     bodyPart.setName("body");
                     if(bodyPart.getContent()!=null){
