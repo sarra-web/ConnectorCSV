@@ -13,7 +13,7 @@ public record FieldDTO(
         String id,
         String name,
         int position,
-        FieldType field_type,
+        FieldType fieldType,
         String meta,
         boolean included,
         boolean partOfDocumentIdentity
@@ -44,7 +44,7 @@ public record FieldDTO(
                         this.name,
                         this.position,
                         this.meta,
-                        this.field_type,
+                        this.fieldType,
                         this.partOfDocumentIdentity,this.included
                 );
     }

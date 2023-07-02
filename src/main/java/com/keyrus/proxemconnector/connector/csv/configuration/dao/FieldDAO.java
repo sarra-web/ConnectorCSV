@@ -30,7 +30,7 @@ public final class FieldDAO implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "field_type", nullable = false)
-    private FieldType FieldType;
+    private FieldType fieldType;
 
 
     public FieldDAO() {
@@ -53,7 +53,7 @@ public final class FieldDAO implements Serializable {
         this.meta = meta;
         this.partOfDocumentIdentity = partOfDocumentIdentity;
         this.included = included;
-        this.FieldType = FieldType;
+        this.fieldType = FieldType;
     }
 
     public FieldDAO(
@@ -67,7 +67,7 @@ public final class FieldDAO implements Serializable {
                 field.meta(),
                 field.partOfDocumentIdentity(),
                 field.isIncluded()
-                ,field.getField_type());
+                ,field.getFieldType());
     }
 
     public String getId() {
@@ -95,11 +95,11 @@ public final class FieldDAO implements Serializable {
     }
 
     public FieldType getType() {
-        return FieldType;
+        return fieldType;
     }
 
     public void setType(FieldType FieldType) {
-        this.FieldType = FieldType;
+        this.fieldType = FieldType;
     }
 
     public int getPosition() {
@@ -142,7 +142,7 @@ public final class FieldDAO implements Serializable {
                         this.name,
                         this.position,
                         this.meta,
-                        this.FieldType,
+                        this.fieldType,
                         this.partOfDocumentIdentity,this.included
                 );
     }

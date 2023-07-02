@@ -23,14 +23,15 @@ public abstract class ConnectorDAO implements Serializable {
     protected String name;
     @OneToMany(mappedBy = "referenceConnector", fetch = FetchType.EAGER, targetEntity = FieldDAO.class, cascade = CascadeType.ALL, orphanRemoval = true)
     protected Collection<FieldDAO> fields;
-
+    @Column(name = "connector_type", insertable=false, updatable=false)
+    protected String typeConnector;
    /* @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "projet_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     protected ProjectDAO projectDAO;*/
 
-    private String getId() {
+    public String getId() {
         return id;
     }
 

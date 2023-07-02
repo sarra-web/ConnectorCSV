@@ -2,9 +2,10 @@ package com.keyrus.proxemconnector.connector.csv.configuration.rest.router;
 
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorCSVDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorCSVDTO;
+import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.FieldType;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
-import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.ConnectorJDBCDatabaseRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.CSVConnectorJDBCDatabaseRepository;
 import com.keyrus.proxemconnector.initializer.PostgreSQLInitializer;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ import java.util.stream.IntStream;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ConnectorCSVRestRouterTest {
 
-    private final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository;
+    private final CSVConnectorJDBCDatabaseRepository CSVConnectorJDBCDatabaseRepository;
     private final int port;
     private final TestRestTemplate restTemplate;
     private final String baseUrl;
@@ -38,12 +39,12 @@ class ConnectorCSVRestRouterTest {
 
     @Autowired
     ConnectorCSVRestRouterTest(
-            final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository,
+            final CSVConnectorJDBCDatabaseRepository CSVConnectorJDBCDatabaseRepository,
             @Value(value = "${local.server.port}") final int port,
             final TestRestTemplate restTemplate,
             @Value("${connectors.rest.error-header:error}") final String errorHeader
     ) {
-        this.connectorJDBCDatabaseRepository = connectorJDBCDatabaseRepository;
+        this.CSVConnectorJDBCDatabaseRepository = CSVConnectorJDBCDatabaseRepository;
         this.port = port;
         this.restTemplate = restTemplate;
         baseUrl = "http://localhost:" + this.port + "/configuration";
@@ -53,22 +54,22 @@ class ConnectorCSVRestRouterTest {
 
     @BeforeAll
     void beforeAll() {
-        this.connectorJDBCDatabaseRepository.deleteAll();
+        this.CSVConnectorJDBCDatabaseRepository.deleteAll();
     }
 
     @BeforeEach
     void beforeEach() {
-        this.connectorJDBCDatabaseRepository.deleteAll();
+        this.CSVConnectorJDBCDatabaseRepository.deleteAll();
     }
 
     @AfterEach
     void afterEach() {
-        this.connectorJDBCDatabaseRepository.deleteAll();
+        this.CSVConnectorJDBCDatabaseRepository.deleteAll();
     }
 
     @AfterAll
     void afterAll() {
-        this.connectorJDBCDatabaseRepository.deleteAll();
+        this.CSVConnectorJDBCDatabaseRepository.deleteAll();
     }
 
     @Test
@@ -96,7 +97,7 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -126,7 +127,7 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -135,7 +136,7 @@ class ConnectorCSVRestRouterTest {
                         )
                         .build()
                         .get();
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration1
                 )
@@ -179,7 +180,7 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -210,7 +211,7 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -219,7 +220,7 @@ class ConnectorCSVRestRouterTest {
                         )
                         .build()
                         .get();
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration1
                 )
@@ -263,7 +264,7 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -311,7 +312,7 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -360,7 +361,7 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -390,7 +391,7 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -399,7 +400,7 @@ class ConnectorCSVRestRouterTest {
                         )
                         .build()
                         .get();
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration1
                 )
@@ -461,7 +462,7 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -470,7 +471,7 @@ class ConnectorCSVRestRouterTest {
                         )
                         .build()
                         .get();
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration
                 )
@@ -514,7 +515,7 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "meta",
+                                                                FieldType.Meta,
                                                                 false,true
                                                         )
                                                         .get()
@@ -523,7 +524,7 @@ class ConnectorCSVRestRouterTest {
                         )
                         .build()
                         .get();
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration
                 )
@@ -550,7 +551,7 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "meta",
+                                                                FieldType.Meta,
                                                                 false,true
                                                         )
                                                         .get()
@@ -559,7 +560,7 @@ class ConnectorCSVRestRouterTest {
                         )
                         .build()
                         .get();
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration
                 )
@@ -636,7 +637,7 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "meta",
+                                                                FieldType.Meta,
                                                                 false,true
                                                         )
                                                         .get()
@@ -645,7 +646,7 @@ class ConnectorCSVRestRouterTest {
                         )
                         .build()
                         .get();
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration
                 )
@@ -672,7 +673,7 @@ class ConnectorCSVRestRouterTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "meta",
+                                                                FieldType.Meta,
                                                                 false,true
                                                         )
                                                         .get()
@@ -681,12 +682,12 @@ class ConnectorCSVRestRouterTest {
                         )
                         .build()
                         .get();
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration
                 )
         );
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration2
                 )

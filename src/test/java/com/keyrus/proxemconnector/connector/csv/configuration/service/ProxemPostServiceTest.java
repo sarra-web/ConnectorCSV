@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorCSVDTO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
+import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.FieldType;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService;
@@ -29,7 +30,7 @@ class ProxemPostServiceTest {
 
     @Test
     void updatePost_test() {
-        List<String> list = List.of("titre", "identifiant", "texte", "meta");
+        List<FieldType> list = List.of(FieldType.Title, FieldType.Identifier, FieldType.Text, FieldType.Meta);
         final var id = UUID.randomUUID().toString();
         final var connnectorCSV =
                 ConnectorCSV.Builder
@@ -85,7 +86,7 @@ class ProxemPostServiceTest {
    // @Scheduled(cron = "2 * * * * *")
     //@Async
     void updatePost_test2() {
-        List<String> list = List.of("Titre", "Identifiant", "Texte", "Meta");
+        List<FieldType> list = List.of(FieldType.Title, FieldType.Identifier, FieldType.Text, FieldType.Meta);
         final var id = UUID.randomUUID().toString();
         final var connnectorCSV =
                 ConnectorCSV.Builder

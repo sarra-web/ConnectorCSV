@@ -2,10 +2,11 @@ package com.keyrus.proxemconnector.connector.csv.configuration.repository;
 
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorCSVDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.FieldDAO;
+import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.FieldType;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
-import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.ConnectorJDBCDatabaseRepository;
-import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.ConnectorRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.CSVConnectorJDBCDatabaseRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.CSVConnectorRepository;
 import com.keyrus.proxemconnector.initializer.PostgreSQLInitializer;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,36 +26,36 @@ import java.util.stream.IntStream;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ConnectorCSVRepositoryTest {
 
-    private final ConnectorRepository connectorRepository;
-    private final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository;
+    private final CSVConnectorRepository CSVConnectorRepository;
+    private final CSVConnectorJDBCDatabaseRepository CSVConnectorJDBCDatabaseRepository;
 
     @Autowired
     ConnectorCSVRepositoryTest(
-            final ConnectorRepository connectorRepository,
-            final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository
+            final CSVConnectorRepository CSVConnectorRepository,
+            final CSVConnectorJDBCDatabaseRepository CSVConnectorJDBCDatabaseRepository
     ) {
-        this.connectorRepository = connectorRepository;
-        this.connectorJDBCDatabaseRepository = connectorJDBCDatabaseRepository;
+        this.CSVConnectorRepository = CSVConnectorRepository;
+        this.CSVConnectorJDBCDatabaseRepository = CSVConnectorJDBCDatabaseRepository;
     }
 
     @BeforeAll
     void beforeAll() {
-        this.connectorJDBCDatabaseRepository.deleteAll();
+        this.CSVConnectorJDBCDatabaseRepository.deleteAll();
     }
 
     @BeforeEach
     void beforeEach() {
-        this.connectorJDBCDatabaseRepository.deleteAll();
+        this.CSVConnectorJDBCDatabaseRepository.deleteAll();
     }
 
     @AfterEach
     void afterEach() {
-        this.connectorJDBCDatabaseRepository.deleteAll();
+        this.CSVConnectorJDBCDatabaseRepository.deleteAll();
     }
 
     @AfterAll
     void afterAll() {
-        this.connectorJDBCDatabaseRepository.deleteAll();
+        this.CSVConnectorJDBCDatabaseRepository.deleteAll();
     }
 
     @Test
@@ -82,7 +83,7 @@ class ConnectorCSVRepositoryTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -112,7 +113,7 @@ class ConnectorCSVRepositoryTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -121,20 +122,20 @@ class ConnectorCSVRepositoryTest {
                         )
                         .build()
                         .get();
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration1
                 )
         );
 
         final var result =
-                this.connectorRepository
+                this.CSVConnectorRepository
                         .create(
                                 configuration2
                         )
                         .getLeft();
 
-        Assertions.assertInstanceOf(ConnectorRepository.Error.AlreadyExist.class, result);
+        Assertions.assertInstanceOf(CSVConnectorRepository.Error.AlreadyExist.class, result);
     }
 
     @Test
@@ -162,7 +163,7 @@ class ConnectorCSVRepositoryTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -193,7 +194,7 @@ class ConnectorCSVRepositoryTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -202,20 +203,20 @@ class ConnectorCSVRepositoryTest {
                         )
                         .build()
                         .get();
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration1
                 )
         );
 
         final var result =
-                this.connectorRepository
+                this.CSVConnectorRepository
                         .create(
                                 configuration2
                         )
                         .getLeft();
 
-        Assertions.assertInstanceOf(ConnectorRepository.Error.AlreadyExist.class, result);
+        Assertions.assertInstanceOf(CSVConnectorRepository.Error.AlreadyExist.class, result);
     }
 
     @Test
@@ -243,7 +244,7 @@ class ConnectorCSVRepositoryTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -254,7 +255,7 @@ class ConnectorCSVRepositoryTest {
                         .get();
 
         final var result =
-                this.connectorRepository
+                this.CSVConnectorRepository
                         .create(
                                 configuration
                         )
@@ -288,7 +289,7 @@ class ConnectorCSVRepositoryTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -299,13 +300,13 @@ class ConnectorCSVRepositoryTest {
                         .get();
 
         final var result =
-                this.connectorRepository
+                this.CSVConnectorRepository
                         .update(
                                 configuration
                         )
                         .getLeft();
 
-        Assertions.assertInstanceOf(ConnectorRepository.Error.NotFound.class, result);
+        Assertions.assertInstanceOf(CSVConnectorRepository.Error.NotFound.class, result);
     }
 
     @Test
@@ -333,7 +334,7 @@ class ConnectorCSVRepositoryTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -363,7 +364,7 @@ class ConnectorCSVRepositoryTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -372,14 +373,14 @@ class ConnectorCSVRepositoryTest {
                         )
                         .build()
                         .get();
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration1
                 )
         );
 
         final var result =
-                this.connectorRepository
+                this.CSVConnectorRepository
                         .update(
                                 configuration2
                         )
@@ -392,13 +393,13 @@ class ConnectorCSVRepositoryTest {
     @DisplayName("configuration repository must return error if delete method is called with configuration that have id does not exist")
     void configuration_repository_must_return_error_if_delete_method_is_called_with_configuration_that_have_id_does_not_exist() {
         final var result =
-                this.connectorRepository
+                this.CSVConnectorRepository
                         .delete(
                                 UUID.randomUUID().toString()
                         )
                         .getLeft();
 
-        Assertions.assertInstanceOf(ConnectorRepository.Error.NotFound.class, result);
+        Assertions.assertInstanceOf(CSVConnectorRepository.Error.NotFound.class, result);
     }
 
     @Test
@@ -426,7 +427,7 @@ class ConnectorCSVRepositoryTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -435,14 +436,14 @@ class ConnectorCSVRepositoryTest {
                         )
                         .build()
                         .get();
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration
                 )
         );
 
         final var result =
-                this.connectorRepository
+                this.CSVConnectorRepository
                         .delete(
                                 configuration.id()
                         )
@@ -475,7 +476,7 @@ class ConnectorCSVRepositoryTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "meta",
+                                                                FieldType.Meta,
                                                                 false,true
                                                         )
                                                         .get()
@@ -485,7 +486,7 @@ class ConnectorCSVRepositoryTest {
                         .build()
                         .get();
         ;
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration1
                 )
@@ -493,7 +494,7 @@ class ConnectorCSVRepositoryTest {
 
 
         final var result =
-                this.connectorRepository
+                this.CSVConnectorRepository
                         .findAll().get();
 
 
@@ -506,7 +507,7 @@ class ConnectorCSVRepositoryTest {
 
 
         final var result =
-                this.connectorRepository
+                this.CSVConnectorRepository
                         .findAll().get();
         Assertions.assertTrue(result.isEmpty());
     }
@@ -523,31 +524,31 @@ class ConnectorCSVRepositoryTest {
                                         UUID.randomUUID().toString(),
                                         it,
                                         UUID.randomUUID().toString(),
-                                        "meta",
+                                        FieldType.Meta,
                                         false,true
                                 )
                                 .get()
                 ).map(field -> new FieldDAO(field))
                 .collect(Collectors.toUnmodifiableSet());
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO("1", " ", ";", "ee", "dd", "dd", "dd", true, fields)
         );
         final var result =
-                this.connectorRepository
+                this.CSVConnectorRepository
                         .findAll().getLeft();
-        Assertions.assertInstanceOf(ConnectorRepository.Error.class, result);
+        Assertions.assertInstanceOf(CSVConnectorRepository.Error.class, result);
     }
     @Test
     @DisplayName("configuration repository must return error if findOneByName method is called with configuration that have name does not exist")
     void configuration_repository_must_return_error_if_findOneByName_method_is_called_with_configuration_that_have_id_does_not_exist() {
         final var result =
-                this.connectorRepository
+                this.CSVConnectorRepository
                         .findOneByName(
                                 UUID.randomUUID().toString()
                         )
                         .getLeft();
 
-        Assertions.assertInstanceOf(ConnectorRepository.Error.NotFound.class, result);
+        Assertions.assertInstanceOf(CSVConnectorRepository.Error.NotFound.class, result);
     }
     @Test
     @DisplayName("configuration repository must return list of Connectors if findManyByNameContainsIgnoreCase method is called with valid configuration ")
@@ -574,7 +575,7 @@ class ConnectorCSVRepositoryTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "meta",
+                                                                FieldType.Meta,
                                                                 false,true
                                                         )
                                                         .get()
@@ -606,7 +607,7 @@ class ConnectorCSVRepositoryTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "meta",
+                                                                FieldType.Meta,
                                                                 false,true
                                                         )
                                                         .get()
@@ -637,7 +638,7 @@ class ConnectorCSVRepositoryTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "meta",
+                                                                FieldType.Meta,
                                                                 false,true
                                                         )
                                                         .get()
@@ -647,17 +648,17 @@ class ConnectorCSVRepositoryTest {
                         .build()
                         .get();
         ;
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration1
                 )
         );
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration2
                 )
         );
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration3
                 )
@@ -665,7 +666,7 @@ class ConnectorCSVRepositoryTest {
 
 
         final var result =
-                this.connectorRepository
+                this.CSVConnectorRepository
                         .findManyByNameContainsIgnoreCase("BiLl").get();
         List<ConnectorCSV> connectorCSVS = List.of(configuration1, configuration2);
 

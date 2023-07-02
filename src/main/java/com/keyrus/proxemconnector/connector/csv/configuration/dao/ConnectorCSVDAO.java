@@ -37,61 +37,6 @@ public class ConnectorCSVDAO extends ConnectorDAO{
     private boolean containsHeaders;
 
 
-    public String getId() {
-        return this.id;
-    }
-    public void setId(String id) {
-         this.id=id;
-    }
-
-    public String getSeparator() {
-        return separator;
-    }
-
-    public void setSeparator(String separator) {
-        this.separator = separator;
-    }
-
-    public String getEncoding() {
-        return encoding;
-    }
-
-    public void setEncoding(String encoding) {
-        this.encoding = encoding;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public String getQuotingCaracter() {
-        return quotingCaracter;
-    }
-
-    public void setQuotingCaracter(String quotingCaracter) {
-        this.quotingCaracter = quotingCaracter;
-    }
-
-    public String getEscapingCaracter() {
-        return escapingCaracter;
-    }
-
-    public void setEscapingCaracter(String escapingCaracter) {
-        this.escapingCaracter = escapingCaracter;
-    }
-
-    public boolean isContainsHeaders() {
-        return containsHeaders;
-    }
-
-    public void setContainsHeaders(boolean containsHeaders) {
-        this.containsHeaders = containsHeaders;
-    }
-
 
     public ConnectorCSVDAO() {
     }

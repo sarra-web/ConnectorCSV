@@ -1,5 +1,6 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.model;
 
+import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.FieldType;
 import io.vavr.control.Either;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -36,7 +37,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                "meta",
+                                                FieldType.Meta,
                                                 false, true
                                         )
                                         .get()
@@ -50,7 +51,7 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                "meta",
+                                FieldType.Meta,
                                 false, true
                         );
 
@@ -97,7 +98,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                "meta",
+                                                FieldType.Meta,
                                                 false, true
                                         )
                                         .get()
@@ -111,7 +112,7 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                "meta",
+                                FieldType.Meta,
                                 false, true
                         );
 
@@ -158,7 +159,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                "texte",
+                                                FieldType.Text,
                                                 false, true
                                         )
                                         .get()
@@ -172,7 +173,7 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 false, true
                         );
 
@@ -219,7 +220,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                "texte",
+                                                FieldType.Text,
                                                 false, true
                                         )
                                         .get()
@@ -233,7 +234,7 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 false, true
                         );
 
@@ -280,7 +281,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                "texte",
+                                                FieldType.Text,
                                                 false, true
                                         )
                                         .get()
@@ -294,7 +295,7 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 false, true
                         );
 
@@ -341,7 +342,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                "texte",
+                                                FieldType.Text,
                                                 false,true
                                         )
                                         .get()
@@ -355,7 +356,7 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 false, true
                         );
 
@@ -402,7 +403,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                "texte",
+                                                FieldType.Text,
                                                 false, true
                                         )
                                         .get()
@@ -416,7 +417,7 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 false, true
                         );
 
@@ -497,7 +498,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                "texte",
+                                                FieldType.Text,
                                                 false, true
                                         )
                                         .get()
@@ -511,7 +512,7 @@ class ConnectorCSVTest {
                                 "",
                                 1,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 false, true
                         );
 
@@ -559,7 +560,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                "texte",
+                                                FieldType.Text,
                                                 false, true
                                         )
                                         .get()
@@ -573,7 +574,7 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 false, true
                         );
 
@@ -620,7 +621,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position * 10,
                                                 UUID.randomUUID().toString(),
-                                                "texte",
+                                                FieldType.Text,
                                                 false, true
                                         )
                                         .get()
@@ -634,7 +635,7 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 false, true
                         );
 
@@ -681,7 +682,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                "texte",
+                                                FieldType.Text,
                                                 false, true
                                         )
                                         .get()
@@ -695,7 +696,7 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 false, true
                         );
 
@@ -740,7 +741,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                "texte",
+                                                FieldType.Text,
                                                 false, true
                                         )
                                         .get()
@@ -754,7 +755,7 @@ class ConnectorCSVTest {
                                 "",
                                 1,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 false, true
                         );
 
@@ -771,6 +772,8 @@ class ConnectorCSVTest {
                         .withHeaders(headerBuilder)
                         .build()
                         .getLeft();
+
+
 
         Assertions.assertAll(
                 () -> Assertions.assertEquals(7, result.size()),
@@ -805,7 +808,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                "texte",
+                                                FieldType.Text,
                                                 false, true
                                         )
                                         .get()
@@ -819,7 +822,7 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 false, true
                         );
         final Supplier<Either<Collection<Field.Error>, Field>> headerBuilder2 =
@@ -830,7 +833,7 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 2,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 false, true
                         );
 
@@ -883,7 +886,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                "texte",
+                                                FieldType.Text,
                                                 false, true
                                         )
                                         .get()
@@ -897,7 +900,7 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 false, true
                         );
 
@@ -948,7 +951,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                "texte",
+                                                FieldType.Text,
                                                 false, true
                                         )
                                         .get()
@@ -962,7 +965,7 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 false, true
                         );
 
@@ -1015,7 +1018,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                "texte",
+                                                FieldType.Text,
                                                 false, true
                                         )
                                         .get()
@@ -1029,7 +1032,7 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 false, true
                         );
 
@@ -1084,7 +1087,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                "texte",
+                                                FieldType.Text,
                                                 false, true
                                         )
                                         .get()
@@ -1098,7 +1101,7 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 false, true
                         );
 
@@ -1153,7 +1156,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                "texte",
+                                                FieldType.Text,
                                                 false, true
                                         )
                                         .get()
@@ -1167,7 +1170,7 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 false, true
                         );
 
@@ -1222,7 +1225,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                "texte",
+                                                FieldType.Text,
                                                 false, true
                                         )
                                         .get()
@@ -1236,7 +1239,7 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 false, true
                         );
 
@@ -1291,7 +1294,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                "texte",
+                                                FieldType.Text,
                                                 false, true
                                         )
                                         .get()
@@ -1305,7 +1308,7 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 false, true
                         );
 
@@ -1360,7 +1363,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                "texte",
+                                                FieldType.Text,
                                                 false, true
                                         )
                                         .get()
@@ -1374,7 +1377,7 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 false, true
                         );
 
@@ -1429,7 +1432,7 @@ class ConnectorCSVTest {
                                                 UUID.randomUUID().toString(),
                                                 position,
                                                 UUID.randomUUID().toString(),
-                                                "texte",
+                                                FieldType.Text,
                                                 false, true
                                         )
                                         .get()
@@ -1443,7 +1446,7 @@ class ConnectorCSVTest {
                                 UUID.randomUUID().toString(),
                                 1,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 false, true
                         );
 

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorCSVDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.*;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
-import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.ConnectorRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.CSVConnectorRepository;
 import io.vavr.control.Either;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -38,29 +38,29 @@ public final class ConnectorCSVService {
     private static ConnectorCSVService instance = null;
 
     public static ConnectorCSVService instance(
-            final ConnectorRepository connectorRepository
+            final CSVConnectorRepository cSVConnectorRepository
     ) {
         if (Objects.isNull(instance))
             instance =
                     new ConnectorCSVService(
-                            connectorRepository
+                            cSVConnectorRepository
                     );
         return instance;
     }
 
-    private final ConnectorRepository connectorRepository;
+    private final CSVConnectorRepository cSVConnectorRepository;
 
     private ConnectorCSVService(
-            final ConnectorRepository connectorRepository
+            final CSVConnectorRepository cSVConnectorRepository
     ) {
-        this.connectorRepository = connectorRepository;
+        this.cSVConnectorRepository = cSVConnectorRepository;
     }
 
     public Either<Error, ConnectorCSV> create(
             final ConnectorCSV connectorCSV
     ) {
         return
-                this.connectorRepository
+                this.cSVConnectorRepository
                         .create(
                                 connectorCSV
                         )
@@ -70,7 +70,7 @@ public final class ConnectorCSVService {
             final ConnectorCSV connectorCSV ,final String idProject
     ) {
         return
-                this.connectorRepository
+                this.cSVConnectorRepository
                         .create2(
                                 connectorCSV,idProject
                         )
@@ -81,7 +81,7 @@ public final class ConnectorCSVService {
             final ConnectorCSV connectorCSV
     ) {
         return
-                this.connectorRepository
+                this.cSVConnectorRepository
                         .update(
                                 connectorCSV
                         )
@@ -92,7 +92,7 @@ public final class ConnectorCSVService {
             final String id
     ) {
         return
-                this.connectorRepository
+                this.cSVConnectorRepository
                         .delete(
                                 id
                         )
@@ -100,20 +100,20 @@ public final class ConnectorCSVService {
     }
 
     public Either<Error, Collection<ConnectorCSV>> findAll() {
-        return this.connectorRepository
+        return this.cSVConnectorRepository
                 .findAll()
                 .mapLeft(ConnectorCSVService::repositoryErrorToServiceError);
 
     }
     public Either<Error, ConnectorCSV> findOneByName(String name) {
-        return this.connectorRepository
+        return this.cSVConnectorRepository
                 .findOneByName(
                         name
                 )
                 .mapLeft(ConnectorCSVService::repositoryErrorToServiceError);
     }
     public Either<Error, ConnectorCSV> findOneById(String id) {
-        return this.connectorRepository
+        return this.cSVConnectorRepository
                 .findOneById(
                         id
                 )
@@ -121,14 +121,14 @@ public final class ConnectorCSVService {
     }
 
     public Either<Error, Collection<ConnectorCSV>> findManyByNameContainsIgnoreCase(String name) {
-        return this.connectorRepository
+        return this.cSVConnectorRepository
                 .findManyByNameContainsIgnoreCase(name)
                 .mapLeft(ConnectorCSVService::repositoryErrorToServiceError);
 
     }
     public Page<ConnectorCSVDAO> findAll(int page, int size){
         log.info("Fetching for page {} of size {}",page,size);
-        return connectorRepository.findAll(PageRequest.of(page,size));
+        return cSVConnectorRepository.findAll(PageRequest.of(page,size));
     }
 
     public static int numRow(String csvFilePath, String stringSeparator) {
@@ -205,9 +205,6 @@ public final class ConnectorCSVService {
         return header;
 
     }
-
-
-
     public static   List<ProxemDto> CSVDataToJSON(final ConnectorCSVDTO config)  {
         List<ProxemDto> dataList = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("uploads/"+config.path()))) {
@@ -224,14 +221,14 @@ public final class ConnectorCSVService {
                 position++;//pp les lignes
                 data.setCorpusId("a0e04a5f-ab7c-4b0e-97be-af263a61ba49"/*config.getProject().getProjectName() ou project id nom doit etre unique*/);
 
-                List<FieldDTO> l =  config.headers().stream().filter(field1 -> field1.field_type().toString()=="Identifier").collect(Collectors.toList());
+                List<FieldDTO> l =  config.fields().stream().filter(field1 -> field1.fieldType().toString()=="Identifier").collect(Collectors.toList());
                 if ((l.isEmpty() )) {
                     String recordId = generateRecordID(position, config.path());
                     data.setExternalId(recordId);
                 } else {
                     data.setExternalId(position+"_"+values[l.get(0).position()-1]);//pour garantir l'unicité car les donne provenant des fichier j'ai pas controle sur eux
                 }
-                List<FieldDTO> l2 = config.headers().stream().filter(field1 -> field1.field_type().toString()=="Date").collect(Collectors.toList());
+                List<FieldDTO> l2 = config.fields().stream().filter(field1 -> field1.fieldType().toString()=="Date").collect(Collectors.toList());
                 if (l2.isEmpty()) {
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
                     data.setDocUtcDate(LocalDateTime.now().toString());
@@ -243,8 +240,8 @@ public final class ConnectorCSVService {
                 Collection<Meta> metasList = new ArrayList<>();
 
 
-                List<FieldDTO> l22= config.headers().stream().filter(field1 -> field1.included()==true
-                ).filter(field1 -> field1.field_type().toString()=="Meta").toList();
+                List<FieldDTO> l22= config.fields().stream().filter(field1 -> field1.included()==true
+                ).filter(field1 -> field1.fieldType().toString()=="Meta").toList();
                 if(!l22.isEmpty()) {
                     l22.forEach(x -> {
                         Meta meta = new Meta();
@@ -258,13 +255,13 @@ public final class ConnectorCSVService {
 
                 TextPart titlePart = new TextPart();
                 titlePart.setName("title");
-                List<FieldDTO> l3=config.headers().stream().filter(field1 -> field1.field_type().toString()=="Title").collect(Collectors.toList());
+                List<FieldDTO> l3=config.fields().stream().filter(field1 -> field1.fieldType().toString()=="Title").collect(Collectors.toList());
                 if (!l3.isEmpty()){
                 String value =values[l3.get(0).position()-1];
                 titlePart.setContent(value);
                 textPartsList.add(titlePart);}
                 TextPart bodyPart = new TextPart();
-                config.headers().stream().filter(field1 -> field1.field_type().toString()=="Text").collect(Collectors.toList()).forEach(x -> {
+                config.fields().stream().filter(field1 -> field1.fieldType().toString()=="Text").collect(Collectors.toList()).forEach(x -> {
 
                     bodyPart.setName("body");
                     if(bodyPart.getContent()!=null){
@@ -355,13 +352,13 @@ public final class ConnectorCSVService {
 
 
     private static Error repositoryErrorToServiceError(
-            final ConnectorRepository.Error repositoryError
+            final CSVConnectorRepository.Error repositoryError
     ) {
-        if (repositoryError instanceof ConnectorRepository.Error.IO io)
+        if (repositoryError instanceof CSVConnectorRepository.Error.IO io)
             return new Error.IO(io.message());
-        if (repositoryError instanceof ConnectorRepository.Error.AlreadyExist)
+        if (repositoryError instanceof CSVConnectorRepository.Error.AlreadyExist)
             return new Error.AlreadyExist();
-        if (repositoryError instanceof ConnectorRepository.Error.NotFound)
+        if (repositoryError instanceof CSVConnectorRepository.Error.NotFound)
             return new Error.NotFound();
         throw new IllegalStateException("repository error not mapped to service error");
     }

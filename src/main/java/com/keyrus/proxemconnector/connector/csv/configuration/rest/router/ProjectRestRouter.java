@@ -4,19 +4,18 @@ package com.keyrus.proxemconnector.connector.csv.configuration.rest.router;
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ProjectDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProjectDTO;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.project.ProjectJDBCDatabaseRepository;
-import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.HttpResponse;
 import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ProjectRestHandler;
 import com.keyrus.proxemconnector.connector.csv.configuration.service.ProjectService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 
-import static java.time.LocalTime.now;
-import static java.util.Map.of;
 import static org.springframework.http.HttpStatus.OK;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
@@ -50,19 +49,32 @@ public class ProjectRestRouter {
     }
 
     @GetMapping("/projects")
-    public ResponseEntity<HttpResponse> getAllProjects(
-                     @RequestParam Optional<String> name,
-            @RequestParam(defaultValue = "0") Optional<Integer> page,
-            @RequestParam(defaultValue = "3") Optional<Integer> size)throws InterruptedException{
-        //throw new RuntimeException("Forced exception for testing");
-        return ResponseEntity.ok().body(
-                HttpResponse.builder()
-                        .timeStamp(now().toString())
-                        .data(of("page", projectService.getProjects(name.orElse(""), page.orElse(0), size.orElse(10))))
-                        .message("Users Retrieved")
-                        .status(OK)
-                        .statusCode(OK.value())
-                        .build());
+    public ResponseEntity<Map<String, Object>> getAllProjects(
+
+            @RequestParam(defaultValue = "") String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int size
+    ) {
+
+        try {
+            List<ProjectDAO> projects = new ArrayList<ProjectDAO>();
+            Pageable paging = PageRequest.of(page, size);
+
+            Page<ProjectDAO> pageTuts;
+
+            pageTuts = projectJDBCDatabaseRepository.findByNameContaining(name, paging);
+
+            projects = pageTuts.getContent();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("projects", projects);
+            response.put("currentPage", pageTuts.getNumber());
+            response.put("totalItems", pageTuts.getTotalElements());
+            response.put("totalPages", pageTuts.getTotalPages());
+            return new ResponseEntity<>(response, OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
     }
 

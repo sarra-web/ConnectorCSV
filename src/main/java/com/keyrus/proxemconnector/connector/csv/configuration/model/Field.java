@@ -21,7 +21,7 @@ public final class Field {
     private final String name;
     private final int position;
 
-    private final FieldType field_type;
+    private final FieldType fieldType;
     private final String meta;
     private final boolean partOfDocumentIdentity;
     private final boolean included;
@@ -45,7 +45,7 @@ public final class Field {
         this.included = included;
         //this.partOfDocumentIdentity = partOfDocumentIdentity;
        // this.canBeNullOrEmpty = canBeNullOrEmpty;
-        this.field_type = field_type;
+        this.fieldType = field_type;
     }
 
     public String id() {
@@ -68,7 +68,7 @@ public final class Field {
     }
 
 
-    public FieldType field_type(){ return this.field_type; };
+    public FieldType field_type(){ return this.fieldType; };
 
     public String meta() {
         return this.meta;
@@ -96,7 +96,7 @@ public final class Field {
                                 this.name,
                                 this.position,
                                 this.meta,
-                                this.field_type
+                                this.fieldType
                         );
     }
 

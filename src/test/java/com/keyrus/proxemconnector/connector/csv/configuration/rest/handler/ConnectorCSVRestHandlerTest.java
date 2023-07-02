@@ -3,9 +3,10 @@ package com.keyrus.proxemconnector.connector.csv.configuration.rest.handler;
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorCSVDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorCSVDTO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProjectDTO;
+import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.FieldType;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
-import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.ConnectorJDBCDatabaseRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.CSVConnectorJDBCDatabaseRepository;
 import com.keyrus.proxemconnector.initializer.PostgreSQLInitializer;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,39 +26,39 @@ import java.util.stream.IntStream;
 @ContextConfiguration(initializers = {PostgreSQLInitializer.class})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ConnectorCSVRestHandlerTest {
-    private final ConnectorRestHandler connectorRestHandler;
+    private final ConnectorCSVRestHandler connectorCSVRestHandler;
     private final String errorHeader;
-    private final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository;
+    private final CSVConnectorJDBCDatabaseRepository CSVConnectorJDBCDatabaseRepository;
 
     @Autowired
     ConnectorCSVRestHandlerTest(
-            final ConnectorRestHandler connectorRestHandler,
+            final ConnectorCSVRestHandler connectorCSVRestHandler,
             @Value("${connectors.rest.error-header:error}") final String errorHeader,
-            final ConnectorJDBCDatabaseRepository connectorJDBCDatabaseRepository
+            final CSVConnectorJDBCDatabaseRepository CSVConnectorJDBCDatabaseRepository
     ) {
-        this.connectorRestHandler = connectorRestHandler;
+        this.connectorCSVRestHandler = connectorCSVRestHandler;
         this.errorHeader = errorHeader;
-        this.connectorJDBCDatabaseRepository = connectorJDBCDatabaseRepository;
+        this.CSVConnectorJDBCDatabaseRepository = CSVConnectorJDBCDatabaseRepository;
     }
 
     @BeforeAll
     void beforeAll() {
-        this.connectorJDBCDatabaseRepository.deleteAll();
+        this.CSVConnectorJDBCDatabaseRepository.deleteAll();
     }
 
     @BeforeEach
     void beforeEach() {
-        this.connectorJDBCDatabaseRepository.deleteAll();
+        this.CSVConnectorJDBCDatabaseRepository.deleteAll();
     }
 
     @AfterEach
     void afterEach() {
-        this.connectorJDBCDatabaseRepository.deleteAll();
+        this.CSVConnectorJDBCDatabaseRepository.deleteAll();
     }
 
     @AfterAll
     void afterAll() {
-        this.connectorJDBCDatabaseRepository.deleteAll();
+        this.CSVConnectorJDBCDatabaseRepository.deleteAll();
     }
 
     @Test
@@ -65,7 +66,7 @@ class ConnectorCSVRestHandlerTest {
     void configuration_rest_handler_must_return_error_if_create_method_is_called_with_invalid_configuration_dto() {
         ProjectDTO project= new ProjectDTO("id","name","prox");
         final var result =
-                this.connectorRestHandler
+                this.connectorCSVRestHandler
                         .create(
                                 new ConnectorCSVDTO(
                                         " ",
@@ -111,7 +112,7 @@ class ConnectorCSVRestHandlerTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -120,14 +121,14 @@ class ConnectorCSVRestHandlerTest {
                         )
                         .build()
                         .get();
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration
                 )
         );
 
         final var result =
-                this.connectorRestHandler
+                this.connectorCSVRestHandler
                         .create(
                                 new ConnectorCSVDTO(configuration),
                                 null
@@ -164,7 +165,7 @@ class ConnectorCSVRestHandlerTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -175,7 +176,7 @@ class ConnectorCSVRestHandlerTest {
                         .get();
 
         final var result =
-                this.connectorRestHandler
+                this.connectorCSVRestHandler
                         .create(
                                 new ConnectorCSVDTO(configuration),
                                 null
@@ -192,7 +193,7 @@ class ConnectorCSVRestHandlerTest {
     void configuration_rest_handler_must_return_error_if_update_method_is_called_with_invalid_configuration_dto() {
         ProjectDTO project= new ProjectDTO("id","name","prox");
         final var result =
-                this.connectorRestHandler
+                this.connectorCSVRestHandler
                         .update(
                                 new ConnectorCSVDTO(
                                         " ",
@@ -237,7 +238,7 @@ class ConnectorCSVRestHandlerTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -248,7 +249,7 @@ class ConnectorCSVRestHandlerTest {
                         .get();
 
         final var result =
-                this.connectorRestHandler
+                this.connectorCSVRestHandler
                         .update(
                                 new ConnectorCSVDTO(configuration),
                                 null
@@ -285,7 +286,7 @@ class ConnectorCSVRestHandlerTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -294,14 +295,14 @@ class ConnectorCSVRestHandlerTest {
                         )
                         .build()
                         .get();
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration
                 )
         );
 
         final var result =
-                this.connectorRestHandler
+                this.connectorCSVRestHandler
                         .update(
                                 new ConnectorCSVDTO(configuration),
                                 null
@@ -317,7 +318,7 @@ class ConnectorCSVRestHandlerTest {
     @DisplayName("configuration rest handler must return error if delete method is called with invalid configuration")
     void configuration_rest_handler_must_return_error_if_delete_method_is_called_with_invalid_configuration() {
         final var result =
-                this.connectorRestHandler
+                this.connectorCSVRestHandler
                         .delete(
                                 UUID.randomUUID().toString(),
                                 null
@@ -354,7 +355,7 @@ class ConnectorCSVRestHandlerTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false, true
                                                         )
                                                         .get()
@@ -363,14 +364,14 @@ class ConnectorCSVRestHandlerTest {
                         )
                         .build()
                         .get();
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration
                 )
         );
 
         final var result =
-                this.connectorRestHandler
+                this.connectorCSVRestHandler
                         .delete(
                                 configuration.id(),
                                 null
@@ -406,7 +407,7 @@ class ConnectorCSVRestHandlerTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false,true
                                                         )
                                                         .get()
@@ -415,14 +416,14 @@ class ConnectorCSVRestHandlerTest {
                         )
                         .build()
                         .get();
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration
                 )
         );
 
         final var result =
-                this.connectorRestHandler.findAll(null);
+                this.connectorCSVRestHandler.findAll(null);
 
         Assertions.assertAll(
                 () -> Assertions.assertEquals(HttpStatus.OK, result.getStatusCode()),
@@ -434,7 +435,7 @@ class ConnectorCSVRestHandlerTest {
     @DisplayName("configuration rest handler must return an empty list of configurations if findAll method is called with no saved configurations ")
     void configuration_rest_handler_must_return_ampty_List_of_configurations_if_findAll_method_is_called_with_no_saved_configurations() {
         final var result =
-                this.connectorRestHandler.findAll(null);
+                this.connectorCSVRestHandler.findAll(null);
 
         Assertions.assertAll(
                 () -> Assertions.assertEquals(HttpStatus.OK, result.getStatusCode()),
@@ -446,7 +447,7 @@ class ConnectorCSVRestHandlerTest {
     @DisplayName("configuration rest handler must return error if findOneByName method is called with invalid configuration")
     void configuration_rest_handler_must_return_error_if_findOneByName_method_is_called_with_invalid_configuration() {
         final var result =
-                this.connectorRestHandler
+                this.connectorCSVRestHandler
                         .findOneByName(
                                 UUID.randomUUID().toString(),
                                 null
@@ -483,7 +484,7 @@ class ConnectorCSVRestHandlerTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false,true
                                                         )
                                                         .get()
@@ -492,14 +493,14 @@ class ConnectorCSVRestHandlerTest {
                         )
                         .build()
                         .get();
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration
                 )
         );
 
         final var result =
-                this.connectorRestHandler
+                this.connectorCSVRestHandler
                         .findOneByName(
                                 configuration.name(),
                                 null
@@ -535,7 +536,7 @@ class ConnectorCSVRestHandlerTest {
                                                                 UUID.randomUUID().toString(),
                                                                 it,
                                                                 UUID.randomUUID().toString(),
-                                                                "texte",
+                                                                FieldType.Text,
                                                                 false,true
                                                         )
                                                         .get()
@@ -544,14 +545,14 @@ class ConnectorCSVRestHandlerTest {
                         )
                         .build()
                         .get();
-        this.connectorJDBCDatabaseRepository.save(
+        this.CSVConnectorJDBCDatabaseRepository.save(
                 new ConnectorCSVDAO(
                         configuration
                 )
         );
 
         final var result =
-                this.connectorRestHandler.findManyByNameContainsIgnoreCase("BilL", null);
+                this.connectorCSVRestHandler.findManyByNameContainsIgnoreCase("BilL", null);
 
         Assertions.assertAll(
                 () -> Assertions.assertEquals(HttpStatus.OK, result.getStatusCode()),

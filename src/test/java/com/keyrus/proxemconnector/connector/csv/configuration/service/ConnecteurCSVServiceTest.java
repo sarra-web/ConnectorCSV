@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorCSVDTO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
+import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.FieldType;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import org.junit.jupiter.api.Test;
@@ -51,7 +52,7 @@ class ConnecteurCSVServiceTest {
                                                         UUID.randomUUID().toString(),
                                                         it,
                                                         UUID.randomUUID().toString(),
-                                                        "meta",
+                                                        FieldType.Meta,
                                                         false, true
                                                 )
                                                 .get()

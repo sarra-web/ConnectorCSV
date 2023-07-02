@@ -44,6 +44,30 @@
 
     <dependencies>
 
+        <!--Quartz-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+        <!--mysql for JDBC connector-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.26</version> <!-- Remplacez par la version la plus récente -->
+        </dependency>
         <!--WEB-->
 
         <dependency>
@@ -174,6 +198,8 @@
                         <goals>
                             <goal>process-asciidoc</goal>
                         </goals>
+                        <!--MAVEN-->
+
                         <connector>
                             <backend>html</backend>
                             <doctype>book</doctype>
@@ -186,10 +212,14 @@
                         <artifactId>spring-restdocs-asciidoctor</artifactId>
                         <version>${spring-restdocs.version}</version>
                     </dependency>
+
                 </dependencies>
             </plugin>
 
         </plugins>
+        <finalName>
+            proxemconnector
+        </finalName>
 
     </build>
 

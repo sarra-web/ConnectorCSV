@@ -12,6 +12,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+
 public final class ConnectorCSV extends Connector{
 
     private final String separator;
@@ -33,10 +34,10 @@ public final class ConnectorCSV extends Connector{
             final String escapingCaracter,
             final boolean containsHeaders,
             final Collection<Field> fields
-            , final Project project
+          //  , final Project project
     ) {
         super(id,name,fields
-                , project
+               // , project
         );
         this.separator = separator;
         this.encoding = encoding;
@@ -55,7 +56,7 @@ public final class ConnectorCSV extends Connector{
             final String escapingCaracter,
             final boolean containsHeaders,
             final Collection<Field> fields
-            , final Project project
+            //, final Project project
     ) {
         this(
                 id,
@@ -66,7 +67,7 @@ public final class ConnectorCSV extends Connector{
                 quotingCaracter,
                 escapingCaracter,
                 containsHeaders,fields
-                , project
+              //  , project
         );
     }
 
@@ -79,7 +80,7 @@ public final class ConnectorCSV extends Connector{
             final String escapingCaracter,
             final boolean containsHeaders,
             final Collection<Field> fields
-            , final Project project
+           // , final Project project
     ) {
         this(
                 id,
@@ -91,7 +92,7 @@ public final class ConnectorCSV extends Connector{
                 escapingCaracter,
                 containsHeaders,
                 fields
-                , project
+              //  , project
         );
     }
 
@@ -132,9 +133,9 @@ public final class ConnectorCSV extends Connector{
     public Collection<Field> fields() {
         return this.fields;
     }
-    public Project project() {
+   /* public Project project() {
         return this.project;
-    }
+    }*/
 
     @Override
     public boolean equals(Object o) {
@@ -178,7 +179,7 @@ public final class ConnectorCSV extends Connector{
                             escapingCaracter=%s,
                             containsHeaders=%s,
                             fields=%s,
-                            project=%s
+                           // project=%s
                         ]
                         """
                         .formatted(
@@ -191,7 +192,7 @@ public final class ConnectorCSV extends Connector{
                                 this.escapingCaracter,
                                 this.containsHeaders,
                                 this.fields
-                                ,this.project
+                               // ,this.project
                         );
     }
 
@@ -273,7 +274,7 @@ public final class ConnectorCSV extends Connector{
                                     escapingCaracter,
                                     containsHeaders,
                                     fields
-                                    , project
+                                    //, project
                             );
         if (Objects.isNull(encoding))
             return
@@ -287,7 +288,7 @@ public final class ConnectorCSV extends Connector{
                                     escapingCaracter,
                                     containsHeaders,
                                     fields
-                                    ,project
+                                  //  ,project
                             );
         return
 
@@ -302,7 +303,7 @@ public final class ConnectorCSV extends Connector{
                                 escapingCaracter,
                                 containsHeaders,
                                 fields
-                                ,project
+                              //  ,project
                         );
     }
 

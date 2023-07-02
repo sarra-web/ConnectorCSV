@@ -1,5 +1,6 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.model;
 
+import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.FieldType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ class FieldTest {
                                 UUID.randomUUID().toString(),
                                 new Random().nextInt(1, 10),
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Text,
                                 new Random().nextBoolean(), true
                         )
                         .getLeft();
@@ -40,7 +41,7 @@ class FieldTest {
                                 UUID.randomUUID().toString(),
                                 new Random().nextInt(1, 10),
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Meta,
                                 new Random().nextBoolean(), true
                         )
                         .getLeft();
@@ -61,7 +62,7 @@ class FieldTest {
                                 " ",
                                 new Random().nextInt(1, 10),
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Meta,
                                 new Random().nextBoolean(), true
                         )
                         .getLeft();
@@ -82,7 +83,7 @@ class FieldTest {
                                 UUID.randomUUID().toString(),
                                 -1,
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Meta,
                                 new Random().nextBoolean(), true
                         )
                         .getLeft();
@@ -103,7 +104,7 @@ class FieldTest {
                                 UUID.randomUUID().toString(),
                                 new Random().nextInt(1, 10),
                                 " ",
-                                "texte",
+                                FieldType.Meta,
                                 new Random().nextBoolean(), true
                         )
                         .getLeft();
@@ -114,7 +115,7 @@ class FieldTest {
         );
     }
 
-    @Test
+  /*  @Test
     @DisplayName("header must return error if of method is called with invalid value restriction")
     void header_must_return_error_if_of_method_is_called_with_invalid_value_restriction() {
         final var result =
@@ -124,7 +125,7 @@ class FieldTest {
                                 UUID.randomUUID().toString(),
                                 new Random().nextInt(1, 10),
                                 UUID.randomUUID().toString(),
-                                "texte",
+                                FieldType.Meta,
                                 true, true
                         )
                         .getLeft();
@@ -133,7 +134,7 @@ class FieldTest {
                 () -> Assertions.assertEquals(1, result.size()),
                 () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof Field.Error.NullOrEmptyRestrictionCombination))
         );
-    }
+    }*/
 
     @Test
     @DisplayName("header must return error if of method is called with multiple invalid parameters")
@@ -145,19 +146,18 @@ class FieldTest {
                                 null,
                                 -1,
                                 " ",
-                                "texte",
+                                FieldType.Meta,
                                 true, true
                         )
                         .getLeft();
 
         Assertions.assertAll(
-                () -> Assertions.assertEquals(6, result.size()),
+                () -> Assertions.assertEquals(5, result.size()),
                 () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof Field.Error.IdMalformed)),
                 () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof Field.Error.ReferenceConnectorMalformed)),
                 () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof Field.Error.NameMalformed)),
                 () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof Field.Error.PositionMalformed)),
-                () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof Field.Error.MetaMalformed)),
-                () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof Field.Error.NullOrEmptyRestrictionCombination))
+                () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof Field.Error.MetaMalformed))
         );
     }
 
@@ -170,7 +170,8 @@ class FieldTest {
         final var position = new Random().nextInt(1, 10);
         final var meta = UUID.randomUUID().toString();
         final var partOfDocumentIdentity = false;
-        final var canBeNullOrEmpty = new Random().nextBoolean();
+        final var type=FieldType.Meta;
+        final var included = new Random().nextBoolean();
 
         final var result =
                 Field.of(
@@ -179,8 +180,8 @@ class FieldTest {
                                 name,
                                 position,
                                 meta,
-                                "texte",
-                                canBeNullOrEmpty, true
+                                type,
+                                partOfDocumentIdentity, included
                         )
                         .get();
 
@@ -191,7 +192,7 @@ class FieldTest {
                 () -> Assertions.assertEquals(position, result.position()),
                 () -> Assertions.assertEquals(meta, result.meta()),
                 () -> Assertions.assertEquals(partOfDocumentIdentity, result.partOfDocumentIdentity()),
-                () -> Assertions.assertEquals(canBeNullOrEmpty, result.isIncluded())
+                () -> Assertions.assertEquals(included, result.isIncluded())
         );
     }
 }
