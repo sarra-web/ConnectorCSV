@@ -5,10 +5,12 @@ import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.Field
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import io.vavr.control.Either;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Collection;
 @Entity
+@Data
 @Table(name = "field")
 public final class FieldDAO implements Serializable {
 
@@ -44,7 +46,7 @@ public final class FieldDAO implements Serializable {
             String meta,
             boolean partOfDocumentIdentity,
             boolean included
-            , FieldType FieldType
+            , FieldType fieldType
     ) {
         this.id = id;
         this.referenceConnector = referenceConnector;
@@ -53,7 +55,7 @@ public final class FieldDAO implements Serializable {
         this.meta = meta;
         this.partOfDocumentIdentity = partOfDocumentIdentity;
         this.included = included;
-        this.fieldType = FieldType;
+        this.fieldType = fieldType;
     }
 
     public FieldDAO(
@@ -130,7 +132,7 @@ public final class FieldDAO implements Serializable {
         return included;
     }
 
-    public void setincluded(boolean included) {
+    public void included(boolean included) {
         this.included = included;
     }
 

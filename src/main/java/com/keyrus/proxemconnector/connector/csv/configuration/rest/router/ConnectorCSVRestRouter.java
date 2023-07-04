@@ -8,6 +8,7 @@ import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.RepCommune;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.CSVConnectorJDBCDatabaseRepository;
 import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ConnectorCSVRestHandler;
+import com.keyrus.proxemconnector.connector.csv.configuration.rest.router.log.Logging;
 import com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -20,10 +21,9 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 import static com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService.CSVDataToJSON;
@@ -40,6 +40,7 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
     private final CSVConnectorJDBCDatabaseRepository CSVConnectorJDBCDatabaseRepository;
     private final ConnectorCSVRestHandler connectorRestHandler;
     private final RepCommune repCommune;
+    private final Logging logging;
 
     private final ConnectorCSVService connectorCSVService;
 
@@ -55,10 +56,11 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
 
     public ConnectorCSVRestRouter(
             final ConnectorCSVRestHandler connectorRestHandler,
-            CSVConnectorJDBCDatabaseRepository CSVConnectorJDBCDatabaseRepository1, RepCommune repCommune, ConnectorCSVService connectorCSVService) {
+            CSVConnectorJDBCDatabaseRepository CSVConnectorJDBCDatabaseRepository1, RepCommune repCommune, Logging logging, ConnectorCSVService connectorCSVService) {
         this.connectorRestHandler = connectorRestHandler;
         this.CSVConnectorJDBCDatabaseRepository = CSVConnectorJDBCDatabaseRepository1;
         this.repCommune = repCommune;
+        this.logging = logging;
         this.connectorCSVService = connectorCSVService;
 
     }
@@ -72,7 +74,6 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
 
     ) {
-
         return this.connectorRestHandler.findAll(
                 languageCode
         );
@@ -166,6 +167,14 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
                         );
     }
 
+    @GetMapping(value = "findById2/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ConnectorDAO> findOneById2(
+            @PathVariable("id") final String id
+
+    ) {
+        return
+               new ResponseEntity<> (this.repCommune.findById(id).get(), OK);
+    }
     @GetMapping(value = "findById/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ConnectorCSVDTO> findOneById(
             @PathVariable("id") final String id,
@@ -302,17 +311,24 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
 
 
     @GetMapping("/log/{filename}")
-    public ResponseEntity<byte[]> getFile(@PathVariable String filename) throws IOException {
-        // Lire le contenu du fichier et le renvoyer dans la réponse HTTP
-        Path file = Paths.get( filename); // Remplacez "/path/to/files/" par le chemin réel du dossier contenant les fichiers
-        byte[] fileContent = Files.readAllBytes(file);
+    public ResponseEntity<List<String>> getFile(@PathVariable String filename) throws IOException {
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData(filename, filename);
+            List<String> data = new ArrayList<>();
+            int position=0;
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader("myLog.csv"));
+                String nextLine;
+                while (((nextLine = reader.readLine()) != null)) {
+                    position++;
+                    data.add(nextLine);
+                }
+                reader.close();
+                return (ResponseEntity<List<String>>) new ResponseEntity<>(data, HttpStatus.OK);
+            } catch (Exception e) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
 
-        return new ResponseEntity<>(fileContent, headers, HttpStatus.OK);
-    }
 
 
 }

@@ -2,8 +2,8 @@ package com.keyrus.proxemconnector.connector.csv.configuration.service.csv;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorCSVDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.FieldDAO;
-import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorCSVDTOSerialisable;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.Meta;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.TextPart;
@@ -37,25 +37,19 @@ import java.util.stream.Collectors;
 public class ScanJob extends QuartzJobBean {
 
     private static final Logger logger = LoggerFactory.getLogger(ScanJob.class);
-
-
-
-
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-        System.out.println("mmmmmmmmmmmmmmmmmaaaaaaaaaaaaaaa");
-
         logger.info("Executing Job with key {}", context.getJobDetail().getKey());
 
 
 
-    JobDataMap jobDataMap = context.getMergedJobDataMap();
-       ConnectorCSVDTOSerialisable connectorCSVDTOSerialisable = (ConnectorCSVDTOSerialisable) jobDataMap.get("config");
-        logger.info("this is the config", connectorCSVDTOSerialisable);
+      JobDataMap jobDataMap = context.getMergedJobDataMap();
+       ConnectorCSVDAO connectorCSVDAO = (ConnectorCSVDAO) jobDataMap.get("config");
+        logger.info("this is the config", connectorCSVDAO);
         String cron = jobDataMap.getString("cron");
 
 
-        pushToProxem(connectorCSVDTOSerialisable);
+        pushToProxem(connectorCSVDAO);
     }
 
 
@@ -94,30 +88,30 @@ public class ScanJob extends QuartzJobBean {
         newTokens[tokens.length] = sb.toString();
         return newTokens;
     }
-     public static   List<ProxemDto> CSVDataToJSON(final ConnectorCSVDTOSerialisable config)  {
+     public static   List<ProxemDto> CSVDataToJSON(final ConnectorCSVDAO config)  {
          List<ProxemDto> dataList = new ArrayList<>();
-         try (BufferedReader br = new BufferedReader(new FileReader("uploads/"+config.getPath()))) {
+         try (BufferedReader br = new BufferedReader(new FileReader("uploads/"+config.path()))) {
 
              int position = 0;
              String line;
-             if (config.isContainsHeaders()){
+             if (config.containsHeaders()){
                  br.readLine();
              }
              while ((line = br.readLine()) != null) {
 
-                 String[] values = parseLine(line,config.getSeparator().charAt(0),config.getQuotingCaracter().charAt(0),config.getEscapingCaracter().charAt(0));
+                 String[] values = parseLine(line,config.separator().charAt(0),config.quotingCaracter().charAt(0),config.escapingCaracter().charAt(0));
                  ProxemDto data = new ProxemDto();
                  position++;//pp les lignes
                  data.setCorpusId("a0e04a5f-ab7c-4b0e-97be-af263a61ba49"/*config.getProject().getProjectName() ou project id nom doit etre unique*/);
 
-                 List<FieldDAO> l =  config.getFields().stream().filter(field1 -> field1.getType().toString()=="Identifier").collect(Collectors.toList());
+                 List<FieldDAO> l =  config.fields().stream().filter(field1 -> field1.getType().toString()=="Identifier").collect(Collectors.toList());
                  if ((l.isEmpty() )) {
-                     String recordId = generateRecordID(position, config.getPath());
+                     String recordId = generateRecordID(position, config.path());
                      data.setExternalId(recordId);
                  } else {
                      data.setExternalId(position+"_"+values[l.get(0).getPosition()-1]);//pour garantir l'unicité car les donne provenant des fichier j'ai pas controle sur eux
                  }
-                 List<FieldDAO> l2 = config.getFields().stream().filter(field1 -> field1.getType().toString()=="Date").collect(Collectors.toList());
+                 List<FieldDAO> l2 = config.fields().stream().filter(field1 -> field1.getType().toString()=="Date").collect(Collectors.toList());
                  if (l2.isEmpty()) {
                      SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
                      data.setDocUtcDate(LocalDateTime.now().toString());
@@ -129,7 +123,7 @@ public class ScanJob extends QuartzJobBean {
                  Collection<Meta> metasList = new ArrayList<>();
 
 
-                 List<FieldDAO> l22= config.getFields().stream().filter(field1 -> field1.isincluded()==true
+                 List<FieldDAO> l22= config.fields().stream().filter(field1 -> field1.isincluded()==true
                  ).filter(field1 -> field1.getType().toString()=="Meta").toList();
                  if(!l22.isEmpty()) {
                      l22.forEach(x -> {
@@ -144,13 +138,13 @@ public class ScanJob extends QuartzJobBean {
 
                  TextPart titlePart = new TextPart();
                  titlePart.setName("title");
-                 List<FieldDAO> l3=config.getFields().stream().filter(field1 -> field1.getType().toString()=="Title").collect(Collectors.toList());
+                 List<FieldDAO> l3=config.fields().stream().filter(field1 -> field1.getType().toString()=="Title").collect(Collectors.toList());
                  if (!l3.isEmpty()){
                      String value =values[l3.get(0).getPosition()-1];
                      titlePart.setContent(value);
                      textPartsList.add(titlePart);}
                  TextPart bodyPart = new TextPart();
-                 config.getFields().stream().filter(field1 -> field1.getType().toString()=="Text").collect(Collectors.toList()).forEach(x -> {
+                 config.fields().stream().filter(field1 -> field1.getType().toString()=="Text").collect(Collectors.toList()).forEach(x -> {
 
                      bodyPart.setName("body");
                      if(bodyPart.getContent()!=null){
@@ -171,8 +165,8 @@ public class ScanJob extends QuartzJobBean {
          }
          return dataList;
      }
-    private void pushToProxem(ConnectorCSVDTOSerialisable connectorCSVDTOSerialisable) {
-        List<ProxemDto> proxemDtos = CSVDataToJSON(connectorCSVDTOSerialisable);
+    private void pushToProxem(ConnectorCSVDAO connectorCSVDAO) {
+        List<ProxemDto> proxemDtos = CSVDataToJSON(connectorCSVDAO);
         ObjectMapper objectMapper = new ObjectMapper();
         ArrayNode jsonArray = objectMapper.valueToTree(proxemDtos);
         String url = "https://studio3.proxem.com/validation5a/api/v1/corpus/a0e04a5f-ab7c-4b0e-97be-af263a61ba49/documents";

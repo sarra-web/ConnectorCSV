@@ -27,9 +27,8 @@ public class ScanJobSchedulerController {
 
     @Autowired
     private Scheduler scheduler;
-
     @PostMapping("/scheduleCSVScan")
-    public ResponseEntity<ScheduleDTOResponse> scheduleEmail(@Valid @RequestBody ScheduleDTORequest scheduleDTORequest) {
+    public ResponseEntity<ScheduleDTOResponse> scheduleScanCSV(@Valid @RequestBody ScheduleDTORequest scheduleDTORequest) {
         try {
             ZonedDateTime dateTime = ZonedDateTime.of(scheduleDTORequest.getDateTime(), scheduleDTORequest.getTimeZone());
             if(dateTime.isBefore(ZonedDateTime.now())) {
@@ -43,7 +42,7 @@ public class ScanJobSchedulerController {
             scheduler.scheduleJob(jobDetail, trigger);
 
             ScheduleDTOResponse scheduleDTOResponse = new ScheduleDTOResponse(true,
-                    jobDetail.getKey().getName(), jobDetail.getKey().getGroup(), "Email Scheduled Successfully!");
+                    jobDetail.getKey().getName(), jobDetail.getKey().getGroup(), "PushToProxem Scheduled Successfully!");
             return ResponseEntity.ok(scheduleDTOResponse);
         } catch (SchedulerException ex) {
             logger.error("Error scheduling push", ex);
@@ -54,10 +53,11 @@ public class ScanJobSchedulerController {
         }
     }
 
+
     private JobDetail buildJobDetail(ScheduleDTORequest scheduleDTORequest) {
         JobDataMap jobDataMap = new JobDataMap();
 
-        jobDataMap.put("config",scheduleDTORequest.getConnectorCSVDTO().toString());
+        jobDataMap.put("config",scheduleDTORequest.getConnectorCSVDAO());
         jobDataMap.put("cron",scheduleDTORequest.getCron());
 
 

@@ -40,26 +40,30 @@ public class RequestResponseLoggingFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         List<List<String>> listLogs=new ArrayList<>();
  MyCustomHttpRequestWrapper requestWrapper = new MyCustomHttpRequestWrapper((HttpServletRequest) request);
-        List<String> list=new ArrayList<>();
-        String uri = requestWrapper.getRequestURI();
-        log.info("Requeust URI: {}", uri);
-        list.add(LocalDateTime.now().toString());
-        list.add(uri);
+      String uri = requestWrapper.getRequestURI();
+        log.info("Request URI: {}", uri);
 //log.info //log.trace  .debug
-        log.info("Requeust Method: {}", requestWrapper.getMethod());
-        list.add(requestWrapper.getMethod());
+        log.info("Request Method: {}", requestWrapper.getMethod());
         String requestData = new String(requestWrapper.getByteArray()).replaceAll("\n", " ");
-        log.info("Requeust Body: {}", requestData);
-        list.add(requestData);
+        log.info("Request Body: {}", requestData);
         MyCustomHttpResponseWrapper responseWrapper = new MyCustomHttpResponseWrapper((HttpServletResponse) response);
-
         chain.doFilter(requestWrapper, responseWrapper);
         log.info("Response status -{}", responseWrapper.getStatus());
-        list.add(String.valueOf(responseWrapper.getStatus()));
         log.info("Response body -{}",new String (responseWrapper.getBaos().toByteArray()));
-        list.add(new String (responseWrapper.getBaos().toByteArray()));
-        listLogs.add(list);
         log.info(listLogs.toString());
+
+        String a="";
+        if(responseWrapper.getStatus()==200){
+            a="status:_200_OK";
+        }
+        if(responseWrapper.getStatus()==500){
+            a="status:500_Internal Server Error";
+        }
+        else{
+
+          a=  "status_:"+String.valueOf(responseWrapper.getStatus());
+        }
+        Logging.putInCSV(LocalDateTime.now().toString(), uri,requestWrapper.getMethod(),a);
     }
 
 

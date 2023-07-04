@@ -6,7 +6,27 @@
     </product>
     <product>
         <id>2</id>
-        <name>Product 2</name>
+        <name>Product 28</name>
+        <price>15.99</price>
+    </product>
+    <product>
+        <id>3</id>
+        <name>Product 3</name>
+        <price>15.99</price>
+    </product>
+    <product>
+        <id>4</id>
+        <name>Product 4</name>
+        <price>15.99</price>
+    </product>
+    <product>
+        <id>5</id>
+        <name>Product 5</name>
+        <price>15.99</price>
+    </product>
+    <product>
+        <id>2</id>
+        <name>Product 6</name>
         <price>15.99</price>
     </product>
 </products>

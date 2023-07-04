@@ -2,8 +2,8 @@ package com.keyrus.proxemconnector.connector.csv.configuration.rest.router;
 
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.SquedulerDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.exception.ResourceNotFoundException;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.RepCommune;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.SquedulerJDBC;
-import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.CSVConnectorJDBCDatabaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +16,14 @@ import java.util.List;
 @RequestMapping("/squeduler")
 public class SquedulerController {
     @Autowired
-    private CSVConnectorJDBCDatabaseRepository CSVConnectorJDBCDatabaseRepository;
+    private RepCommune repConnector;
 
     @Autowired
     private SquedulerJDBC squedulerJDBC;
 
     @GetMapping("/ConnectorDAOs/{ConnectorDAOId}/SquedulerDAOs")
     public ResponseEntity<List<SquedulerDAO>> getAllSquedulerDAOsByConnectorDAOId(@PathVariable(value = "ConnectorDAOId") String connectorDAOId) {
-        if (!CSVConnectorJDBCDatabaseRepository.existsById(connectorDAOId)) {
+        if (!repConnector.existsById(connectorDAOId)) {
             throw new ResourceNotFoundException("Not found ConnectorDAO with id = " + connectorDAOId);
         }
 
@@ -42,7 +42,7 @@ public class SquedulerController {
     @PostMapping("/ConnectorDAOs/{ConnectorDAOId}/SquedulerDAOs")
     public ResponseEntity<SquedulerDAO> createSquedulerDAO(@PathVariable(value = "ConnectorDAOId") String connectorDAOId,
                                                            @RequestBody SquedulerDAO squedulerDAORequest) {
-        SquedulerDAO squedulerDAO = CSVConnectorJDBCDatabaseRepository.findById(connectorDAOId).map(connectorDAO -> {
+        SquedulerDAO squedulerDAO = repConnector.findById(connectorDAOId).map(connectorDAO -> {
             squedulerDAORequest.setConnectorDAO(connectorDAO);
             return squedulerJDBC.save(squedulerDAORequest);
         }).orElseThrow(() -> new ResourceNotFoundException("Not found ConnectorDAO with id = " + connectorDAOId));
@@ -69,7 +69,7 @@ public class SquedulerController {
 
    @DeleteMapping("/ConnectorDAOs/{ConnectorDAOId}/SquedulerDAOs")
     public ResponseEntity<List<SquedulerDAO>> deleteAllSquedulerDAOsOfConnectorDAO(@PathVariable(value = "ConnectorDAOId") String connectorDAOId) {
-        if (!CSVConnectorJDBCDatabaseRepository.existsById(connectorDAOId)) {
+        if (!repConnector.existsById(connectorDAOId)) {
             throw new ResourceNotFoundException("Not found ConnectorDAO with id = " + connectorDAOId);
         }
 

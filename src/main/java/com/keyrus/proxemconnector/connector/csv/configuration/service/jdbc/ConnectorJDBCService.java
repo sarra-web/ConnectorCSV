@@ -6,9 +6,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorJDBCDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.*;
-import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.FieldType;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC;
-import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.jdbcConnector.JDBCConnectorRepository;
 import io.vavr.control.Either;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +20,10 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -278,8 +279,8 @@ public final class ConnectorJDBCService {
         }
 
 
-
-    public static void main(String[] args){
+//mettre dans les testes
+    /*public static void main(String[] args){
        ConnectorJDBC connectorJDBC= ConnectorJDBC.Builder
                 .builder()
                 .withId("test")
@@ -305,28 +306,11 @@ public final class ConnectorJDBCService {
                 .build()
                 .get();
         System.out.println(connectorJDBC);
-       /* try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection= DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb_spring","root","123456");
-            Statement statement=connection.createStatement();
-            ResultSet resultSet=statement.executeQuery("SELECT * FROM "+"tutorials");
-            ResultSetMetaData metaData= resultSet.getMetaData();
-            while (resultSet.next()){
-                List<String> values=new ArrayList<>();
-                for (int i=1;i<=4;i++){
-                    values.add(resultSet.getString(i));
-                }
-                System.out.println(values);
-            }
 
-        }
-        catch (Exception e){
-            System.out.println(e);
-        }*/
         ConnectorJDBCDTO jdbcdto=new ConnectorJDBCDTO(connectorJDBC);
-       // JDBCToJSON(jdbcdto);
 
-}
+
+}*/
 
     public static String[] parseLine(String line, char separator, char quote, char escape) {
         StringBuilder sb = new StringBuilder();

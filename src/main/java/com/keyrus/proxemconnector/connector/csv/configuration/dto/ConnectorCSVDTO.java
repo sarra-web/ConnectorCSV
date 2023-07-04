@@ -14,7 +14,9 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 
-public record ConnectorCSVDTO(
+
+
+public record ConnectorCSVDTO (
         @JsonProperty
         String id,
         @JsonProperty
