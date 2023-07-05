@@ -57,7 +57,7 @@ public class ScanJobSchedulerController {
     private JobDetail buildJobDetail(ScheduleDTORequest scheduleDTORequest) {
         JobDataMap jobDataMap = new JobDataMap();
 
-        jobDataMap.put("config",scheduleDTORequest.getConnectorCSVDAO());
+        jobDataMap.put("config",scheduleDTORequest.getConnectorDAO());
         jobDataMap.put("cron",scheduleDTORequest.getCron());
 
 

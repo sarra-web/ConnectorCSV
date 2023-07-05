@@ -52,43 +52,7 @@ public class Test {
     }
 
    static List<String> tagNames(String fileName){
-        /*
-        List<String> m=new ArrayList<>();
-       try {
-           // Création du parseur DOM
-           DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-           DocumentBuilder builder = factory.newDocumentBuilder();
-
-           // Lecture du fichier XML
-           Document document = builder.parse(fileName);
-
-           // Récupération de la racine du document
-           Element root = document.getDocumentElement();
-
-           // Récupération de tous les éléments du document
-
-           NodeList nodeList = document.getElementsByTagName("*");
-
-           // Ensemble (Set) pour stocker les noms uniques des balises
-
-
-           // Parcours des éléments et récupération des balises
-           for (int i = 0; i < nodeList.getLength(); i++) {
-               System.out.println(i);
-               Element element = (Element) nodeList.item(i);
-               String tagName = element.getTagName();
-               m.add(tagName);
-           }
-
-           // Affichage de la liste des balises
-
-
-       } catch (Exception e) {
-           e.printStackTrace();
-       }
-
-       return m;*/
-       List<String> tagsList = new ArrayList<>();
+        List<String> tagsList = new ArrayList<>();
        try {
            // Création du parseur DOM
            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
