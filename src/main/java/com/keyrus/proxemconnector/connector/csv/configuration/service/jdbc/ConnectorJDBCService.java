@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorJDBCDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.*;
+import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.QueryMode;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.jdbcConnector.JDBCConnectorRepository;
 import io.vavr.control.Either;
@@ -131,13 +132,13 @@ public final class ConnectorJDBCService {
         return String.format("%s_%s_%d",  LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")), tableName, position);
     }
 
-    public static int getNumCol(String className, String password, String jdbcUrl, String username, String tableName) {
+    public static int getNumCol(String className, String password, String jdbcUrl, String username, String tableName,String query) {
         int columnCount = 0;
         try {
             Class.forName(className);
             Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
+            ResultSet resultSet = statement.executeQuery(query);
             ResultSetMetaData metaData = resultSet.getMetaData();
             columnCount = metaData.getColumnCount();
         } catch (Exception e) {
@@ -169,14 +170,22 @@ public final class ConnectorJDBCService {
     }
 
     public static List<List<String>>  readJDBC(ConnectorJDBCDTO jdbcdto) {
-        int numCol=getNumCol(jdbcdto.className(), jdbcdto.password(), jdbcdto.jdbcUrl(), jdbcdto.username(), jdbcdto.tableName());
+        String query="";
+        if(jdbcdto.mode()== QueryMode.Full){
+            query = jdbcdto.initialQuery();}
+        else{
+            query = jdbcdto.incrementalQuery();
+        }
+        int numCol=getNumCol(jdbcdto.className(), jdbcdto.password(), jdbcdto.jdbcUrl(), jdbcdto.username(), jdbcdto.tableName(),query);
         List<List<String>> l=new ArrayList<List<String>>();
         l.add(getNameColumns( jdbcdto.className(),  jdbcdto.password(),  jdbcdto.jdbcUrl(), jdbcdto.username(), jdbcdto.tableName(),numCol));
         try {
             Class.forName(jdbcdto.className());
             Connection connection = DriverManager.getConnection(jdbcdto.jdbcUrl(), jdbcdto.username(), jdbcdto.password());
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + jdbcdto.tableName());
+            ResultSet resultSet= statement.executeQuery(query);
+
+
             int k=1;
             while ((resultSet.next())&&(k<=5)) {
                 k++;
@@ -197,16 +206,25 @@ public final class ConnectorJDBCService {
         return l;
     }
    public static List<ProxemDto>  JDBCToJSON(ConnectorJDBCDTO jdbcdto){
+      // "Select * from "+jdbcdto.tableName()
+       String query="";
+       if(jdbcdto.mode()== QueryMode.Full){
+          query = jdbcdto.initialQuery();}
+       else{
+           query = jdbcdto.incrementalQuery();
+       }
        List<ProxemDto> dataList = new ArrayList<>();
-       int numCol=getNumCol(jdbcdto.className(), jdbcdto.password(), jdbcdto.jdbcUrl(), jdbcdto.username(), jdbcdto.tableName());
+       int numCol=getNumCol(jdbcdto.className(), jdbcdto.password(), jdbcdto.jdbcUrl(), jdbcdto.username(), jdbcdto.tableName(),query);
        List<String> nameCols=getNameColumns( jdbcdto.className(),  jdbcdto.password(),  jdbcdto.jdbcUrl(), jdbcdto.username(), jdbcdto.tableName(),numCol);
 
        try{
             Class.forName(jdbcdto.className());
             Connection connection= DriverManager.getConnection(jdbcdto.jdbcUrl(),jdbcdto.username(),jdbcdto.password());
             Statement statement=connection.createStatement();
-            ResultSet resultSet=statement.executeQuery("SELECT * FROM "+jdbcdto.tableName());
-            ResultSetMetaData metaData= resultSet.getMetaData();
+           ResultSet resultSet= statement.executeQuery(query);
+
+
+           ResultSetMetaData metaData= resultSet.getMetaData();
            int position = 0;
            String line;
             while (resultSet.next()){

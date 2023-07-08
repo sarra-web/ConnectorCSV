@@ -20,6 +20,9 @@ public class ConnectorXmlDAO extends ConnectorDAO{
     //  @GeneratedValue(strategy = GenerationType.AUTO)
      /*   @Column(name = "path", nullable = false, unique = false, insertable = true, updatable = true)
         private String path;
+        private String xpath;
+        private String tagName;
+
 
 
 

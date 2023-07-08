@@ -49,6 +49,9 @@ public class ScanJob extends QuartzJobBean {
         String cron = jobDataMap.getString("cron");
 
 
+
+        //@Scheduled("")
+
         pushToProxem(connectorCSVDAO);
     }
 

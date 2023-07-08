@@ -1,8 +1,8 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.model;
 
+import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.QueryMode;
 import io.vavr.control.Either;
 
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.IntPredicate;
@@ -14,16 +14,501 @@ import java.util.stream.Stream;
 public class ConnectorJDBC extends Connector{
 
 
+    private final String jdbcUrl ;
+    private final String username;
+    private final String password ;
+    private final String className;
+    private final String  tableName;
+    private final String  initialQuery ;
+    private final String checkpointColumn ;
+    private final String incrementalVariable;
+    private final String incrementalQuery;
+    private final QueryMode mode;
+
+    private ConnectorJDBC(
+            final String id,
+            final String name,
+            final String jdbcUrl ,
+            final String username,
+            final String password ,
+            final String className,
+            final String  tableName,
+            final String  initialQuery ,
+            final String checkpointColumn ,
+            final String incrementalVariable,
+            final String incrementalQuery,
+            final QueryMode mode,
+
+            final Collection<Field> fields
+            //, final Project project
+    ) {
+        super(id,name,fields
+                // , project
+        );
+        this.jdbcUrl  = jdbcUrl ;
+        this.username = username;
+        this.password  = password ;
+        this.className = className;
+        this. tableName =  tableName;
+        this.initialQuery=initialQuery;
+        this.checkpointColumn=checkpointColumn;
+        this.incrementalVariable=incrementalVariable;
+        this.incrementalQuery=incrementalQuery;
+        this.mode=mode;
+
+    }
+    public String name() {
+        return this.name;
+    }
+
+    public String id() {
+        return this.id;
+    }
+
+    public String jdbcUrl () {
+        return this.jdbcUrl ;
+    }
+
+    public String username() {
+        return this.username;
+    }
+
+    public String password () {
+        return this.password ;
+    }
+
+    public String className() {
+        return this.className;
+    }
+
+    public String  tableName() {
+        return this. tableName;
+    }
+    public String  initialQuery() {
+        return this. initialQuery;
+    }
+
+    public String  checkpointColumn() {
+        return this. checkpointColumn;
+    }
+
+    public String  incrementalVariable() {
+        return this. incrementalVariable;
+    }
+
+    public String  incrementalQuery() {
+        return this. incrementalQuery;
+    }
+    public QueryMode  mode() {
+        return this.mode;
+    }
+
+
+
+    public Collection<Field> fields() {
+        return this.fields;
+    }
+        /*public Project project() {
+            return this.project;
+        }*/
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        ConnectorJDBC that = (ConnectorJDBC) o;
+
+        if (!jdbcUrl.equals(that.jdbcUrl)) return false;
+        if (!username.equals(that.username)) return false;
+        if (!password.equals(that.password)) return false;
+        if (!className.equals(that.className)) return false;
+        if (!tableName.equals(that.tableName)) return false;
+        if (!initialQuery.equals(that.initialQuery)) return false;
+        if (!checkpointColumn.equals(that.checkpointColumn)) return false;
+        if (!incrementalVariable.equals(that.incrementalVariable)) return false;
+        if (!incrementalQuery.equals(that.incrementalQuery)) return false;
+        return mode == that.mode;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + jdbcUrl.hashCode();
+        result = 31 * result + username.hashCode();
+        result = 31 * result + password.hashCode();
+        result = 31 * result + className.hashCode();
+        result = 31 * result + tableName.hashCode();
+        result = 31 * result + initialQuery.hashCode();
+        result = 31 * result + checkpointColumn.hashCode();
+        result = 31 * result + incrementalVariable.hashCode();
+        result = 31 * result + incrementalQuery.hashCode();
+        result = 31 * result + mode.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "ConnectorJDBC{" +
+                "jdbcUrl='" + jdbcUrl + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", className='" + className + '\'' +
+                ", tableName='" + tableName + '\'' +
+                ", initialQuery='" + initialQuery + '\'' +
+                ", checkpointColumn='" + checkpointColumn + '\'' +
+                ", incrementalVariable='" + incrementalVariable + '\'' +
+                ", incrementalQuery='" + incrementalQuery + '\'' +
+                ", mode=" + mode +
+                '}';
+    }
+
+    private static Either<Collection<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>, com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC> of(
+            final String id,
+            final String name,
+            final String jdbcUrl ,
+            final String username,
+            final String password ,
+            final String className,
+            final String  tableName,
+            final String  initialQuery ,
+            final String checkpointColumn ,
+            final String incrementalVariable,
+            final String incrementalQuery,
+            final QueryMode mode,
+            final Collection<Field> fields
+            //,final Project project
+    ) {
+        return
+                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkThenInstantiate(
+                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.instance(
+                                id,
+                                name,
+                                jdbcUrl ,
+                                username,
+                                password ,
+                                className,
+                                tableName,
+                                initialQuery,checkpointColumn,incrementalVariable,incrementalQuery,mode,
+
+                                fields
+                                //  ,project
+                        ),
+                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkId(
+                                id
+                        ), com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkName(
+                                name
+                        ),
+                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkHeaders(
+                                fields
+                        )
+                );
+    }
+
+    private static Supplier<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC> instance(
+            final String id,
+            final String name,
+            final String jdbcUrl ,
+            final String username,
+            final String password ,
+            final String className,
+            final String  tableName,
+            final String  initialQuery ,
+            final String checkpointColumn ,
+            final String incrementalVariable,
+            final String incrementalQuery,
+            final QueryMode mode,
+            final Collection<Field> fields
+            //, final Project project
+    ) {
+
+        return
+
+                () ->
+                        new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC(
+                                id,
+                                name,
+                                jdbcUrl ,
+                                username,
+                                password ,
+                                className,
+                                tableName,initialQuery,checkpointColumn,incrementalVariable,incrementalQuery,mode,
+
+                                fields
+                                //  ,project
+                        );
+    }
+
+    private static Supplier<Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>> checkId(
+            final String id
+    ) {
+        return
+                () ->
+                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkNonNullableNonBlankStringField(
+                                id,
+                                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.IdMalformed::new
+                        );
+    }
+
+    private static Supplier<Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>> checkName(
+            final String name
+    ) {
+        return
+                () ->
+                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkNonNullableNonBlankStringField(
+                                name,
+                                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.NameMalformed::new
+                        );
+    }
+
+    private static Supplier<Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>> checkjdbcUrl (
+            final String jdbcUrl
+    ) {
+        return
+                () ->
+                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkNullableNonBlankStringField(
+                                jdbcUrl ,
+                                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.jdbcUrlMalformed::new,
+                                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC::checkjdbcUrlIsNotComposedOfLettersOrDigits
+                        );
+    }
+
+
+    private static Supplier<Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>> checkpassword (
+            final String password
+    ) {
+        return
+                () ->
+                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkNonNullableNonBlankStringField(
+                                password ,
+                                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.passwordMalformed::new
+                        );
+    }
+
+    private static Supplier<Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>> checkclassName(
+            final String className
+    ) {
+        return
+                () ->
+                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkNonNullableNonBlankStringField(
+                                className,
+                                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.classNameMalformed::new
+                        );
+    }
+
+    private static Supplier<Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>> checktableName(
+            final String  tableName
+    ) {
+        return
+                () ->
+                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkNonNullableNonBlankStringField(
+                                tableName,
+                                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error. tableNameMalformed::new
+                        );
+    }
+
+    private static Supplier<Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>> checkHeaders(
+            final Collection<Field> fields
+    ) {
+        return
+                () ->
+                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkHeaderFormat(fields)
+                                .or(() ->
+                                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkHeadersIds(fields)
+                                )
+                                .or( () ->
+                                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkHeadersPositions(fields)
+                                );
+    }
+
+    private static Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> checkHeadersPositions(
+            final Collection<Field> fields
+    ) {
+        return
+                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkField(
+                        fields,
+                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.HeadersSequenceMalformed::new,
+                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC::checkHeadersPositionSequence
+                );
+    }
+
+    private static Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> checkHeadersIds(
+            final Collection<Field> fields
+    ) {
+        return
+                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkField(
+                        fields,
+                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.IdHeaderMissing::new,
+                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC::checkHeadersContainsIds
+                );
+    }
+
+    private static Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> checkHeaderFormat(
+            final Collection<Field> fields
+    ) {
+        return
+                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkNonNullableField(
+                        fields,
+                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.HeaderMalformed::new
+                );
+    }
+
+    private static boolean checkHeadersContainsIds(
+            final Collection<Field> fields
+    ) {
+        return
+                Objects.nonNull(fields) &&
+                        fields.stream()
+                                .anyMatch(Field::partOfDocumentIdentity);
+    }
+
+    private static boolean checkHeadersPositionSequence(
+            final Collection<Field> fields
+    ) {
+        return
+                Objects.nonNull(fields) &&
+                        fields.stream()
+                                .map(Field::position)
+                                .max(Comparator.naturalOrder())
+                                .map(max -> fields.size() == max)
+                                .orElse(false);
+    }
+
+    private static boolean checkjdbcUrlIsNotComposedOfLettersOrDigits(
+            final String jdbcUrl
+    ) {
+        return
+                jdbcUrl .chars()
+                        .noneMatch(
+                                ((IntPredicate) Character::isDigit)
+                                        .or(Character::isAlphabetic)
+                        );
+    }
+
+    @SafeVarargs
+    private static Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> checkNonNullableNonBlankStringField(
+            final String field,
+            final Supplier<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> errorIfInvalid,
+            final Predicate<String>... extraChecks
+    ) {
+        return
+                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkNonNullableField(
+                        field,
+                        errorIfInvalid,
+                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.mergePredicates(
+                                Predicate.not(String::isBlank),
+                                extraChecks
+                        )
+                );
+    }
+
+    @SafeVarargs
+    private static Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> checkNullableNonBlankStringField(
+            final String field,
+            final Supplier<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> errorIfInvalid,
+            final Predicate<String>... extraChecks
+    ) {
+        return
+                Objects.nonNull(field)
+                        ?
+                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkNonNullableField(
+                                field,
+                                errorIfInvalid,
+                                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.mergePredicates(
+                                        Predicate.not(String::isBlank),
+                                        extraChecks
+                                )
+                        )
+                        :
+                        Optional.empty();
+    }
+
+    @SafeVarargs
+    private static <FIELD> Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> checkNonNullableField(
+            final FIELD field,
+            final Supplier<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> errorIfInvalid,
+            final Predicate<FIELD>... extraChecks
+    ) {
+        return
+                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkField(
+                        field,
+                        errorIfInvalid,
+                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.mergePredicates(
+                                Objects::nonNull,
+                                extraChecks
+                        )
+                );
+    }
+
+    @SafeVarargs
+    private static <FIELD> Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> checkField(
+            final FIELD field,
+            final Supplier<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> errorIfInvalid,
+            final Predicate<FIELD>... validityChecks
+    ) {
+        return
+                Arrays.stream(validityChecks)
+                        .anyMatch(Predicate.not(it -> it.test(field)))
+                        ? Optional.ofNullable(errorIfInvalid.get())
+                        : Optional.empty();
+    }
+
+    @SafeVarargs
+    private static Either<Collection<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>, com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC> checkThenInstantiate(
+            final Supplier<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC> instance,
+            final Supplier<Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>>... checks
+    ) {
+        final var errors =
+                Arrays.stream(checks)
+                        .map(Supplier::get)
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
+                        .collect(Collectors.toUnmodifiableSet());
+        return
+                errors.isEmpty()
+                        ? Either.right(instance.get())
+                        : Either.left(errors);
+    }
+
+    @SafeVarargs
+    private static <TYPE> Predicate<TYPE> mergePredicates(
+            final Predicate<TYPE> predicate,
+            final Predicate<TYPE>... predicates
+    ) {
+        return
+                Stream.of(
+                                Stream.of(predicate),
+                                Arrays.stream(predicates)
+                        )
+                        .flatMap(Function.identity())
+                        .filter(Objects::nonNull)
+                        .reduce(
+                                it -> true,
+                                Predicate::and
+                        );
+    }
+
+    public static final class Builder {
+        private final String id;
+        private final String name;
         private final String jdbcUrl ;
         private final String username;
         private final String password ;
         private final String className;
         private final String  tableName;
+        private  final String  initialQuery ;
+        private final String checkpointColumn ;
+        private final String incrementalVariable;
+        private final String incrementalQuery;
+        private final QueryMode mode;
+        private final boolean containsHeaders;
+        private final Collection<Field> fields;
+        private final Project project;
+        private final Supplier<Either<Collection<Project.Error>, Project>> projectBuilder;
+        private final Collection<Supplier<Either<Collection<Field.Error>, Field>>> headerBuilders;
 
-
-
-
-        private ConnectorJDBC(
+        private Builder(
                 final String id,
                 final String name,
                 final String jdbcUrl ,
@@ -31,1166 +516,894 @@ public class ConnectorJDBC extends Connector{
                 final String password ,
                 final String className,
                 final String  tableName,
-                final Collection<Field> fields
-                //, final Project project
+                final String  initialQuery ,
+                final String checkpointColumn ,
+                final String incrementalVariable,
+                final String incrementalQuery,
+                final QueryMode mode,
+                final boolean containsHeaders,
+
+                final Collection<Field> fields,
+                final Project project,
+                Supplier<Either<Collection<Project.Error>, Project>> projectBuilder,
+                final Collection<Supplier<Either<Collection<Field.Error>, Field>>> headerBuilders
         ) {
-            super(id,name,fields
-                   // , project
-            );
+            this.id = id;
+            this.name = name;
             this.jdbcUrl  = jdbcUrl ;
             this.username = username;
             this.password  = password ;
             this.className = className;
-            this. tableName =  tableName;
-
+            this.tableName =  tableName;
+            this.initialQuery=initialQuery;
+            this.checkpointColumn=checkpointColumn;
+            this.incrementalVariable=incrementalVariable;
+            this.incrementalQuery=incrementalQuery;
+            this.mode=mode;
+            this.containsHeaders = containsHeaders;
+            this.fields = fields;
+            this.project = project;
+            this.projectBuilder = projectBuilder;
+            this.headerBuilders = headerBuilders;
         }
 
-        private ConnectorJDBC(
-                final String id,
-                final String name,
-                final String password ,
-                final String className,
-                final String  tableName,
-
-                final Collection<Field> fields
-             //   , final Project project
-        ) {
-            this(
-                    id,
-                    name,
-                    ",",
-                    StandardCharsets.UTF_8.name(),
-                    password ,
-                    className,
-                     tableName, fields
-                  //  , project
-            );
-        }
-
-        private ConnectorJDBC(
-                final String id,
-                final String name,
-                final String jdbcUrl ,
-                final String password ,
-                final String className,
-                final String  tableName,
-                final Collection<Field> fields
-               // , final Project project
-        ) {
-            this(
-                    id,
-                    name,
-                    jdbcUrl ,
-                    StandardCharsets.UTF_8.name(),
-                    password ,
-                    className,
-                     tableName,
-                    fields
-                  //  , project
-            );
-        }
-
-
-
-    public String name() {
-            return this.name;
-        }
-
-        public String id() {
-            return this.id;
-        }
-
-        public String jdbcUrl () {
-            return this.jdbcUrl ;
-        }
-
-        public String username() {
-            return this.username;
-        }
-
-        public String password () {
-            return this.password ;
-        }
-
-        public String className() {
-            return this.className;
-        }
-
-        public String  tableName() {
-            return this. tableName;
-        }
-
-
-        public Collection<Field> fields() {
-            return this.fields;
-        }
-        /*public Project project() {
-            return this.project;
-        }*/
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            if (!super.equals(o)) return false;
-
-            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC that = (com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC) o;
-
-            if (!jdbcUrl .equals(that.jdbcUrl )) return false;
-            if (!username.equals(that.username)) return false;
-            if (!password .equals(that.password )) return false;
-            if (!className.equals(that.className)) return false;
-            return  tableName.equals(that. tableName);
-        }
-
-        @Override
-        public int hashCode() {
-            int result = super.hashCode();
-            result = 31 * result + jdbcUrl .hashCode();
-            result = 31 * result + username.hashCode();
-            result = 31 * result + password .hashCode();
-            result = 31 * result + className.hashCode();
-            result = 31 * result +  tableName.hashCode();
-            return result;
-        }
-
-        @Override
-        public String toString() {
-            return
-                    """
-                            Configuration[
-                                id=%s,
-                                name=%s,
-                                jdbcUrl =%s,
-                                username=%s,
-                                password =%s,
-                                className=%s,
-                                 tableName=%s,
-                                fields=%s,
-                               // project=%s
-                            ]
-                            """
-                            .formatted(
-                                    this.id,
-                                    this.name,
-                                    this.jdbcUrl ,
-                                    this.username,
-                                    this.password ,
-                                    this.className,
-                                    this. tableName,
-                                    this.fields
-                                  //  ,this.project
-                            );
-        }
-
-        private static Either<Collection<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>, com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC> of(
-                final String id,
-                final String name,
-                final String jdbcUrl ,
-                final String username,
-                final String password ,
-                final String className,
-                final String  tableName,
-                final Collection<Field> fields
-                //,final Project project
-        ) {
-            return
-                    com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkThenInstantiate(
-                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.instance(
-                                    id,
-                                    name,
-                                    jdbcUrl ,
-                                    username,
-                                    password ,
-                                    className,
-                                     tableName,
-
-                                    fields
-                                  //  ,project
-                            ),
-                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkId(
-                                    id
-                            ), com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkName(
-                                    name
-                            ),
-                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkHeaders(
-                                    fields
-                            )
-                    );
-        }
-
-        private static Supplier<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC> instance(
-                final String id,
-                final String name,
-                final String jdbcUrl ,
-                final String username,
-                final String password ,
-                final String className,
-                final String  tableName,
-                final Collection<Field> fields
-                //, final Project project
-        ) {
-            if (
-                    Objects.isNull(jdbcUrl ) &&
-                            Objects.isNull(username)
-            )
-                return
-                        () ->
-                                new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC(
-                                        id,
-                                        name,
-                                        password ,
-                                        className,
-                                         tableName,
-                                        fields
-                                       // , project
-                                );
-            if (Objects.isNull(username))
-                return
-                        () ->
-                                new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC(
-                                        id,
-                                        name,
-                                        jdbcUrl ,
-                                        password ,
-                                        className,
-                                         tableName,
-                                        fields
-                                      //  ,project
-                                );
-            return
-
-                    () ->
-                            new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC(
-                                    id,
-                                    name,
-                                    jdbcUrl ,
-                                    username,
-                                    password ,
-                                    className,
-                                     tableName,
-
-                                    fields
-                                  //  ,project
-                            );
-        }
-
-        private static Supplier<Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>> checkId(
+        public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withId(
                 final String id
         ) {
             return
-                    () ->
-                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkNonNullableNonBlankStringField(
+                    new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
+                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(
                                     id,
-                                    com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.IdMalformed::new
-                            );
+                                    this.id
+                            ),
+                            this.name,
+                            this.jdbcUrl ,
+                            this.username,
+                            this.password ,
+                            this.className,
+                            this. tableName,
+                            this.initialQuery,
+                            this.checkpointColumn,
+                            this.incrementalVariable,
+                            this.incrementalQuery,
+                            this.mode,
+                            this.containsHeaders,
+                            this.fields
+                            , this.project,
+                            projectBuilder
+                            , this.headerBuilders
+                    );
+        }
+        public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withProject(
+                final Project project
+        ) {
+            return
+                    new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(this.id,
+                            this.name,
+                            this.jdbcUrl ,
+                            this.username,
+                            this.password ,
+                            this.className,
+                            this. tableName,
+                            this.initialQuery,
+                            this.checkpointColumn,
+                            this.incrementalVariable,
+                            this.incrementalQuery,
+                            this.mode,
+                            this.containsHeaders,
+                            this.fields,
+                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(project,this.project),
+                            projectBuilder, this.headerBuilders
+
+                    );
         }
 
-        private static Supplier<Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>> checkName(
+        public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withName(
                 final String name
         ) {
             return
-                    () ->
-                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkNonNullableNonBlankStringField(
+                    new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
+                            this.id,
+                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(
                                     name,
-                                    com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.NameMalformed::new
-                            );
+                                    this.name
+                            ),
+                            this.jdbcUrl ,
+                            this.username,
+                            this.password ,
+                            this.className,
+                            this. tableName,
+                            this.initialQuery,
+                            this.checkpointColumn,
+                            this.incrementalVariable,
+                            this.incrementalQuery,
+                            this.mode,
+                            this.containsHeaders,
+                            this.fields
+                            ,this.project
+                            ,projectBuilder
+                            , this.headerBuilders
+                    );
         }
 
-        private static Supplier<Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>> checkjdbcUrl (
+        public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withjdbcUrl (
                 final String jdbcUrl
         ) {
             return
-                    () ->
-                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkNullableNonBlankStringField(
+                    new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
+                            this.id,
+                            this.name,
+                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(
                                     jdbcUrl ,
-                                    com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.jdbcUrlMalformed::new,
-                                    com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC::checkjdbcUrlIsNotComposedOfLettersOrDigits
-                            );
+                                    this.jdbcUrl
+                            ),
+                            this.username,
+                            this.password ,
+                            this.className,
+                            this. tableName,
+                            this.initialQuery,
+                            this.checkpointColumn,
+                            this.incrementalVariable,
+                            this.incrementalQuery,
+                            this.mode,
+                            this.containsHeaders,
+                            this.fields,
+                            this.project,
+                            projectBuilder,
+                            this.headerBuilders
+                    );
         }
 
+        public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withusername(
+                final String username
+        ) {
+            return
+                    new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
+                            this.id,
+                            this.name,
+                            this.jdbcUrl ,
+                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(
+                                    username,
+                                    this.username
+                            ),
+                            this.password ,
+                            this.className,
+                            this. tableName,
+                            this.initialQuery,
+                            this.checkpointColumn,
+                            this.incrementalVariable,
+                            this.incrementalQuery,
+                            this.mode,
+                            this.containsHeaders,
+                            this.fields
+                            , this.project
+                            , projectBuilder
+                            , this.headerBuilders
+                    );
+        }
 
-        private static Supplier<Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>> checkpassword (
+        public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withpassword (
                 final String password
         ) {
             return
-                    () ->
-                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkNonNullableNonBlankStringField(
+                    new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
+                            this.id,
+                            this.name,
+                            this.jdbcUrl ,
+                            this.username,
+                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(
                                     password ,
-                                    com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.passwordMalformed::new
-                            );
+                                    this.password
+                            ),
+                            this.className,
+                            this. tableName,
+                            this.initialQuery,
+                            this.checkpointColumn,
+                            this.incrementalVariable,
+                            this.incrementalQuery,
+                            this.mode,
+                            this.containsHeaders,
+                            this.fields,
+                            this.project,
+                            projectBuilder,
+                            this.headerBuilders
+                    );
         }
 
-        private static Supplier<Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>> checkclassName(
+        public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withclassName(
                 final String className
         ) {
             return
-                    () ->
-                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkNonNullableNonBlankStringField(
+                    new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
+                            this.id,
+                            this.name,
+                            this.jdbcUrl ,
+                            this.username,
+                            this.password ,
+                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(
                                     className,
-                                    com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.classNameMalformed::new
-                            );
+                                    this.className
+                            ),
+                            this. tableName,
+                            this.initialQuery,
+                            this.checkpointColumn,
+                            this.incrementalVariable,
+                            this.incrementalQuery,
+                            this.mode,
+                            this.containsHeaders,
+                            this.fields
+                            ,this.project
+                            ,  projectBuilder
+                            , this.headerBuilders
+                    );
         }
 
-        private static Supplier<Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>> checktableName(
+        public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withtableName(
                 final String  tableName
         ) {
             return
-                    () ->
-                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkNonNullableNonBlankStringField(
-                                     tableName,
-                                    com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error. tableNameMalformed::new
-                            );
-        }
-
-        private static Supplier<Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>> checkHeaders(
-                final Collection<Field> fields
-        ) {
-            return
-                    () ->
-                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkHeaderFormat(fields)
-                                    .or(() ->
-                                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkHeadersIds(fields)
-                                    )
-                                    .or( () ->
-                                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkHeadersPositions(fields)
-                                    );
-        }
-
-        private static Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> checkHeadersPositions(
-                final Collection<Field> fields
-        ) {
-            return
-                    com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkField(
-                            fields,
-                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.HeadersSequenceMalformed::new,
-                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC::checkHeadersPositionSequence
+                    new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
+                            this.id,
+                            this.name,
+                            this.jdbcUrl ,
+                            this.username,
+                            this.password ,
+                            this.className,
+                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(
+                                    tableName,
+                                    this. tableName
+                            ),
+                            this.initialQuery,
+                            this.checkpointColumn,
+                            this.incrementalVariable,
+                            this.incrementalQuery,
+                            this.mode,
+                            this.containsHeaders,
+                            this.fields
+                            , this.project
+                            ,projectBuilder
+                            , this.headerBuilders
                     );
         }
 
-        private static Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> checkHeadersIds(
-                final Collection<Field> fields
+        public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withinitialQuery(
+                final String  initialQuery
         ) {
             return
-                    com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkField(
-                            fields,
-                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.IdHeaderMissing::new,
-                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC::checkHeadersContainsIds
+                    new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
+                            this.id,
+                            this.name,
+                            this.jdbcUrl ,
+                            this.username,
+                            this.password ,
+                            this.className,
+                            this.tableName,
+                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(
+                                    initialQuery,
+                                    this.initialQuery
+                            ),
+
+
+                            this.checkpointColumn,
+                            this.incrementalVariable,
+                            this.incrementalQuery,
+                            this.mode,
+                            this.containsHeaders,
+                            this.fields
+                            , this.project
+                            ,projectBuilder
+                            , this.headerBuilders
+                    );
+        }
+        public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withcheckpointColumn(
+                final String  checkpointColumn
+        ) {
+            return
+                    new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
+                            this.id,
+                            this.name,
+                            this.jdbcUrl ,
+                            this.username,
+                            this.password ,
+                            this.className,
+                            this.tableName,
+
+                            this.initialQuery,
+                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(
+                                    checkpointColumn,
+                                    this. checkpointColumn
+                            ),
+
+                            this.incrementalVariable,
+                            this.incrementalQuery,
+                            this.mode,
+                            this.containsHeaders,
+                            this.fields
+                            , this.project
+                            ,projectBuilder
+                            , this.headerBuilders
+                    );
+        }
+        public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withincrementalVariable(
+                final String  incrementalVariable
+        ) {
+            return
+                    new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
+                            this.id,
+                            this.name,
+                            this.jdbcUrl ,
+                            this.username,
+                            this.password ,
+                            this.className,
+                            this.tableName,
+
+                            this.initialQuery,
+                            this.checkpointColumn,
+                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(
+                                    incrementalVariable,
+                                    this. incrementalVariable
+                            ),
+
+                            this.incrementalQuery,
+                            this.mode,
+                            this.containsHeaders,
+                            this.fields
+                            , this.project
+                            ,projectBuilder
+                            , this.headerBuilders
+                    );
+        }
+        public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withincrementalQuery(
+                final String  incrementalQuery
+        ) {
+            return
+                    new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
+                            this.id,
+                            this.name,
+                            this.jdbcUrl ,
+                            this.username,
+                            this.password ,
+                            this.className,
+                            this.tableName,
+
+                            this.initialQuery,
+                            this.checkpointColumn,
+                            this.incrementalVariable,
+                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(
+                                    incrementalQuery,
+                                    this. incrementalQuery
+                            ),this.mode,
+
+
+                            this.containsHeaders,
+                            this.fields
+                            , this.project
+                            ,projectBuilder
+                            , this.headerBuilders
                     );
         }
 
-        private static Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> checkHeaderFormat(
-                final Collection<Field> fields
+        public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withmode(
+                final QueryMode  mode
         ) {
             return
-                    com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkNonNullableField(
-                            fields,
-                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.HeaderMalformed::new
+                    new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
+                            this.id,
+                            this.name,
+                            this.jdbcUrl ,
+                            this.username,
+                            this.password ,
+                            this.className,
+                            this.tableName,
+
+                            this.initialQuery,
+                            this.checkpointColumn,
+                            this.incrementalVariable,
+                            this. incrementalQuery,
+                             Builder.nonNullOrDefault(
+                            mode,
+                            this.mode
+                    ),
+
+
+                            this.containsHeaders,
+                            this.fields
+                            , this.project
+                            ,projectBuilder
+                            , this.headerBuilders
                     );
         }
 
-        private static boolean checkHeadersContainsIds(
+
+
+
+
+        public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withContainsHeaders(
+                final boolean containsHeaders
+        ) {
+            return
+                    new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
+                            this.id,
+                            this.name,
+                            this.jdbcUrl ,
+                            this.username,
+                            this.password ,
+                            this.className,
+                            this. tableName,
+                            this.initialQuery,
+                            this.checkpointColumn,
+                            this.incrementalVariable,
+                            this.incrementalQuery,
+                            this.mode,
+                            containsHeaders,
+                            this.fields
+                            ,this.project
+                            , projectBuilder
+                            , this.headerBuilders
+                    );
+        }
+
+        public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withHeaders(
                 final Collection<Field> fields
         ) {
             return
-                    Objects.nonNull(fields) &&
-                            fields.stream()
-                                    .anyMatch(Field::partOfDocumentIdentity);
-        }
-
-        private static boolean checkHeadersPositionSequence(
-                final Collection<Field> fields
-        ) {
-            return
-                    Objects.nonNull(fields) &&
-                            fields.stream()
-                                    .map(Field::position)
-                                    .max(Comparator.naturalOrder())
-                                    .map(max -> fields.size() == max)
-                                    .orElse(false);
-        }
-
-        private static boolean checkjdbcUrlIsNotComposedOfLettersOrDigits(
-                final String jdbcUrl
-        ) {
-            return
-                    jdbcUrl .chars()
-                            .noneMatch(
-                                    ((IntPredicate) Character::isDigit)
-                                            .or(Character::isAlphabetic)
-                            );
-        }
-
-        @SafeVarargs
-        private static Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> checkNonNullableNonBlankStringField(
-                final String field,
-                final Supplier<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> errorIfInvalid,
-                final Predicate<String>... extraChecks
-        ) {
-            return
-                    com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkNonNullableField(
-                            field,
-                            errorIfInvalid,
-                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.mergePredicates(
-                                    Predicate.not(String::isBlank),
-                                    extraChecks
+                    new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
+                            this.id,
+                            this.name,
+                            this.jdbcUrl ,
+                            this.username,
+                            this.password ,
+                            this.className,
+                            this. tableName,
+                            this.initialQuery,
+                            this.checkpointColumn,
+                            this.incrementalVariable,
+                            this.incrementalQuery,
+                            this.mode,
+                            this.containsHeaders,
+                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.addToCollection(
+                                    this.fields,
+                                    fields
                             )
+                            ,this.project
+                            ,projectBuilder
+                            , this.headerBuilders
                     );
         }
 
         @SafeVarargs
-        private static Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> checkNullableNonBlankStringField(
-                final String field,
-                final Supplier<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> errorIfInvalid,
-                final Predicate<String>... extraChecks
+        public final com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withHeaders(
+                final Supplier<Either<Collection<Field.Error>, Field>>... headerBuilders
+        ) {
+            return
+                    new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
+                            this.id,
+                            this.name,
+                            this.jdbcUrl ,
+                            this.username,
+                            this.password ,
+                            this.className,
+                            this. tableName,
+                            this.initialQuery,
+                            this.checkpointColumn,
+                            this.incrementalVariable,
+                            this.incrementalQuery,
+                            this.mode,
+                            this.containsHeaders,
+                            this.fields
+
+                            ,this.project
+                            ,projectBuilder
+                            , com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.addToCollection(
+                            this.headerBuilders,
+                            headerBuilders
+                    )
+                    );
+        }
+
+        public Either<Collection<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>, com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC> build() {
+            return
+                    com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.buildHeaders(
+                                    this.fields,
+                                    this.headerBuilders
+                            )
+                            .mapLeft(
+                                    com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.configurationInstanceForErrors(
+                                            this.id,
+                                            this.name,
+                                            this.jdbcUrl ,
+                                            this.username,
+                                            this.password ,
+                                            this.className,
+                                            this. tableName,
+                                            this.initialQuery,
+                                            this.checkpointColumn,
+                                            this.incrementalVariable,
+                                            this.incrementalQuery,
+                                            this.mode,
+                                            this.containsHeaders
+                                            // ,this.project
+                                    )
+                            )
+                            .flatMap(
+                                    com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.configurationInstance(
+                                            this.id,
+                                            this.name,
+                                            this.jdbcUrl ,
+                                            this.username,
+                                            this.password ,
+                                            this.className,
+                                            this. tableName,
+                                            this.initialQuery,
+                                            this.checkpointColumn,
+                                            this.incrementalVariable,
+                                            this.incrementalQuery,
+                                            this.mode,
+                                            this.containsHeaders
+                                            , this.project
+                                    )
+                            );
+        }
+
+        public static com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder builder() {
+            return
+                    new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,null,null,null,null,null,
+                            true,
+                            null,
+                            null,null,null
+                    );
+        }
+
+        private static Function<Collection<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>, Collection<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>> configurationInstanceForErrors(
+                final String id,
+                final String name,
+                final String jdbcUrl ,
+                final String username,
+                final String password ,
+                final String className,
+                final String  tableName,
+                final String initialQuery,
+                final String checkpointColumn,
+                final String incrementalVariable,
+                final String incrementalQuery,
+                final QueryMode mode,
+                final boolean containsHeaders
+                // final Project project
+        ) {
+            return
+                    headersErrors ->
+                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.addToCollection(
+                                    headersErrors,
+                                    com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.of(
+                                                    id,
+                                                    name,
+                                                    jdbcUrl,
+                                                    username,
+                                                    password ,
+                                                    className,
+                                                    tableName,
+                                                    initialQuery,
+                                                    checkpointColumn,
+                                                    incrementalVariable,
+                                                    incrementalQuery,mode,
+                                                    null
+                                                    //null
+                                            )
+                                            .fold(
+                                                    Function.identity(),
+                                                    __ -> Collections.emptySet()
+                                            )
+                            );
+        }
+
+        private static Function<Collection<Field>, Either<Collection<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>, com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC>> configurationInstance(
+                final String id,
+                final String name,
+                final String jdbcUrl ,
+                final String username,
+                final String password ,
+                final String className,
+                final String  tableName,
+                final String initialQuery,
+                final String checkpointColumn,
+                final String incrementalVariable,
+                final String incrementalQuery,
+                final QueryMode mode,
+                final boolean containsHeaders,
+                final Project project
+
+        ) {
+            return
+                    fields ->
+                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.of(
+                                    id,
+                                    name,
+                                    jdbcUrl ,
+                                    username,
+                                    password ,
+                                    className,
+                                    tableName,initialQuery,checkpointColumn,incrementalVariable,incrementalQuery,
+                                    mode
+                                    ,fields
+                                    // ,project
+
+
+                            );
+        }
+
+        private static Either<Collection<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>, Collection<Field>> buildHeaders(
+                final Collection<Field> fields,
+                final Collection<Supplier<Either<Collection<Field.Error>, Field>>> headerBuilders
+        ) {
+            final var errors = com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.buildHeadersForErrors(headerBuilders);
+            final Supplier<Collection<Field>> validHeaders =
+                    () ->
+                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.mergeHeaders(
+                                    fields,
+                                    headerBuilders
+                            );
+            return
+                    errors.isEmpty()
+                            ? Either.right(validHeaders.get())
+                            : Either.left(errors);
+        }
+        private static Either<Collection<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>, Project> buildProject(
+                final Project project,
+                final Supplier<Either<Collection<Project.Error>, Project>> projectBuilder
+        ) {
+            final var errors = com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.buildProjectForErrors(projectBuilder);
+            final Supplier<Project> validProject =
+                    () ->
+                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.mergeProject(
+                                    project,
+                                    projectBuilder
+                            );
+            return
+                    errors.isEmpty()
+                            ? Either.right(validProject.get())
+                            : Either.left(errors);
+        }
+        private static Collection<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> buildProjectForErrors(
+                final Supplier<Either<Collection<Project.Error>, Project>> projectBuilder
+        ) {
+            return
+                    Objects.nonNull(List.of(projectBuilder))
+                            ?
+                            List.of(projectBuilder).stream()
+                                    .map(Supplier::get)
+                                    .filter(Either::isLeft)
+                                    .map(Either::getLeft)
+                                    .flatMap(Collection::stream)
+                                    .map(com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder::projectErrorToConfigurationError)
+                                    .collect(Collectors.toUnmodifiableSet())
+                            :
+                            Collections.emptySet();
+
+        }
+
+        private static Collection<Field> mergeHeaders(
+                final Collection<Field> fields,
+                final Collection<Supplier<Either<Collection<Field.Error>, Field>>> headerBuilders
+        ) {
+            return
+                    com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.addToCollection(
+                            fields,
+                            Objects.nonNull(headerBuilders)
+                                    ?
+                                    headerBuilders.stream()
+                                            .map(Supplier::get)
+                                            .filter(Either::isRight)
+                                            .map(Either::get)
+                                            .collect(Collectors.toUnmodifiableSet())
+                                    :
+                                    Collections.emptySet()
+                    );
+        }
+        private static Project mergeProject(
+                final Project project,
+                final Supplier <Either <Collection<Project.Error>,Project>> projectBuilder
+        )
+        {   //return projectBuilder.get().getOrElse(new Project("default","default","defaukt" ));
+
+            return
+
+                    Objects.nonNull(projectBuilder)
+                            ?
+                            projectBuilder.get().get()
+
+                            :
+                            null;
+
+
+
+        }
+
+        private static Collection<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> buildHeadersForErrors(
+                final Collection<Supplier<Either<Collection<Field.Error>, Field>>> headerBuilders
+        ) {
+            return
+                    Objects.nonNull(headerBuilders)
+                            ?
+                            headerBuilders.stream()
+                                    .map(Supplier::get)
+                                    .filter(Either::isLeft)
+                                    .map(Either::getLeft)
+                                    .flatMap(Collection::stream)
+                                    .map(com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder::errorToConfigurationError)
+                                    .collect(Collectors.toUnmodifiableSet())
+                            :
+                            Collections.emptySet();
+        }
+
+        private static com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error errorToConfigurationError(
+                final Field.Error headerError
+        ) {
+            if (headerError instanceof Field.Error.IdMalformed)
+                return new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.Header.IdMalformed();
+            if (headerError instanceof Field.Error.ReferenceConnectorMalformed)
+                return new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.Header.ReferenceConnectorMalformed();
+            if (headerError instanceof Field.Error.NameMalformed)
+                return new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.Header.NameMalformed();
+            if (headerError instanceof Field.Error.PositionMalformed)
+                return new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.Header.PositionMalformed();
+            if (headerError instanceof Field.Error.MetaMalformed)
+                return new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.Header.MetaMalformed();
+            if (headerError instanceof Field.Error.NullOrEmptyRestrictionCombination)
+                return new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.Header.NullOrEmptyRestrictionCombination();
+            throw new IllegalStateException("header error not mapped to connector error");
+        }
+        private static com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error projectErrorToConfigurationError(
+                final Project.Error projectError
+        ) {
+            if (projectError instanceof Project.Error.IdMalformed)
+                return new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.Header.IdMalformed();
+
+            if (projectError instanceof Project.Error.NameMalformed)
+                return new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.Header.NameMalformed();
+            throw new IllegalStateException("header error not mapped to connector error");
+        }
+
+        private static <FIELD> FIELD nonNullOrDefault(
+                final FIELD field,
+                final FIELD defaultValue
         ) {
             return
                     Objects.nonNull(field)
-                            ?
-                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkNonNullableField(
-                                    field,
-                                    errorIfInvalid,
-                                    com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.mergePredicates(
-                                            Predicate.not(String::isBlank),
-                                            extraChecks
-                                    )
-                            )
-                            :
-                            Optional.empty();
+                            ? field
+                            : defaultValue;
         }
 
-        @SafeVarargs
-        private static <FIELD> Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> checkNonNullableField(
-                final FIELD field,
-                final Supplier<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> errorIfInvalid,
-                final Predicate<FIELD>... extraChecks
-        ) {
-            return
-                    com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkField(
-                            field,
-                            errorIfInvalid,
-                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.mergePredicates(
-                                    Objects::nonNull,
-                                    extraChecks
-                            )
-                    );
-        }
-
-        @SafeVarargs
-        private static <FIELD> Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> checkField(
-                final FIELD field,
-                final Supplier<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> errorIfInvalid,
-                final Predicate<FIELD>... validityChecks
-        ) {
-            return
-                    Arrays.stream(validityChecks)
-                            .anyMatch(Predicate.not(it -> it.test(field)))
-                            ? Optional.ofNullable(errorIfInvalid.get())
-                            : Optional.empty();
-        }
-
-        @SafeVarargs
-        private static Either<Collection<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>, com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC> checkThenInstantiate(
-                final Supplier<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC> instance,
-                final Supplier<Optional<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>>... checks
-        ) {
-            final var errors =
-                    Arrays.stream(checks)
-                            .map(Supplier::get)
-                            .filter(Optional::isPresent)
-                            .map(Optional::get)
-                            .collect(Collectors.toUnmodifiableSet());
-            return
-                    errors.isEmpty()
-                            ? Either.right(instance.get())
-                            : Either.left(errors);
-        }
-
-        @SafeVarargs
-        private static <TYPE> Predicate<TYPE> mergePredicates(
-                final Predicate<TYPE> predicate,
-                final Predicate<TYPE>... predicates
+        private static <TYPE> Collection<TYPE> addToCollection(
+                final Collection<TYPE> initialCollection,
+                final Collection<TYPE> elements
         ) {
             return
                     Stream.of(
-                                    Stream.of(predicate),
-                                    Arrays.stream(predicates)
+                                    initialCollection,
+                                    elements
                             )
-                            .flatMap(Function.identity())
                             .filter(Objects::nonNull)
-                            .reduce(
-                                    it -> true,
-                                    Predicate::and
-                            );
+                            .flatMap(Collection::stream)
+                            .toList();
         }
 
-        public static final class Builder {
-            private final String id;
-            private final String name;
-            private final String jdbcUrl ;
-            private final String username;
-            private final String password ;
-            private final String className;
-            private final String  tableName;
-            private final boolean containsHeaders;
-            private final Collection<Field> fields;
-            private final Project project;
-            private final Supplier<Either<Collection<Project.Error>, Project>> projectBuilder;
-            private final Collection<Supplier<Either<Collection<Field.Error>, Field>>> headerBuilders;
+        @SafeVarargs
+        private static <TYPE> Collection<TYPE> addToCollection(
+                final Collection<TYPE> initialCollection,
+                final TYPE... elements
+        ) {
+            return
+                    Objects.nonNull(initialCollection)
+                            ?
+                            Stream.of(
+                                            initialCollection.stream(),
+                                            Arrays.stream(elements)
+                                    )
+                                    .flatMap(Function.identity())
+                                    .toList()
+                            :
+                            Arrays.stream(elements)
+                                    .toList();
+        }
+    }
 
-            private Builder(
-                    final String id,
-                    final String name,
-                    final String jdbcUrl ,
-                    final String username,
-                    final String password ,
-                    final String className,
-                    final String  tableName,
-                    final boolean containsHeaders,
-                    final Collection<Field> fields,
-                    final Project project,
-                    Supplier<Either<Collection<Project.Error>, Project>> projectBuilder,
-                    final Collection<Supplier<Either<Collection<Field.Error>, Field>>> headerBuilders
-            ) {
-                this.id = id;
-                this.name = name;
-                this.jdbcUrl  = jdbcUrl ;
-                this.username = username;
-                this.password  = password ;
-                this.className = className;
-                this. tableName =  tableName;
-                this.containsHeaders = containsHeaders;
-                this.fields = fields;
-                this.project = project;
-                this.projectBuilder = projectBuilder;
-                this.headerBuilders = headerBuilders;
-            }
+    public sealed interface Error {
 
-            public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withId(
-                    final String id
-            ) {
-                return
-                        new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
-                                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(
-                                        id,
-                                        this.id
-                                ),
-                                this.name,
-                                this.jdbcUrl ,
-                                this.username,
-                                this.password ,
-                                this.className,
-                                this. tableName,
-                                this.containsHeaders,
-                                this.fields
-                                , this.project,
-                                projectBuilder
-                                , this.headerBuilders
-                        );
-            }
-            public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withProject(
-                    final Project project
-            ) {
-                return
-                        new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(this.id,
-                                this.name,
-                                this.jdbcUrl ,
-                                this.username,
-                                this.password ,
-                                this.className,
-                                this. tableName,
-                                this.containsHeaders,
-                                this.fields,
-                                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(project,this.project),
-                                projectBuilder, this.headerBuilders
+        default String message() {
+            return this.getClass().getCanonicalName();
+        }
 
-                        );
-            }
-
-            public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withName(
-                    final String name
-            ) {
-                return
-                        new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
-                                this.id,
-                                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(
-                                        name,
-                                        this.name
-                                ),
-                                this.jdbcUrl ,
-                                this.username,
-                                this.password ,
-                                this.className,
-                                this. tableName,
-                                this.containsHeaders,
-                                this.fields
-                                ,this.project
-                                ,projectBuilder
-                                , this.headerBuilders
-                        );
-            }
-
-            public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withjdbcUrl (
-                    final String jdbcUrl
-            ) {
-                return
-                        new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
-                                this.id,
-                                this.name,
-                                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(
-                                        jdbcUrl ,
-                                        this.jdbcUrl
-                                ),
-                                this.username,
-                                this.password ,
-                                this.className,
-                                this. tableName,
-                                this.containsHeaders,
-                                this.fields,
-                                this.project,
-                                projectBuilder,
-                                this.headerBuilders
-                        );
-            }
-
-            public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withusername(
-                    final String username
-            ) {
-                return
-                        new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
-                                this.id,
-                                this.name,
-                                this.jdbcUrl ,
-                                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(
-                                        username,
-                                        this.username
-                                ),
-                                this.password ,
-                                this.className,
-                                this. tableName,
-                                this.containsHeaders,
-                                this.fields
-                                , this.project
-                                , projectBuilder
-                                , this.headerBuilders
-                        );
-            }
-
-            public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withpassword (
-                    final String password
-            ) {
-                return
-                        new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
-                                this.id,
-                                this.name,
-                                this.jdbcUrl ,
-                                this.username,
-                                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(
-                                        password ,
-                                        this.password
-                                ),
-                                this.className,
-                                this. tableName,
-                                this.containsHeaders,
-                                this.fields,
-                                this.project,
-                                projectBuilder,
-                                this.headerBuilders
-                        );
-            }
-
-            public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withclassName(
-                    final String className
-            ) {
-                return
-                        new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
-                                this.id,
-                                this.name,
-                                this.jdbcUrl ,
-                                this.username,
-                                this.password ,
-                                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(
-                                        className,
-                                        this.className
-                                ),
-                                this. tableName,
-                                this.containsHeaders,
-                                this.fields
-                                ,this.project
-                                ,  projectBuilder
-                                , this.headerBuilders
-                        );
-            }
-
-            public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withtableName(
-                    final String  tableName
-            ) {
-                return
-                        new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
-                                this.id,
-                                this.name,
-                                this.jdbcUrl ,
-                                this.username,
-                                this.password ,
-                                this.className,
-                                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(
-                                         tableName,
-                                        this. tableName
-                                ),
-                                this.containsHeaders,
-                                this.fields
-                                , this.project
-                                ,projectBuilder
-                                , this.headerBuilders
-                        );
-            }
-
-            public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withContainsHeaders(
-                    final boolean containsHeaders
-            ) {
-                return
-                        new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
-                                this.id,
-                                this.name,
-                                this.jdbcUrl ,
-                                this.username,
-                                this.password ,
-                                this.className,
-                                this. tableName,
-                                containsHeaders,
-                                this.fields
-                                ,this.project
-                                , projectBuilder
-                                , this.headerBuilders
-                        );
-            }
-
-            public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withHeaders(
-                    final Collection<Field> fields
-            ) {
-                return
-                        new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
-                                this.id,
-                                this.name,
-                                this.jdbcUrl ,
-                                this.username,
-                                this.password ,
-                                this.className,
-                                this. tableName,
-                                this.containsHeaders,
-                                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.addToCollection(
-                                        this.fields,
-                                        fields
-                                )
-                                ,this.project
-                                ,projectBuilder
-                                , this.headerBuilders
-                        );
-            }
-
-            @SafeVarargs
-            public final com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withHeaders(
-                    final Supplier<Either<Collection<Field.Error>, Field>>... headerBuilders
-            ) {
-                return
-                        new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
-                                this.id,
-                                this.name,
-                                this.jdbcUrl ,
-                                this.username,
-                                this.password ,
-                                this.className,
-                                this. tableName,
-                                this.containsHeaders,
-                                this.fields
-
-                                ,this.project
-                                ,projectBuilder
-                                , com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.addToCollection(
-                                this.headerBuilders,
-                                headerBuilders
-                        )
-                        );
-            }
-
-            public Either<Collection<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>, com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC> build() {
-                return
-                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.buildHeaders(
-                                        this.fields,
-                                        this.headerBuilders
-                                )
-                                .mapLeft(
-                                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.configurationInstanceForErrors(
-                                                this.id,
-                                                this.name,
-                                                this.jdbcUrl ,
-                                                this.username,
-                                                this.password ,
-                                                this.className,
-                                                this. tableName,
-                                                this.containsHeaders
-                                                // ,this.project
-                                        )
-                                )
-                                .flatMap(
-                                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.configurationInstance(
-                                                this.id,
-                                                this.name,
-                                                this.jdbcUrl ,
-                                                this.username,
-                                                this.password ,
-                                                this.className,
-                                                this. tableName,
-                                                this.containsHeaders
-                                                , this.project
-                                        )
-                                );
-            }
-
-            public static com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder builder() {
-                return
-                        new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                true,
-                                null,
-                                null,null,null
-                        );
-            }
-
-            private static Function<Collection<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>, Collection<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>> configurationInstanceForErrors(
-                    final String id,
-                    final String name,
-                    final String jdbcUrl ,
-                    final String username,
-                    final String password ,
-                    final String className,
-                    final String  tableName,
-                    final boolean containsHeaders
-                    // final Project project
-            ) {
-                return
-                        headersErrors ->
-                                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.addToCollection(
-                                        headersErrors,
-                                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.of(
-                                                        id,
-                                                        name,
-                                                        jdbcUrl ,
-                                                        username,
-                                                        password ,
-                                                        className,
-                                                         tableName,
-                                                        null
-                                                        //null
-                                                )
-                                                .fold(
-                                                        Function.identity(),
-                                                        __ -> Collections.emptySet()
-                                                )
-                                );
-            }
-
-            private static Function<Collection<Field>, Either<Collection<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>, com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC>> configurationInstance(
-                    final String id,
-                    final String name,
-                    final String jdbcUrl ,
-                    final String username,
-                    final String password ,
-                    final String className,
-                    final String  tableName,
-                    final boolean containsHeaders,
-                    final Project project
-
-            ) {
-                return
-                        fields ->
-                                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.of(
-                                        id,
-                                        name,
-                                        jdbcUrl ,
-                                        username,
-                                        password ,
-                                        className,
-                                         tableName
-                                        ,fields
-                                       // ,project
-
-
-                                );
-            }
-
-            private static Either<Collection<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>, Collection<Field>> buildHeaders(
-                    final Collection<Field> fields,
-                    final Collection<Supplier<Either<Collection<Field.Error>, Field>>> headerBuilders
-            ) {
-                final var errors = com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.buildHeadersForErrors(headerBuilders);
-                final Supplier<Collection<Field>> validHeaders =
-                        () ->
-                                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.mergeHeaders(
-                                        fields,
-                                        headerBuilders
-                                );
-                return
-                        errors.isEmpty()
-                                ? Either.right(validHeaders.get())
-                                : Either.left(errors);
-            }
-            private static Either<Collection<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error>, Project> buildProject(
-                    final Project project,
-                    final Supplier<Either<Collection<Project.Error>, Project>> projectBuilder
-            ) {
-                final var errors = com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.buildProjectForErrors(projectBuilder);
-                final Supplier<Project> validProject =
-                        () ->
-                                com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.mergeProject(
-                                        project,
-                                        projectBuilder
-                                );
-                return
-                        errors.isEmpty()
-                                ? Either.right(validProject.get())
-                                : Either.left(errors);
-            }
-            private static Collection<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> buildProjectForErrors(
-                    final Supplier<Either<Collection<Project.Error>, Project>> projectBuilder
-            ) {
-                return
-                        Objects.nonNull(List.of(projectBuilder))
-                                ?
-                                List.of(projectBuilder).stream()
-                                        .map(Supplier::get)
-                                        .filter(Either::isLeft)
-                                        .map(Either::getLeft)
-                                        .flatMap(Collection::stream)
-                                        .map(com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder::projectErrorToConfigurationError)
-                                        .collect(Collectors.toUnmodifiableSet())
-                                :
-                                Collections.emptySet();
-
-            }
-
-            private static Collection<Field> mergeHeaders(
-                    final Collection<Field> fields,
-                    final Collection<Supplier<Either<Collection<Field.Error>, Field>>> headerBuilders
-            ) {
-                return
-                        com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.addToCollection(
-                                fields,
-                                Objects.nonNull(headerBuilders)
-                                        ?
-                                        headerBuilders.stream()
-                                                .map(Supplier::get)
-                                                .filter(Either::isRight)
-                                                .map(Either::get)
-                                                .collect(Collectors.toUnmodifiableSet())
-                                        :
-                                        Collections.emptySet()
-                        );
-            }
-            private static Project mergeProject(
-                    final Project project,
-                    final Supplier <Either <Collection<Project.Error>,Project>> projectBuilder
-            )
-            {   //return projectBuilder.get().getOrElse(new Project("default","default","defaukt" ));
-
-                return
-
-                        Objects.nonNull(projectBuilder)
-                                ?
-                                projectBuilder.get().get()
-
-                                :
-                                null;
-
-
-
-            }
-
-            private static Collection<com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error> buildHeadersForErrors(
-                    final Collection<Supplier<Either<Collection<Field.Error>, Field>>> headerBuilders
-            ) {
-                return
-                        Objects.nonNull(headerBuilders)
-                                ?
-                                headerBuilders.stream()
-                                        .map(Supplier::get)
-                                        .filter(Either::isLeft)
-                                        .map(Either::getLeft)
-                                        .flatMap(Collection::stream)
-                                        .map(com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder::errorToConfigurationError)
-                                        .collect(Collectors.toUnmodifiableSet())
-                                :
-                                Collections.emptySet();
-            }
-
-            private static com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error errorToConfigurationError(
-                    final Field.Error headerError
-            ) {
-                if (headerError instanceof Field.Error.IdMalformed)
-                    return new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.Header.IdMalformed();
-                if (headerError instanceof Field.Error.ReferenceConnectorMalformed)
-                    return new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.Header.ReferenceConnectorMalformed();
-                if (headerError instanceof Field.Error.NameMalformed)
-                    return new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.Header.NameMalformed();
-                if (headerError instanceof Field.Error.PositionMalformed)
-                    return new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.Header.PositionMalformed();
-                if (headerError instanceof Field.Error.MetaMalformed)
-                    return new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.Header.MetaMalformed();
-                if (headerError instanceof Field.Error.NullOrEmptyRestrictionCombination)
-                    return new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.Header.NullOrEmptyRestrictionCombination();
-                throw new IllegalStateException("header error not mapped to connector error");
-            }
-            private static com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error projectErrorToConfigurationError(
-                    final Project.Error projectError
-            ) {
-                if (projectError instanceof Project.Error.IdMalformed)
-                    return new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.Header.IdMalformed();
-
-                if (projectError instanceof Project.Error.NameMalformed)
-                    return new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error.Header.NameMalformed();
-                throw new IllegalStateException("header error not mapped to connector error");
-            }
-
-            private static <FIELD> FIELD nonNullOrDefault(
-                    final FIELD field,
-                    final FIELD defaultValue
-            ) {
-                return
-                        Objects.nonNull(field)
-                                ? field
-                                : defaultValue;
-            }
-
-            private static <TYPE> Collection<TYPE> addToCollection(
-                    final Collection<TYPE> initialCollection,
-                    final Collection<TYPE> elements
-            ) {
-                return
-                        Stream.of(
-                                        initialCollection,
-                                        elements
-                                )
-                                .filter(Objects::nonNull)
-                                .flatMap(Collection::stream)
-                                .toList();
-            }
-
-            @SafeVarargs
-            private static <TYPE> Collection<TYPE> addToCollection(
-                    final Collection<TYPE> initialCollection,
-                    final TYPE... elements
-            ) {
-                return
-                        Objects.nonNull(initialCollection)
-                                ?
-                                Stream.of(
-                                                initialCollection.stream(),
-                                                Arrays.stream(elements)
-                                        )
-                                        .flatMap(Function.identity())
-                                        .toList()
-                                :
-                                Arrays.stream(elements)
-                                        .toList();
+        final class IdMalformed implements com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
+            private IdMalformed() {
             }
         }
 
-        public sealed interface Error {
-
-            default String message() {
-                return this.getClass().getCanonicalName();
+        final class NameMalformed implements com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
+            private NameMalformed() {
             }
+        }
 
-            final class IdMalformed implements com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
+        final class jdbcUrlMalformed implements com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
+            private jdbcUrlMalformed() {
+            }
+        }
+
+        final class usernameMalformed implements com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
+            private usernameMalformed() {
+            }
+        }
+
+        final class passwordMalformed implements com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
+            private passwordMalformed() {
+            }
+        }
+
+        final class classNameMalformed implements com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
+            private classNameMalformed() {
+            }
+        }
+
+        final class  tableNameMalformed implements com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
+            private  tableNameMalformed() {
+            }
+        }
+
+        final class HeaderMalformed implements com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
+            private HeaderMalformed() {
+            }
+        }
+
+        final class IdHeaderMissing implements com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
+            private IdHeaderMissing() {
+            }
+        }
+
+        final class HeadersSequenceMalformed implements com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
+            private HeadersSequenceMalformed() {
+            }
+        }
+
+        sealed interface Header extends com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
+
+            final class IdMalformed implements Header {
                 private IdMalformed() {
                 }
             }
 
-            final class NameMalformed implements com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
+            final class ReferenceConnectorMalformed implements Header {
+                private ReferenceConnectorMalformed() {
+                }
+            }
+
+            final class NameMalformed implements Header {
                 private NameMalformed() {
                 }
             }
 
-            final class jdbcUrlMalformed implements com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
-                private jdbcUrlMalformed() {
+            final class PositionMalformed implements Header {
+                private PositionMalformed() {
                 }
             }
 
-            final class usernameMalformed implements com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
-                private usernameMalformed() {
+            final class MetaMalformed implements Header {
+                private MetaMalformed() {
                 }
             }
 
-            final class passwordMalformed implements com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
-                private passwordMalformed() {
-                }
-            }
-
-            final class classNameMalformed implements com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
-                private classNameMalformed() {
-                }
-            }
-
-            final class  tableNameMalformed implements com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
-                private  tableNameMalformed() {
-                }
-            }
-
-            final class HeaderMalformed implements com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
-                private HeaderMalformed() {
-                }
-            }
-
-            final class IdHeaderMissing implements com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
-                private IdHeaderMissing() {
-                }
-            }
-
-            final class HeadersSequenceMalformed implements com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
-                private HeadersSequenceMalformed() {
-                }
-            }
-
-            sealed interface Header extends com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Error {
-
-                final class IdMalformed implements Header {
-                    private IdMalformed() {
-                    }
-                }
-
-                final class ReferenceConnectorMalformed implements Header {
-                    private ReferenceConnectorMalformed() {
-                    }
-                }
-
-                final class NameMalformed implements Header {
-                    private NameMalformed() {
-                    }
-                }
-
-                final class PositionMalformed implements Header {
-                    private PositionMalformed() {
-                    }
-                }
-
-                final class MetaMalformed implements Header {
-                    private MetaMalformed() {
-                    }
-                }
-
-                final class NullOrEmptyRestrictionCombination implements Header {
-                    private NullOrEmptyRestrictionCombination() {
-                    }
+            final class NullOrEmptyRestrictionCombination implements Header {
+                private NullOrEmptyRestrictionCombination() {
                 }
             }
         }
     }
+}
 
 
 

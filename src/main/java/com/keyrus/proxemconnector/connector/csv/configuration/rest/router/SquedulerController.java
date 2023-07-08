@@ -30,6 +30,44 @@ public class SquedulerController {
         List<SquedulerDAO> squedulerDAOs = squedulerJDBC.findByConnectorDAOId(connectorDAOId);
         return new ResponseEntity<>(squedulerDAOs, HttpStatus.OK);
     }
+   /* @GetMapping("pagination/ConnectorDAOs/{ConnectorDAOId}/SquedulerDAOs")
+    public ResponseEntity<Map<String, Object>> SquedulerDAOsByConnectorDAOIdWithPagination(
+            @RequestParam(defaultValue = "") String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int size
+    ) {
+
+        try {
+            List<ConnectorDAO> connectors = new ArrayList<ConnectorDAO>();
+            Pageable paging = PageRequest.of(page, size);
+
+            Page<ConnectorDAO> pageTuts;
+
+            pageTuts = repCommune.findByNameContaining(name, paging);
+
+            connectors = pageTuts.getContent();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("connectors", connectors);
+            response.put("currentPage", pageTuts.getNumber());
+            response.put("totalItems", pageTuts.getTotalElements());
+            response.put("totalPages", pageTuts.getTotalPages());
+            return new ResponseEntity<>(response, OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+*/
+
+
+
+
+
+
+
+
+
+
 
     @GetMapping("/SquedulerDAOs/{id}")
     public ResponseEntity<SquedulerDAO> getSquedulerById(@PathVariable(value = "id") Long id) {

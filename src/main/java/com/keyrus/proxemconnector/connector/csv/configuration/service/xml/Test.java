@@ -20,17 +20,16 @@ import java.util.List;
 @RestController
 public class Test {
 
-    public static List<List<String>> XML(String filename) throws ParserConfigurationException, IOException, SAXException{
+    public static List<List<String>> XML(String filename,String tagName) throws ParserConfigurationException, IOException, SAXException{
         List<String> mm=tagNames(filename);
         List<List<String>> liste=new ArrayList<>();
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
 
-        ClassPathResource resource = new ClassPathResource(filename); // Chemin vers votre fichier XML
-        Document document = builder.parse(resource.getInputStream());
-        document.getDocumentElement().normalize();
+        // Lecture du fichier XML
+        Document document = builder.parse(filename);
 
-        NodeList nodeList = document.getElementsByTagName("product");
+        NodeList nodeList = document.getElementsByTagName(tagName);
 
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
@@ -87,7 +86,7 @@ public class Test {
    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
 
         System.out.println(tagNames("file.xml"));
-        System.out.println(XML("file.xml"));
+        System.out.println(XML("file.xml","product"));
 
     }
 

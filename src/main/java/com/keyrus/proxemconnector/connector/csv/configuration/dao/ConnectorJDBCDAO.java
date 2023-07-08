@@ -1,12 +1,11 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.dao;
 
+import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.QueryMode;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Project;
 import io.vavr.control.Either;
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Collection;
@@ -31,6 +30,18 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
     private String className;
     @Column(name = "table_name", nullable = false, unique = false, insertable = true, updatable = true)
     private String tableName;
+    @Column(name = "initial_query", nullable = false, unique = false, insertable = true, updatable = true)
+    private String initialQuery;
+    @Column(name = "checkpoint_column",  unique = false, insertable = true, updatable = true)
+    private String checkpointColumn;
+    @Column(name = "incremental_variable", unique = false, insertable = true, updatable = true)
+    private String incrementalVariable;
+    @Column(name = "incremental_query", unique = false, insertable = true, updatable = true)
+    private String incrementalQuery;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "mode", unique = false, insertable = true, updatable = true)
+    private QueryMode mode;
     public ConnectorJDBCDAO() {
 
     }
@@ -43,6 +54,11 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
             String password,
             String className,
             String tableName,
+            String initialQuery,
+            String checkpointColumn,
+            String incrementalVariable,
+            String incrementalQuery,
+            QueryMode mode,
             Collection<FieldDAO> fields
             // ,ProjectDAO projectDAO
     ) {
@@ -54,6 +70,11 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
         this.password = password;
         this.className = className;
         this.tableName = tableName;
+        this.initialQuery=initialQuery;
+        this.checkpointColumn=checkpointColumn;
+        this.incrementalVariable=incrementalVariable;
+        this.incrementalQuery=incrementalQuery;
+        this.mode=mode;
         this.fields=fields;
 
         //  this.projectDAO=projectDAO;
@@ -70,6 +91,11 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
                 connectorJDBC.password(),
                 connectorJDBC.className(),
                 connectorJDBC.tableName(),
+                connectorJDBC.initialQuery(),
+                connectorJDBC.checkpointColumn(),
+                connectorJDBC.incrementalVariable(),
+                connectorJDBC.incrementalQuery(),
+                connectorJDBC.mode(),
                 com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorJDBCDAO.headersToHeaderDAOs(
                         connectorJDBC.id(),
                         connectorJDBC.fields())
@@ -108,7 +134,24 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
     public String tableName() {
         return this.tableName;
     }
+    public String  initialQuery() {
+        return this.initialQuery;
+    }
 
+    public String  checkpointColumn() {
+        return this.checkpointColumn;
+    }
+
+    public String  incrementalVariable() {
+        return this.incrementalVariable;
+    }
+
+    public String  incrementalQuery() {
+        return this.incrementalQuery;
+    }
+    public QueryMode  mode() {
+        return this.mode;
+    }
 
     public Collection<FieldDAO> fields() {
         return this.fields;
@@ -125,6 +168,11 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
                         .withpassword(this.password)
                         .withclassName(this.className)
                         .withtableName(this.tableName)
+                        .withinitialQuery(this.initialQuery)
+                        .withcheckpointColumn(this.checkpointColumn)
+                        .withincrementalVariable(this.incrementalVariable)
+                        .withincrementalQuery(this.incrementalQuery)
+                        .withmode(this.mode)
                         .withHeaders(com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorJDBCDAO.headerDAOsToHeaderBuilders(this.fields))
                         //.
                         //withProject(ConnectorJDBCDAO.projectDAOToProject(this.projectDAO))
@@ -146,7 +194,6 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
                                 .toArray(Supplier[]::new);
     }*/
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -159,7 +206,12 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
         if (!username.equals(that.username)) return false;
         if (!password.equals(that.password)) return false;
         if (!className.equals(that.className)) return false;
-        return tableName.equals(that.tableName);
+        if (!tableName.equals(that.tableName)) return false;
+        if (!initialQuery.equals(that.initialQuery)) return false;
+        if (!checkpointColumn.equals(that.checkpointColumn)) return false;
+        if (!incrementalVariable.equals(that.incrementalVariable)) return false;
+        if (!incrementalQuery.equals(that.incrementalQuery)) return false;
+        return mode == that.mode;
     }
 
     @Override
@@ -170,34 +222,28 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
         result = 31 * result + password.hashCode();
         result = 31 * result + className.hashCode();
         result = 31 * result + tableName.hashCode();
+        result = 31 * result + initialQuery.hashCode();
+        result = 31 * result + checkpointColumn.hashCode();
+        result = 31 * result + incrementalVariable.hashCode();
+        result = 31 * result + incrementalQuery.hashCode();
+        result = 31 * result + mode.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
-        return
-                """
-                        ConfigurationDAO[
-                            id=%s,
-                            name=%s,
-                            jdbcUrl=%s,
-                            username=%s,
-                            password=%s,
-                            className=%s,
-                            tableName=%s,
-                            fields=%s
-                        ]
-                        """
-                        .formatted(
-                                this.id,
-                                this.name,
-                                this.jdbcUrl,
-                                this.username,
-                                this.password,
-                                this.className,
-                                this.tableName,
-                                this.fields
-                        );
+        return "ConnectorJDBCDAO{" +
+                "jdbcUrl='" + jdbcUrl + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", className='" + className + '\'' +
+                ", tableName='" + tableName + '\'' +
+                ", initialQuery='" + initialQuery + '\'' +
+                ", checkpointColumn='" + checkpointColumn + '\'' +
+                ", incrementalVariable='" + incrementalVariable + '\'' +
+                ", incrementalQuery='" + incrementalQuery + '\'' +
+                ", mode=" + mode +
+                '}';
     }
 
     private static Collection<FieldDAO> headersToHeaderDAOs(

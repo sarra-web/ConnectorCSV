@@ -31,15 +31,10 @@ public class SquedulerDAO implements Serializable {
     private String scheckPoint;
     @Column(name = "s")
     private String s;*/
-
-    @Column(name = "scan_type")
-    private String scanType;
     @Column(name = "starts_time")
     private String startsTime;
-    @Column(name = "execution_time")
-    private String executionTime;
-
-
+    @Column(name = "cron_expression")
+    private String cronExpression;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "connector_id", nullable = false)
