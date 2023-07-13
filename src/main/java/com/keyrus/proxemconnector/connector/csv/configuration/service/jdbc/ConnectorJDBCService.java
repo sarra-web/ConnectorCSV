@@ -171,10 +171,15 @@ public final class ConnectorJDBCService {
 
     public static List<List<String>>  readJDBC(ConnectorJDBCDTO jdbcdto) {
         String query="";
+        String query2="";
         if(jdbcdto.mode()== QueryMode.Full){
             query = jdbcdto.initialQuery();}
         else{
-            query = jdbcdto.incrementalQuery();
+
+            String query1 = jdbcdto.incrementalQuery();
+            String var=jdbcdto.incrementalVariable();
+            query = query1.replace("$(a)", "2022-04-23 10:34:23");
+            query2="Select * from"+jdbcdto.tableName()+"where"+jdbcdto.checkpointColumn()+">="+/*$(jdbcdto.incrementalVariable())*/"2022-04-22 10:34:23";
         }
         int numCol=getNumCol(jdbcdto.className(), jdbcdto.password(), jdbcdto.jdbcUrl(), jdbcdto.username(), jdbcdto.tableName(),query);
         List<List<String>> l=new ArrayList<List<String>>();
@@ -221,6 +226,7 @@ public final class ConnectorJDBCService {
             Class.forName(jdbcdto.className());
             Connection connection= DriverManager.getConnection(jdbcdto.jdbcUrl(),jdbcdto.username(),jdbcdto.password());
             Statement statement=connection.createStatement();
+
            ResultSet resultSet= statement.executeQuery(query);
 
 

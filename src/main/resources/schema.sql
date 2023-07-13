@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS connector (
     connector_type       VARCHAR(255)     NOT NULL,
     id VARCHAR(255) NOT NULL CHECK(id <> ''),
     name VARCHAR(255) NOT NULL CHECK(name <> ''),
+    project_name VARCHAR(255) NOT NULL CHECK(project_name <> ''),
     separator VARCHAR(255),
     encoding VARCHAR(255) ,
     path VARCHAR(255) ,
@@ -47,6 +48,7 @@ CREATE TABLE IF NOT EXISTS scheduler (
     name VARCHAR(255) NOT NULL CHECK(name <> ''),
     scan_mode VARCHAR(255),
     starts_time VARCHAR(255),
+    end_time VARCHAR(255),
     cron_expression VARCHAR(255),
     PRIMARY KEY (id),
     connector_id VARCHAR(255)  NOT NULL REFERENCES connector(id) ON DELETE CASCADE ON UPDATE CASCADE

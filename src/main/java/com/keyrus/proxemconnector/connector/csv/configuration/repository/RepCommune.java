@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface RepCommune extends JpaRepository<ConnectorDAO, String> {
     Page<ConnectorDAO> findAll(Pageable pageable);
     Page<ConnectorDAO> findByNameContaining(String name, Pageable pageable);
+
+    Page<ConnectorDAO> findByProjectName(String name, Pageable pageable);
 }

@@ -33,7 +33,8 @@ public record ProjectDTO (
                 Project.Builder
                         .builder()
                         .withId(ProjectDTO.idNonNullOrRandomId(this.id))
-                        .withName(this.name).withToken(this.proxemToken)
+                        .withName(this.name)
+                        .withToken(this.proxemToken)
                         .build();
     }
 

@@ -34,8 +34,8 @@ public class ConnectorCSVDTOSerialisable implements Serializable {
             boolean containsHeaders;
     @JsonProperty
             Collection<FieldDTO> fields;
-
-            //ProjectDTO projectDTO
+    @JsonProperty
+    String projectName;
 
 
     public ConnectorCSVDTOSerialisable (
@@ -51,8 +51,9 @@ public class ConnectorCSVDTOSerialisable implements Serializable {
                 connectorCSV.escapingCaracter(),
                 connectorCSV.containsHeaders(),
                 ConnectorCSVDTOSerialisable.headersToHeaderDTOs(connectorCSV.fields())
-                //,connectorCSV.id()
+                ,connectorCSV.projectName()
 
+                //,connectorCSV.id()
                 //, ConnectorCSVDTO.projectToProjectDTO(connectorCSV.project())
         );
     }

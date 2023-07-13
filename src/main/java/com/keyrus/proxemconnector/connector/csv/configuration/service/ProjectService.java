@@ -1,8 +1,10 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.service;
 
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ProjectDAO;
+import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Project;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.project.ProjectRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService;
 import io.vavr.control.Either;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -79,6 +81,13 @@ public final class ProjectService {
     public Page<ProjectDAO> findAll(int page, int size){
         log.info("Fetching for page {} of size {}",page,size);
         return projectRepository.findAll(of(page,size));
+    }
+    public Either<ProjectService.Error, Project> findOneByName(String name) {
+        return this.projectRepository
+                .findOneByName(
+                        name
+                )
+                .mapLeft(ProjectService::repositoryErrorToServiceError);
     }
 
         private static ProjectService.Error repositoryErrorToServiceError(

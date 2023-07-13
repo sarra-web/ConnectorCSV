@@ -13,8 +13,7 @@ public class FilterConfig {
         FilterRegistrationBean<RequestResponseLoggingFilter> registrationBean = new FilterRegistrationBean<>();
 
         registrationBean.setFilter(requestResponseLoggers);
-        registrationBean.addUrlPatterns("/configuration/*", "/configurationJDBC/*","/project/*","/squeduler/*");
-
+        registrationBean.addUrlPatterns("/configuration/*", "/configurationJDBC/*","/project/*","/squeduler/*","/ScheduleScanCSV","/ScheduleScanJDBC");
         return registrationBean;
     }
 }

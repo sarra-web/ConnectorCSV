@@ -11,24 +11,25 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.UUID;
 
-@RestController
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+@RestController
+@RequestMapping("/ScheduleScanCSV")
 public class ScanJobSchedulerController {
     private static final Logger logger = LoggerFactory.getLogger(ScanJobSchedulerController.class);
 
     @Autowired
     private Scheduler scheduler;
-    @PostMapping("/scheduleCSVScan")
-    public ResponseEntity<ScheduleDTOResponse> scheduleScanCSV(@Valid @RequestBody ScheduleDTORequest scheduleDTORequest) {
+    @PostMapping()
+    public ResponseEntity<ScheduleDTOResponse> scheduleScanCSV(@Valid @RequestBody ScheduleDTORequest scheduleDTORequest) throws SchedulerException {
+
+
+
         try {
             ZonedDateTime dateTime = ZonedDateTime.of(scheduleDTORequest.getDateTime(), scheduleDTORequest.getTimeZone());
             if(dateTime.isBefore(ZonedDateTime.now())) {
@@ -37,9 +38,20 @@ public class ScanJobSchedulerController {
                 return ResponseEntity.badRequest().body(scheduleDTOResponse);
             }
 
+
             JobDetail jobDetail = buildJobDetail(scheduleDTORequest);
-            Trigger trigger = buildJobTrigger(jobDetail, dateTime);
-            scheduler.scheduleJob(jobDetail, trigger);
+            ZonedDateTime dateTimeEnd = ZonedDateTime.of(scheduleDTORequest.getEndTime(), scheduleDTORequest.getTimeZone());
+            if((scheduleDTORequest.getCronExpression()!="") && (scheduleDTORequest.getCronExpression()!=null)){
+            CronTrigger crontrigger = TriggerBuilder.newTrigger()
+                    .withSchedule(CronScheduleBuilder.cronSchedule(scheduleDTORequest.getCronExpression()))
+                    .startAt(Date.from(dateTime.toInstant()))
+                    .endAt(Date.from(dateTimeEnd.toInstant()))
+                    .build();
+
+            scheduler.scheduleJob(jobDetail, crontrigger);}
+
+else{       Trigger trigger = buildJobTrigger(jobDetail, dateTime);
+            scheduler.scheduleJob(jobDetail, trigger);}
 
             ScheduleDTOResponse scheduleDTOResponse = new ScheduleDTOResponse(true,
                     jobDetail.getKey().getName(), jobDetail.getKey().getGroup(), "PushToProxem Scheduled Successfully!");
@@ -58,7 +70,7 @@ public class ScanJobSchedulerController {
         JobDataMap jobDataMap = new JobDataMap();
 
         jobDataMap.put("config",scheduleDTORequest.getConnectorDAO());
-        jobDataMap.put("cron",scheduleDTORequest.getCron());
+        jobDataMap.put("cron",scheduleDTORequest.getCronExpression());
 
 
         return JobBuilder.newJob(ScanJob.class)

@@ -18,11 +18,11 @@ import java.util.function.Supplier;
 
 @Data
 @Entity
-@DiscriminatorValue("connecteurCSV")
+@DiscriminatorValue("connectorCSV")
 public class ConnectorCSVDAO extends ConnectorDAO{
 
 
-  //  @GeneratedValue(strategy = GenerationType.AUTO)
+    //  @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "separator", nullable = false, unique = false, insertable = true, updatable = true)
     private String separator;
     @Column(name = "encoding", nullable = false, unique = false, insertable = true, updatable = true)
@@ -50,8 +50,9 @@ public class ConnectorCSVDAO extends ConnectorDAO{
             String quotingCaracter,
             String escapingCaracter,
             boolean containsHeaders,
-            Collection<FieldDAO> fields
-           // ,ProjectDAO projectDAO
+            Collection<FieldDAO> fields,
+            String projectName
+            // ,ProjectDAO projectDAO
     ) {
         this.id=id;
         this.name=name;
@@ -62,7 +63,7 @@ public class ConnectorCSVDAO extends ConnectorDAO{
         this.escapingCaracter = escapingCaracter;
         this.containsHeaders = containsHeaders;
         this.fields=fields;
-      //  this.projectDAO=projectDAO;
+         this.projectName=projectName;
     }
 
     public ConnectorCSVDAO(
@@ -80,6 +81,7 @@ public class ConnectorCSVDAO extends ConnectorDAO{
                 ConnectorCSVDAO.headersToHeaderDAOs(
                         connectorCSV.id(),
                         connectorCSV.fields())
+                ,connectorCSV.projectName()
                 //,ConnectorCSVDAO.projectToProjectDAO(connectorCSV.project())
         );
     }
@@ -123,6 +125,7 @@ public class ConnectorCSVDAO extends ConnectorDAO{
     public Collection<FieldDAO> fields() {
         return this.fields;
     }
+    public  String projectName() {return this.projectName;}
 
     public final Either<Collection<ConnectorCSV.Error>, ConnectorCSV> toConfiguration() {
         return
@@ -137,7 +140,8 @@ public class ConnectorCSVDAO extends ConnectorDAO{
                         .withescapingCaracter(this.escapingCaracter)
                         .withContainsHeaders(this.containsHeaders)
                         .withHeaders(ConnectorCSVDAO.headerDAOsToHeaderBuilders(this.fields))
-                                //.
+                        .withProjectName(this.projectName)
+                        //.
                         //withProject(ConnectorCSVDAO.projectDAOToProject(this.projectDAO))
                         .build();
     }

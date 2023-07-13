@@ -11,7 +11,7 @@ import java.util.List;
 public interface ProjectJDBCDatabaseRepository extends JpaRepository<ProjectDAO, String> {
     boolean existsByName(String name);
     ProjectDAO findOneById(String id);
-
+    ProjectDAO findByName(String name);
     Page<ProjectDAO> findByNameContaining(String name, Pageable pageable);
 
     //Page<ConnectorDAO> findByPublished(boolean published, Pageable pageable);

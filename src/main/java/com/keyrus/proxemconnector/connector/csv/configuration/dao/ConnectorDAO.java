@@ -25,6 +25,8 @@ public abstract class ConnectorDAO implements Serializable {
     protected Collection<FieldDAO> fields;
     @Column(name = "connector_type", insertable=false, updatable=false)
     protected String typeConnector;
+    @Column(name = "project_name", nullable = false, unique = false, insertable = true, updatable = true)
+    protected String projectName;
    /* @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "projet_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -53,5 +55,13 @@ public abstract class ConnectorDAO implements Serializable {
 
     public void setFields(Collection<FieldDAO> fields) {
         this.fields = fields;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 }

@@ -33,6 +33,8 @@ public class SquedulerDAO implements Serializable {
     private String s;*/
     @Column(name = "starts_time")
     private String startsTime;
+    @Column(name = "end_time")
+    private String endTime;
     @Column(name = "cron_expression")
     private String cronExpression;
 

@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 
 @Data
 @Entity
-@DiscriminatorValue("connecteurJDBC")
+@DiscriminatorValue("connectorJDBC")
 public class ConnectorJDBCDAO extends ConnectorDAO {
     //  @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "jdbc_url", nullable = false, unique = false, insertable = true, updatable = true)
@@ -60,7 +60,7 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
             String incrementalQuery,
             QueryMode mode,
             Collection<FieldDAO> fields
-            // ,ProjectDAO projectDAO
+             ,String projectName
     ) {
         this.id=id;
         this.name=name;
@@ -76,8 +76,7 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
         this.incrementalQuery=incrementalQuery;
         this.mode=mode;
         this.fields=fields;
-
-        //  this.projectDAO=projectDAO;
+        this.projectName=projectName;
     }
 
     public ConnectorJDBCDAO(
@@ -99,7 +98,7 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
                 com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorJDBCDAO.headersToHeaderDAOs(
                         connectorJDBC.id(),
                         connectorJDBC.fields())
-                //,ConnectorJDBCDAO.projectToProjectDAO(connectorJDBC.project())
+                ,connectorJDBC.projectName()
         );
     }
 
@@ -156,6 +155,7 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
     public Collection<FieldDAO> fields() {
         return this.fields;
     }
+    public String projectName(){return this.projectName;}
 
     public final Either<Collection<ConnectorJDBC.Error>, ConnectorJDBC> toConfiguration() {
         return
@@ -174,8 +174,8 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
                         .withincrementalQuery(this.incrementalQuery)
                         .withmode(this.mode)
                         .withHeaders(com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorJDBCDAO.headerDAOsToHeaderBuilders(this.fields))
-                        //.
-                        //withProject(ConnectorJDBCDAO.projectDAOToProject(this.projectDAO))
+
+                        .withProjectName(this.projectName)
                         .build();
     }
     /*private static Supplier<Either<Collection<Project.Error>, Project>> projectDAOToProject(

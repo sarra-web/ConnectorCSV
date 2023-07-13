@@ -38,12 +38,10 @@ public class ConnectorJDBC extends Connector{
             final String incrementalVariable,
             final String incrementalQuery,
             final QueryMode mode,
-
-            final Collection<Field> fields
-            //, final Project project
+            final Collection<Field> fields,
+            final String projectName
     ) {
-        super(id,name,fields
-                // , project
+        super(id,name,fields ,projectName
         );
         this.jdbcUrl  = jdbcUrl ;
         this.username = username;
@@ -102,15 +100,12 @@ public class ConnectorJDBC extends Connector{
     public QueryMode  mode() {
         return this.mode;
     }
-
-
-
     public Collection<Field> fields() {
         return this.fields;
     }
-        /*public Project project() {
-            return this.project;
-        }*/
+    public String  projectName() {
+            return this.projectName;
+        }
 
     @Override
     public boolean equals(Object o) {
@@ -178,7 +173,7 @@ public class ConnectorJDBC extends Connector{
             final String incrementalQuery,
             final QueryMode mode,
             final Collection<Field> fields
-            //,final Project project
+            ,final String projectName
     ) {
         return
                 com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkThenInstantiate(
@@ -191,9 +186,8 @@ public class ConnectorJDBC extends Connector{
                                 className,
                                 tableName,
                                 initialQuery,checkpointColumn,incrementalVariable,incrementalQuery,mode,
-
                                 fields
-                                //  ,project
+                                ,projectName
                         ),
                         com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkId(
                                 id
@@ -219,8 +213,8 @@ public class ConnectorJDBC extends Connector{
             final String incrementalVariable,
             final String incrementalQuery,
             final QueryMode mode,
-            final Collection<Field> fields
-            //, final Project project
+            final Collection<Field> fields,
+            final String projectName
     ) {
 
         return
@@ -233,10 +227,14 @@ public class ConnectorJDBC extends Connector{
                                 username,
                                 password ,
                                 className,
-                                tableName,initialQuery,checkpointColumn,incrementalVariable,incrementalQuery,mode,
-
+                                tableName,
+                                initialQuery,
+                                checkpointColumn,
+                                incrementalVariable,
+                                incrementalQuery,
+                                mode,
                                 fields
-                                //  ,project
+                                ,projectName
                         );
     }
 
@@ -502,10 +500,8 @@ public class ConnectorJDBC extends Connector{
         private final String incrementalVariable;
         private final String incrementalQuery;
         private final QueryMode mode;
-        private final boolean containsHeaders;
         private final Collection<Field> fields;
-        private final Project project;
-        private final Supplier<Either<Collection<Project.Error>, Project>> projectBuilder;
+        private final String projectName;
         private final Collection<Supplier<Either<Collection<Field.Error>, Field>>> headerBuilders;
 
         private Builder(
@@ -521,11 +517,8 @@ public class ConnectorJDBC extends Connector{
                 final String incrementalVariable,
                 final String incrementalQuery,
                 final QueryMode mode,
-                final boolean containsHeaders,
-
                 final Collection<Field> fields,
-                final Project project,
-                Supplier<Either<Collection<Project.Error>, Project>> projectBuilder,
+                final String projectName,
                 final Collection<Supplier<Either<Collection<Field.Error>, Field>>> headerBuilders
         ) {
             this.id = id;
@@ -540,10 +533,8 @@ public class ConnectorJDBC extends Connector{
             this.incrementalVariable=incrementalVariable;
             this.incrementalQuery=incrementalQuery;
             this.mode=mode;
-            this.containsHeaders = containsHeaders;
             this.fields = fields;
-            this.project = project;
-            this.projectBuilder = projectBuilder;
+            this.projectName = projectName;
             this.headerBuilders = headerBuilders;
         }
 
@@ -567,15 +558,13 @@ public class ConnectorJDBC extends Connector{
                             this.incrementalVariable,
                             this.incrementalQuery,
                             this.mode,
-                            this.containsHeaders,
                             this.fields
-                            , this.project,
-                            projectBuilder
+                            , this.projectName
                             , this.headerBuilders
                     );
         }
-        public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withProject(
-                final Project project
+        public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withProjectName(
+                final String projectName
         ) {
             return
                     new com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder(this.id,
@@ -590,10 +579,9 @@ public class ConnectorJDBC extends Connector{
                             this.incrementalVariable,
                             this.incrementalQuery,
                             this.mode,
-                            this.containsHeaders,
                             this.fields,
-                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(project,this.project),
-                            projectBuilder, this.headerBuilders
+                            com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(projectName,this.projectName),
+                            this.headerBuilders
 
                     );
         }
@@ -618,10 +606,8 @@ public class ConnectorJDBC extends Connector{
                             this.incrementalVariable,
                             this.incrementalQuery,
                             this.mode,
-                            this.containsHeaders,
                             this.fields
-                            ,this.project
-                            ,projectBuilder
+                            ,this.projectName
                             , this.headerBuilders
                     );
         }
@@ -646,10 +632,8 @@ public class ConnectorJDBC extends Connector{
                             this.incrementalVariable,
                             this.incrementalQuery,
                             this.mode,
-                            this.containsHeaders,
                             this.fields,
-                            this.project,
-                            projectBuilder,
+                            this.projectName,
                             this.headerBuilders
                     );
         }
@@ -674,11 +658,9 @@ public class ConnectorJDBC extends Connector{
                             this.incrementalVariable,
                             this.incrementalQuery,
                             this.mode,
-                            this.containsHeaders,
-                            this.fields
-                            , this.project
-                            , projectBuilder
-                            , this.headerBuilders
+                            this.fields,
+                            this.projectName,
+                            this.headerBuilders
                     );
         }
 
@@ -702,10 +684,8 @@ public class ConnectorJDBC extends Connector{
                             this.incrementalVariable,
                             this.incrementalQuery,
                             this.mode,
-                            this.containsHeaders,
                             this.fields,
-                            this.project,
-                            projectBuilder,
+                            this.projectName,
                             this.headerBuilders
                     );
         }
@@ -730,10 +710,8 @@ public class ConnectorJDBC extends Connector{
                             this.incrementalVariable,
                             this.incrementalQuery,
                             this.mode,
-                            this.containsHeaders,
                             this.fields
-                            ,this.project
-                            ,  projectBuilder
+                            ,this.projectName
                             , this.headerBuilders
                     );
         }
@@ -758,10 +736,8 @@ public class ConnectorJDBC extends Connector{
                             this.incrementalVariable,
                             this.incrementalQuery,
                             this.mode,
-                            this.containsHeaders,
                             this.fields
-                            , this.project
-                            ,projectBuilder
+                            , this.projectName
                             , this.headerBuilders
                     );
         }
@@ -788,10 +764,8 @@ public class ConnectorJDBC extends Connector{
                             this.incrementalVariable,
                             this.incrementalQuery,
                             this.mode,
-                            this.containsHeaders,
                             this.fields
-                            , this.project
-                            ,projectBuilder
+                            , this.projectName
                             , this.headerBuilders
                     );
         }
@@ -807,7 +781,6 @@ public class ConnectorJDBC extends Connector{
                             this.password ,
                             this.className,
                             this.tableName,
-
                             this.initialQuery,
                             com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(
                                     checkpointColumn,
@@ -817,11 +790,9 @@ public class ConnectorJDBC extends Connector{
                             this.incrementalVariable,
                             this.incrementalQuery,
                             this.mode,
-                            this.containsHeaders,
-                            this.fields
-                            , this.project
-                            ,projectBuilder
-                            , this.headerBuilders
+                            this.fields,
+                            this.projectName,
+                            this.headerBuilders
                     );
         }
         public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withincrementalVariable(
@@ -836,7 +807,6 @@ public class ConnectorJDBC extends Connector{
                             this.password ,
                             this.className,
                             this.tableName,
-
                             this.initialQuery,
                             this.checkpointColumn,
                             com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(
@@ -846,10 +816,8 @@ public class ConnectorJDBC extends Connector{
 
                             this.incrementalQuery,
                             this.mode,
-                            this.containsHeaders,
                             this.fields
-                            , this.project
-                            ,projectBuilder
+                            , this.projectName
                             , this.headerBuilders
                     );
         }
@@ -874,11 +842,8 @@ public class ConnectorJDBC extends Connector{
                                     this. incrementalQuery
                             ),this.mode,
 
-
-                            this.containsHeaders,
                             this.fields
-                            , this.project
-                            ,projectBuilder
+                            , this.projectName
                             , this.headerBuilders
                     );
         }
@@ -900,16 +865,13 @@ public class ConnectorJDBC extends Connector{
                             this.checkpointColumn,
                             this.incrementalVariable,
                             this. incrementalQuery,
-                             Builder.nonNullOrDefault(
-                            mode,
-                            this.mode
-                    ),
+                            Builder.nonNullOrDefault(
+                                    mode,
+                                    this.mode
+                            ),
 
-
-                            this.containsHeaders,
                             this.fields
-                            , this.project
-                            ,projectBuilder
+                            , this.projectName
                             , this.headerBuilders
                     );
         }
@@ -935,10 +897,8 @@ public class ConnectorJDBC extends Connector{
                             this.incrementalVariable,
                             this.incrementalQuery,
                             this.mode,
-                            containsHeaders,
                             this.fields
-                            ,this.project
-                            , projectBuilder
+                            ,this.projectName
                             , this.headerBuilders
                     );
         }
@@ -960,13 +920,11 @@ public class ConnectorJDBC extends Connector{
                             this.incrementalVariable,
                             this.incrementalQuery,
                             this.mode,
-                            this.containsHeaders,
                             com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.addToCollection(
                                     this.fields,
                                     fields
                             )
-                            ,this.project
-                            ,projectBuilder
+                            ,this.projectName
                             , this.headerBuilders
                     );
         }
@@ -989,11 +947,8 @@ public class ConnectorJDBC extends Connector{
                             this.incrementalVariable,
                             this.incrementalQuery,
                             this.mode,
-                            this.containsHeaders,
                             this.fields
-
-                            ,this.project
-                            ,projectBuilder
+                            ,this.projectName
                             , com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.addToCollection(
                             this.headerBuilders,
                             headerBuilders
@@ -1020,9 +975,8 @@ public class ConnectorJDBC extends Connector{
                                             this.checkpointColumn,
                                             this.incrementalVariable,
                                             this.incrementalQuery,
-                                            this.mode,
-                                            this.containsHeaders
-                                            // ,this.project
+                                            this.mode
+                                             ,this.projectName
                                     )
                             )
                             .flatMap(
@@ -1038,9 +992,8 @@ public class ConnectorJDBC extends Connector{
                                             this.checkpointColumn,
                                             this.incrementalVariable,
                                             this.incrementalQuery,
-                                            this.mode,
-                                            this.containsHeaders
-                                            , this.project
+                                            this.mode
+                                            , this.projectName
                                     )
                             );
         }
@@ -1055,9 +1008,8 @@ public class ConnectorJDBC extends Connector{
                             null,
                             null,
                             null,null,null,null,null,null,
-                            true,
                             null,
-                            null,null,null
+                            null,null
                     );
         }
 
@@ -1074,8 +1026,7 @@ public class ConnectorJDBC extends Connector{
                 final String incrementalVariable,
                 final String incrementalQuery,
                 final QueryMode mode,
-                final boolean containsHeaders
-                // final Project project
+                final String projectName
         ) {
             return
                     headersErrors ->
@@ -1092,9 +1043,10 @@ public class ConnectorJDBC extends Connector{
                                                     initialQuery,
                                                     checkpointColumn,
                                                     incrementalVariable,
-                                                    incrementalQuery,mode,
-                                                    null
-                                                    //null
+                                                    incrementalQuery,
+                                                    mode,
+                                                    null,
+                                                    projectName
                                             )
                                             .fold(
                                                     Function.identity(),
@@ -1116,8 +1068,7 @@ public class ConnectorJDBC extends Connector{
                 final String incrementalVariable,
                 final String incrementalQuery,
                 final QueryMode mode,
-                final boolean containsHeaders,
-                final Project project
+                final String projectName
 
         ) {
             return
@@ -1132,7 +1083,7 @@ public class ConnectorJDBC extends Connector{
                                     tableName,initialQuery,checkpointColumn,incrementalVariable,incrementalQuery,
                                     mode
                                     ,fields
-                                    // ,project
+                                     ,projectName
 
 
                             );

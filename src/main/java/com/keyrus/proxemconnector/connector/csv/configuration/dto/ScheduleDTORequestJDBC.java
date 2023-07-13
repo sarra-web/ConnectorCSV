@@ -10,7 +10,7 @@ import java.time.ZoneId;
 
 @Data
 public class ScheduleDTORequestJDBC {
-    private String cron;
+    private String cronExpression;
     //les restes des attriut du scheduler
 
     @NotNull
@@ -19,6 +19,8 @@ public class ScheduleDTORequestJDBC {
 
     @NotNull
     private LocalDateTime dateTime;
+
+    private LocalDateTime endTime;
 
     @NotNull
     private ZoneId timeZone;

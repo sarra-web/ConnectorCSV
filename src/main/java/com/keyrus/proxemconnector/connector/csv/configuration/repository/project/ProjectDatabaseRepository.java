@@ -99,6 +99,56 @@ public class ProjectDatabaseRepository implements ProjectRepository{
         return ProjectDatabaseRepository.findAllProjects(this.projectJDBCDatabaseRepository).get();
     }
     @Override
+    public Either<ProjectRepository.Error, Project> findOneByName(final String name) {
+        return
+                ProjectDatabaseRepository.checkThenExecute(
+                        ProjectDatabaseRepository.findProjectByName(
+                                name,
+                                this.projectJDBCDatabaseRepository
+                        ),
+                        ProjectDatabaseRepository.checkProjectNameAlreadyExist(
+                                name,
+                                this.projectJDBCDatabaseRepository
+                        )
+                );
+
+    }
+    private static Supplier<Optional<ProjectRepository.Error>> checkProjectNameAlreadyExist(final String name, final ProjectJDBCDatabaseRepository projectJDBCDatabaseRepository) {
+        return
+               ProjectDatabaseRepository.evaluateOnRepositoryOrError(
+                       projectJDBCDatabaseRepository,
+                        it -> it.existsByName(name),
+                       ProjectRepository.Error.NotFound::new
+                );
+    }
+    private static Supplier<Either<ProjectRepository.Error, Project>> findProjectByName(
+            final String name,
+            final ProjectJDBCDatabaseRepository projectJDBCDatabaseRepository
+    ) {
+        return () ->
+                ProjectDatabaseRepository.executeOnRepositoryForSingleResult(
+                                projectJDBCDatabaseRepository,
+                                it -> it.findByName(name)
+                        )
+                        .get()
+                        .flatMap(conf ->
+                                ProjectDatabaseRepository.findProjectByNameFromRepository(
+                                                name,
+                                                projectJDBCDatabaseRepository
+                                        )
+                                        .get()
+                                        .map(Either::<ProjectRepository.Error, Project>left)
+                                        .orElse(Either.right(conf))
+                        );
+    }
+    private static Supplier<Optional<ProjectRepository.Error>> findProjectByNameFromRepository(final String name, final ProjectJDBCDatabaseRepository projectJDBCDatabaseRepository) {
+        return () ->
+                ProjectDatabaseRepository.tryOnRepositoryForPossibleIOException(
+                        projectJDBCDatabaseRepository,
+                        it -> it.findByName(name)
+                );
+    }
+    @Override
     public Page<ProjectDAO> findAll(Pageable p) {
         return projectJDBCDatabaseRepository.findAll(p);
     }

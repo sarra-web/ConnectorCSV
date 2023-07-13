@@ -18,7 +18,7 @@ public interface ProjectRepository {
     Either<ProjectRepository.Error, Project> delete(final String id);
     Either<ProjectRepository.Error, Collection<Project>>  findAll();
     Page<ProjectDAO> findAll(Pageable p);
-
+    Either<ProjectRepository.Error, Project> findOneByName(String name);
     Page<ProjectDAO> findByNameContaining(String name, Pageable page);
 
     sealed interface Error {

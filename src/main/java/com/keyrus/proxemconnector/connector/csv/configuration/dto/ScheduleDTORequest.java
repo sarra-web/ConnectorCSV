@@ -21,7 +21,8 @@ public class ScheduleDTORequest {
     //@NotEmpty
    // private String body;
 
-    private String cron;
+
+    private String cronExpression;
     //les restes des attriut du scheduler
 
    @NotNull
@@ -30,6 +31,8 @@ public class ScheduleDTORequest {
 
     @NotNull
     private LocalDateTime dateTime;
+
+    private LocalDateTime endTime;
 
     @NotNull
     private ZoneId timeZone;

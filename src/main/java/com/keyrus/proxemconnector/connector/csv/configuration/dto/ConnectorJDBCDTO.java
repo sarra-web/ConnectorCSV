@@ -22,15 +22,14 @@ public record ConnectorJDBCDTO (
         String password ,
         String className,
         String tableName,
-       String  initialQuery ,
-         String checkpointColumn ,
-         String incrementalVariable,
-         String incrementalQuery,
+        String  initialQuery ,
+        String checkpointColumn ,
+        String incrementalVariable,
+        String incrementalQuery,
         QueryMode mode,
         @JsonProperty
-        Collection<FieldDTO> fields
-
-        //ProjectDTO projectDTO
+        Collection<FieldDTO> fields,
+        String projectName
 ) {
 
     public ConnectorJDBCDTO(
@@ -49,10 +48,10 @@ public record ConnectorJDBCDTO (
                 connectorJDBC.incrementalVariable(),
                 connectorJDBC.incrementalQuery(),
                 connectorJDBC.mode(),
-                ConnectorJDBCDTO.headersToHeaderDTOs(connectorJDBC.fields())
-                //,connectorJDBC.id()
+                ConnectorJDBCDTO.headersToHeaderDTOs(connectorJDBC.fields()),
+                connectorJDBC.projectName()
 
-                //, ConnectorCJDBCTO.projectToProjectDTO(connectorJDBC.project())
+
         );
     }
 
@@ -80,6 +79,7 @@ public record ConnectorJDBCDTO (
                         .withincrementalVariable(this.incrementalVariable)
                         .withincrementalQuery(this.incrementalQuery)
                         .withmode(this.mode)
+                        .withProjectName(this.projectName)
                         .withHeaders(
                                 ConnectorJDBCDTO.headerDTOsToHeaderBuilders(
                                         this.id,

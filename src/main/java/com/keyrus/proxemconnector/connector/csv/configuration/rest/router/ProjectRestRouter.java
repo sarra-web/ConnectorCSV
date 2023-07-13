@@ -43,11 +43,31 @@ public class ProjectRestRouter {
                 languageCode
         );
     }
+    @GetMapping(value = "/{name}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ProjectDTO> findOneByName(
+            @PathVariable("name") final String name,
+            @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
+    ) {
+        return
+                this.projectRestHandler
+                        .findOneByName(
+                                name,
+                                languageCode
+                        );
+    }
     @GetMapping(value = "/findById/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ProjectDAO findById(@PathVariable String id) {
         return this.projectJDBCDatabaseRepository.findOneById(id);
     }
 
+    @GetMapping(value = "findById2/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ProjectDAO> findOneById2(
+            @PathVariable("id") final String id
+
+    ) {
+        return
+                new ResponseEntity<> (this.projectJDBCDatabaseRepository.findById(id).get(), OK);
+    }
     @GetMapping("/projects")
     public ResponseEntity<Map<String, Object>> getAllProjects(
 

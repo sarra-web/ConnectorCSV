@@ -113,6 +113,30 @@ public class ProjectRestHandler {
                     .fold(Function.identity(),
                             Function.identity());
         }
+
+
+
+    public ResponseEntity<ProjectDTO> findOneByName(final String name, String languageCode) {
+        return
+                this.projectService
+                        .findOneByName(name)
+                        .mapLeft(serviceError ->
+                                ProjectRestHandler.<ProjectDTO>serviceErrorToRestResponse(
+                                        serviceError,
+                                        languageCode,
+                                        this.errorHeader,
+                                        this.messageSource
+                                )
+                        )
+                        .map(ProjectRestHandler::toOkResponse)
+                        .fold(
+                                Function.identity(),
+                                Function.identity()
+                        );
+
+    }
+
+
         private static ResponseEntity<Collection<ProjectDTO>> toOkResponseForManyDTO(
                 final Collection<Project> projects
         ) {

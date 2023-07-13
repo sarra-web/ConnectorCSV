@@ -34,9 +34,10 @@ public record ConnectorCSVDTO (
         @JsonProperty
         boolean containsHeaders,
         @JsonProperty
-        Collection<FieldDTO> fields
+        Collection<FieldDTO> fields,
 
-       //ProjectDTO projectDTO
+        @JsonProperty
+        String projectName
 ) {
 
     public ConnectorCSVDTO(
@@ -52,7 +53,7 @@ public record ConnectorCSVDTO (
                 connectorCSV.escapingCaracter(),
                 connectorCSV.containsHeaders(),
                 ConnectorCSVDTO.headersToHeaderDTOs(connectorCSV.fields())
-                //,connectorCSV.id()
+                ,connectorCSV.projectName()
 
                 //, ConnectorCSVDTO.projectToProjectDTO(connectorCSV.project())
         );
@@ -84,6 +85,7 @@ public record ConnectorCSVDTO (
                                         this.fields
                                 )
                         )
+                        .withProjectName(this.projectName)
                         .build();
     }
 

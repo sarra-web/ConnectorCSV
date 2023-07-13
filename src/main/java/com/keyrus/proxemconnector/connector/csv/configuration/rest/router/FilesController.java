@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -120,7 +121,25 @@ public class FilesController {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+/////////////LogFile
+    @GetMapping("/log/{filename}")
+    public ResponseEntity<List<String>> getLogFile(@PathVariable String filename) throws IOException {
 
-
+        List<String> data = new ArrayList<>();
+        int position=0;
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("myLog.csv"));
+            String nextLine;
+            while (((nextLine = reader.readLine()) != null)) {
+                position++;
+                data.add(nextLine);
+            }
+            reader.close();
+            Collections.reverse(data);
+            return (ResponseEntity<List<String>>) new ResponseEntity<>(data, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

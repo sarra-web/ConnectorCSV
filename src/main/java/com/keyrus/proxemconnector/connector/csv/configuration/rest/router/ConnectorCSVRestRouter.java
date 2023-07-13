@@ -21,9 +21,6 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 
 import static com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService.CSVDataToJSON;
@@ -167,13 +164,41 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
                         );
     }
 
+    @GetMapping("/connectorsByProjectName")
+    public ResponseEntity<Map<String, Object>> getAllConnectorsByProjectName(
+            @RequestParam(defaultValue = "") String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int size
+    ) {
+
+        try {
+            List<ConnectorDAO> connectors = new ArrayList<ConnectorDAO>();
+            Pageable paging = PageRequest.of(page, size);
+
+            Page<ConnectorDAO> pageTuts;
+
+            pageTuts = repCommune.findByProjectName(name, paging);
+
+            connectors = pageTuts.getContent();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("connectors", connectors);
+            response.put("currentPage", pageTuts.getNumber());
+            response.put("totalItems", pageTuts.getTotalElements());
+            response.put("totalPages", pageTuts.getTotalPages());
+            return new ResponseEntity<>(response, OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping(value = "findById2/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ConnectorDAO> findOneById2(
             @PathVariable("id") final String id
 
     ) {
         return
-               new ResponseEntity<> (this.repCommune.findById(id).get(), OK);
+                new ResponseEntity<> (this.repCommune.findById(id).get(), OK);
     }
     @GetMapping(value = "findById/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ConnectorCSVDTO> findOneById(
@@ -277,6 +302,16 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
         HttpEntity<String> entity = new HttpEntity<>(jsonArray.toString(), headers);
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
+
+     /*   int j=0;
+        for (int i = 0; i < response.getBody().length(); i = i + 1){
+            if(response[i].UpsertSuccessful===true){
+                j=j+1;
+            }}
+             Logging.putInCSV("","","",bo)
+                System.out.println("body response"+response.getBody().+"nombre"+response.getBody().length());
+            */
+
         return response;
     }
     @GetMapping(value = "csvToJson")
@@ -310,24 +345,7 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
     }*/
 
 
-    @GetMapping("/log/{filename}")
-    public ResponseEntity<List<String>> getFile(@PathVariable String filename) throws IOException {
 
-            List<String> data = new ArrayList<>();
-            int position=0;
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader("myLog.csv"));
-                String nextLine;
-                while (((nextLine = reader.readLine()) != null)) {
-                    position++;
-                    data.add(nextLine);
-                }
-                reader.close();
-                return (ResponseEntity<List<String>>) new ResponseEntity<>(data, HttpStatus.OK);
-            } catch (Exception e) {
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
 
 
 

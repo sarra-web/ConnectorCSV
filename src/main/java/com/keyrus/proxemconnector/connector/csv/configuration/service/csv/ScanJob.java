@@ -7,6 +7,7 @@ import com.keyrus.proxemconnector.connector.csv.configuration.dao.FieldDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.Meta;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.TextPart;
+import com.keyrus.proxemconnector.connector.csv.configuration.rest.router.log.Logging;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -169,6 +170,7 @@ public class ScanJob extends QuartzJobBean {
          return dataList;
      }
     private void pushToProxem(ConnectorCSVDAO connectorCSVDAO) {
+        Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT","200");
         List<ProxemDto> proxemDtos = CSVDataToJSON(connectorCSVDAO);
         ObjectMapper objectMapper = new ObjectMapper();
         ArrayNode jsonArray = objectMapper.valueToTree(proxemDtos);
