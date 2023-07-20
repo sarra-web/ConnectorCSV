@@ -35,8 +35,9 @@ public class JDBCScanJobSchedulerController {
                     return ResponseEntity.badRequest().body(scheduleDTOResponse);
                 }
                 JobDetail jobDetail = buildJobDetail(scheduleDTORequest);
-                ZonedDateTime dateTimeEnd = ZonedDateTime.of(scheduleDTORequest.getEndTime(), scheduleDTORequest.getTimeZone());
-                if(scheduleDTORequest.getCronExpression()!=""){
+                if(scheduleDTORequest.getCronExpression()!=null&&(scheduleDTORequest.getEndTime()!=null)){
+                    ZonedDateTime dateTimeEnd = ZonedDateTime.of(scheduleDTORequest.getEndTime(), scheduleDTORequest.getTimeZone());
+
                     CronTrigger crontrigger = TriggerBuilder.newTrigger()
                             .withSchedule(CronScheduleBuilder.cronSchedule(scheduleDTORequest.getCronExpression()))
                             .startAt(Date.from(dateTime.toInstant()))

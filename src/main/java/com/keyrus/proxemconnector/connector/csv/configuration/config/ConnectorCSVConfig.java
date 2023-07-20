@@ -4,6 +4,7 @@ import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConn
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.CSVConnectorJDBCDatabaseRepository;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.CSVConnectorRepository;
 import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ConnectorCSVRestHandler;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.UserServiceConnector;
 import com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.client.RestTemplate;
 
 
 @EnableScheduling
@@ -18,6 +20,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAsync
 @Configuration
 public class ConnectorCSVConfig {
+
 
     @Bean
     public CSVConnectorRepository csvConnectorRepository(
@@ -52,4 +55,21 @@ public class ConnectorCSVConfig {
                         messageSource
                 );
     }
+
+
+///////////////////////
+@Bean
+public RestTemplate restTemplate() {
+    return new RestTemplate();
+}
+    @Bean
+    public UserServiceConnector userServiceConnector(){
+        return
+                UserServiceConnector.instance(
+
+                );
+
+    }
+
+
 }

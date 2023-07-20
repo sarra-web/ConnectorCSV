@@ -38,6 +38,8 @@ public record ConnectorCSVDTO (
 
         @JsonProperty
         String projectName
+        /*@JsonProperty
+        Long userId*/
 ) {
 
     public ConnectorCSVDTO(
@@ -54,6 +56,7 @@ public record ConnectorCSVDTO (
                 connectorCSV.containsHeaders(),
                 ConnectorCSVDTO.headersToHeaderDTOs(connectorCSV.fields())
                 ,connectorCSV.projectName()
+               // ,connectorCSV.userId()
 
                 //, ConnectorCSVDTO.projectToProjectDTO(connectorCSV.project())
         );
@@ -86,6 +89,7 @@ public record ConnectorCSVDTO (
                                 )
                         )
                         .withProjectName(this.projectName)
+                       // .withUserId(this.userId)
                         .build();
     }
 

@@ -531,7 +531,7 @@ class ConnectorCSVRepositoryTest {
                 ).map(field -> new FieldDAO(field))
                 .collect(Collectors.toUnmodifiableSet());
         this.CSVConnectorJDBCDatabaseRepository.save(
-                new ConnectorCSVDAO("1", " ", ";", "ee", "dd", "dd", "dd", true, fields)
+                new ConnectorCSVDAO("id","","","","","","",true,fields,"p")
         );
         final var result =
                 this.CSVConnectorRepository

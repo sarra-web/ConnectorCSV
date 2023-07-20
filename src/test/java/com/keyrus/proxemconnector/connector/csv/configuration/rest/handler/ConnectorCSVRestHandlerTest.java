@@ -73,9 +73,9 @@ class ConnectorCSVRestHandlerTest {
                                         " ",
                                         " ",
                                         " ",
-                                        " ",
+                                        " ","",
 
-                                        " ","",true,Collections.emptySet()
+                                        " ",true,Collections.emptySet(),""
 
                                 ),
                                 null
@@ -202,7 +202,7 @@ class ConnectorCSVRestHandlerTest {
                                         " ",
                                         " ",
                                         " ",
-                                        " ",true,Collections.emptySet()
+                                        " ",true,Collections.emptySet(),""
                                 ),
                                 null
                         );

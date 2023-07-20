@@ -7,7 +7,7 @@ import com.keyrus.proxemconnector.connector.csv.configuration.dao.FieldDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.Meta;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.TextPart;
-import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.QueryMode;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -92,12 +92,12 @@ public class ScanJobJDBC extends QuartzJobBean {
         return newTokens;
     }
      public static   List<ProxemDto> JDBCDataToJSON(final ConnectorJDBCDAO config)  {
-        String query="";
-         if(config.mode()== QueryMode.Full){
+        String query=config.initialQuery();
+       /*  if(config.mode()== QueryMode.Full){
              query = config.initialQuery();}
          else{
              query = config.incrementalQuery();
-         }
+         }*/
          List<ProxemDto> dataList = new ArrayList<>();
          int numCol=getNumCol(config.className(), config.password(), config.jdbcUrl(), config.username(), config.tableName(),query);
          List<String> nameCols=getNameColumns( config.className(),  config.password(),  config.jdbcUrl(), config.username(), config.tableName(),numCol);
@@ -119,7 +119,7 @@ public class ScanJobJDBC extends QuartzJobBean {
                  }
                  ProxemDto data = new ProxemDto();
                  position++;//pp les lignes
-                 data.setCorpusId("a0e04a5f-ab7c-4b0e-97be-af263a61ba49"/*config.getProject().getProjectName() ou project id nom doit etre unique*/);
+                 data.setCorpusId(ConnectorCSVService.getProjectByName(config.project().getName()).proxemToken()/*"a0e04a5f-ab7c-4b0e-97be-af263a61ba49"*//*config.getProject().getProjectName() ou project id nom doit etre unique*/);
                  List<FieldDAO> l =  config.fields().stream().filter(field1 -> field1.getType().toString()=="Identifier").collect(Collectors.toList());
                  if ((l.isEmpty() )) {
                      String recordId = generateRecordID(position, config.tableName());

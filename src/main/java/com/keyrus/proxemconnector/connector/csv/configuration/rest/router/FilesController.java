@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -140,6 +141,29 @@ public class FilesController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @GetMapping("/log/delete/{filePath}")
+    private  ResponseEntity<?> deleteAllRowsFromCSV(@PathVariable String filePath) throws IOException {
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            throw new IOException("The CSV file does not exist.");
+        }
+
+        if (!file.isFile()) {
+            throw new IOException("The specified path does not point to a file.");
+        }
+
+        if (!file.canWrite()) {
+            throw new IOException("The file is not writable.");
+        }
+
+        // Delete the existing file
+        file.delete();
+
+        // Create a new empty file at the same location
+        file.createNewFile();
+        return ResponseEntity.ok("deleted");
     }
 
 }

@@ -1,8 +1,7 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.dao;
 
-import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
-import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
-import com.keyrus.proxemconnector.connector.csv.configuration.model.Project;
+import com.keyrus.proxemconnector.connector.csv.configuration.model.*;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService;
 import io.vavr.control.Either;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
@@ -11,6 +10,7 @@ import lombok.Data;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -50,9 +50,10 @@ public class ConnectorCSVDAO extends ConnectorDAO{
             String quotingCaracter,
             String escapingCaracter,
             boolean containsHeaders,
-            Collection<FieldDAO> fields,
-            String projectName
-            // ,ProjectDAO projectDAO
+            Collection<FieldDAO> fields
+           // String projectName
+            ,ProjectDAO project
+           // ,UserDAO user
     ) {
         this.id=id;
         this.name=name;
@@ -63,7 +64,8 @@ public class ConnectorCSVDAO extends ConnectorDAO{
         this.escapingCaracter = escapingCaracter;
         this.containsHeaders = containsHeaders;
         this.fields=fields;
-         this.projectName=projectName;
+         this.project=project;
+        // this.user=user;
     }
 
     public ConnectorCSVDAO(
@@ -80,14 +82,25 @@ public class ConnectorCSVDAO extends ConnectorDAO{
                 connectorCSV.containsHeaders(),
                 ConnectorCSVDAO.headersToHeaderDAOs(
                         connectorCSV.id(),
-                        connectorCSV.fields())
-                ,connectorCSV.projectName()
-                //,ConnectorCSVDAO.projectToProjectDAO(connectorCSV.project())
+                connectorCSV.fields())
+                ,ConnectorCSVDAO.projectToProjectDAO(ConnectorCSVService.getProjectByName(connectorCSV.projectName()).toProject().get())
+               // ,ConnectorCSVDAO.userToUserDAO(UserServiceConnector.getUserById(connectorCSV.userId()).get().toUser())
         );
+        System.out.println("mon Project"+ ConnectorCSVDAO.projectToProjectDAO(ConnectorCSVService.getProjectByName(connectorCSV.projectName()).toProject().get()));
+        System.out.println("mon User"+rolesToRoleDAOs(List.of(new Role(1,ERole.ROLE_USER))));
     }
 
     private static ProjectDAO projectToProjectDAO(Project project) {
         return new ProjectDAO(project.id(),project.name(),project.proxemToken());
+    }
+    public static UserDAO userToUserDAO(User user) {
+        return new UserDAO(user.getId(),user.getUsername(),user.getEmail(),user.getPassword(),rolesToRoleDAOs(user.getRoles()));
+    }
+
+    private static Collection<RoleDAO> rolesToRoleDAOs(final Collection<Role> roles) {
+        return
+                roles.stream()
+                        .map(role -> new RoleDAO(role.getId(),role.getName())).toList();
     }
 
     public String id() {
@@ -125,7 +138,8 @@ public class ConnectorCSVDAO extends ConnectorDAO{
     public Collection<FieldDAO> fields() {
         return this.fields;
     }
-    public  String projectName() {return this.projectName;}
+    public  ProjectDAO project() {return this.project;}
+    /*public  UserDAO user() {return this.user;}*/
 
     public final Either<Collection<ConnectorCSV.Error>, ConnectorCSV> toConfiguration() {
         return
@@ -140,7 +154,8 @@ public class ConnectorCSVDAO extends ConnectorDAO{
                         .withescapingCaracter(this.escapingCaracter)
                         .withContainsHeaders(this.containsHeaders)
                         .withHeaders(ConnectorCSVDAO.headerDAOsToHeaderBuilders(this.fields))
-                        .withProjectName(this.projectName)
+                        .withProjectName(this.project.getName())
+                        //.withUserId(this.user.getId())
                         //.
                         //withProject(ConnectorCSVDAO.projectDAOToProject(this.projectDAO))
                         .build();

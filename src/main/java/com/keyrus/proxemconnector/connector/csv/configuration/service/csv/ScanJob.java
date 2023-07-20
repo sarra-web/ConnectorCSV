@@ -106,7 +106,7 @@ public class ScanJob extends QuartzJobBean {
                  String[] values = parseLine(line,config.separator().charAt(0),config.quotingCaracter().charAt(0),config.escapingCaracter().charAt(0));
                  ProxemDto data = new ProxemDto();
                  position++;//pp les lignes
-                 data.setCorpusId("a0e04a5f-ab7c-4b0e-97be-af263a61ba49"/*config.getProject().getProjectName() ou project id nom doit etre unique*/);
+                 data.setCorpusId(ConnectorCSVService.getProjectByName(config.project().getName()).proxemToken()/*"a0e04a5f-ab7c-4b0e-97be-af263a61ba49"*//*config.getProject().getProjectName() ou project id nom doit etre unique*/);
 
                  List<FieldDAO> l =  config.fields().stream().filter(field1 -> field1.getType().toString()=="Identifier").collect(Collectors.toList());
                  if ((l.isEmpty() )) {

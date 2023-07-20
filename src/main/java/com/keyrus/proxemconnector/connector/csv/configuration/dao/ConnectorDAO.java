@@ -3,6 +3,8 @@ package com.keyrus.proxemconnector.connector.csv.configuration.dao;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -25,13 +27,19 @@ public abstract class ConnectorDAO implements Serializable {
     protected Collection<FieldDAO> fields;
     @Column(name = "connector_type", insertable=false, updatable=false)
     protected String typeConnector;
-    @Column(name = "project_name", nullable = false, unique = false, insertable = true, updatable = true)
-    protected String projectName;
-   /* @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "projet_id", nullable = false)
+  /*  @Column(name = "project_name", nullable = false, unique = false, insertable = true, updatable = true)
+    protected String projectName;*/
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "project_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    protected ProjectDAO projectDAO;*/
+    //@JsonIgnore
+    protected ProjectDAO project;
+
+ /*   @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    //@JsonIgnore
+    protected UserDAO user;*/
 
     public String getId() {
         return id;
@@ -57,11 +65,34 @@ public abstract class ConnectorDAO implements Serializable {
         this.fields = fields;
     }
 
-    public String getProjectName() {
+   /* public String getProjectName() {
         return projectName;
     }
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }*/
+
+    public String getTypeConnector() {
+        return typeConnector;
     }
+
+    public void setTypeConnector(String typeConnector) {
+        this.typeConnector = typeConnector;
+    }
+
+    public ProjectDAO getProject() {
+        return project;
+    }
+
+    public void setProject(ProjectDAO projectDAO) {
+        this.project = projectDAO;
+    }
+  /*  public UserDAO getUser() {
+        return user;
+    }
+
+    public void setUser(UserDAO user) {
+        this.user = user;
+    }*/
 }

@@ -33,6 +33,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public final class ConnectorCSVService {
     private static final String BASE_POST_URL = "https://studio3.proxem.com/validation5a/api/v1/corpus/a0e04a5f-ab7c-4b0e-97be-af263a61ba49/documents";
+    private static final String USER_URL= "http://localhost:8082/api/auth";
+    private static final String PROJECT_URL= "http://localhost:8080/project";
+
 
 
     private static ConnectorCSVService instance = null;
@@ -219,7 +222,8 @@ public final class ConnectorCSVService {
                 String[] values = parseLine(line,config.separator().charAt(0),config.quotingCaracter().charAt(0),config.escapingCaracter().charAt(0));
                 ProxemDto data = new ProxemDto();
                 position++;//pp les lignes
-                data.setCorpusId("a0e04a5f-ab7c-4b0e-97be-af263a61ba49"/*config.getProject().getProjectName() ou project id nom doit etre unique*/);
+                System.out.println("projName"+config.projectName());
+                data.setCorpusId(ConnectorCSVService.getProjectByName(config.projectName()).proxemToken()/*"a0e04a5f-ab7c-4b0e-97be-af263a61ba49"*//*config.getProject().getProjectName() ou project id nom doit etre unique*/);
 
                 List<FieldDTO> l =  config.fields().stream().filter(field1 -> field1.fieldType().toString()=="Identifier").collect(Collectors.toList());
                 if ((l.isEmpty() )) {
@@ -362,7 +366,15 @@ public final class ConnectorCSVService {
             return new Error.NotFound();
         throw new IllegalStateException("repository error not mapped to service error");
     }
+    //////////////////////////getProjectByName///////////////////////////////////
 
+    public static ProjectDTO getProjectByName(String id ){
+        RestTemplate restTemplate=new RestTemplate();
+        ResponseEntity<ProjectDTO> result= restTemplate.getForEntity(PROJECT_URL+"/"+id,ProjectDTO.class);
+        return  result.getBody();
+    }
+
+/////////////////////////////getProjectByName///////////////////////////////////
     public sealed interface Error {
 
         default String message() {

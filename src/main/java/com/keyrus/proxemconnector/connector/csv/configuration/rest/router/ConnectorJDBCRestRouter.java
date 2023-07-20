@@ -3,10 +3,14 @@ package com.keyrus.proxemconnector.connector.csv.configuration.rest.router;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorJDBCDAO;
+import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConfigPlusCheck;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorJDBCDTO;
+import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProjectDTO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.jdbcConnector.JDBCConnectorJDBCDatabaseRepository;
 import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ConnectorJDBCRestHandler;
+import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ProjectRestHandler;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.UserServiceConnector;
 import com.keyrus.proxemconnector.connector.csv.configuration.service.jdbc.ConnectorJDBCService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -26,6 +30,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 import static com.keyrus.proxemconnector.connector.csv.configuration.service.jdbc.ConnectorJDBCService.JDBCToJSON;
+import static com.keyrus.proxemconnector.connector.csv.configuration.service.jdbc.ConnectorJDBCService.JDBCToJSONFromCheckPoint;
 import static org.springframework.http.HttpStatus.OK;
 
 
@@ -37,6 +42,8 @@ public class ConnectorJDBCRestRouter {
     Logger logger= LoggerFactory.getLogger(ConnectorJDBCRestRouter.class);
     private final JDBCConnectorJDBCDatabaseRepository jdbcConnectorJDBCDatabaseRepository;
     private final ConnectorJDBCRestHandler connectorRestHandler;
+    private final ProjectRestHandler projectRestHandler;
+    private final UserServiceConnector userServiceConnector;
 
 
     private Sort.Direction getSortDirection(String direction) {
@@ -51,11 +58,13 @@ public class ConnectorJDBCRestRouter {
 
     public ConnectorJDBCRestRouter(
             final ConnectorJDBCRestHandler connectorRestHandler,
-             JDBCConnectorJDBCDatabaseRepository jdbcConnectorJDBCDatabaseRepository
-            ) {
+            JDBCConnectorJDBCDatabaseRepository jdbcConnectorJDBCDatabaseRepository,
+            ProjectRestHandler projectRestHandler, UserServiceConnector userServiceConnector) {
         this.connectorRestHandler = connectorRestHandler;
         this.jdbcConnectorJDBCDatabaseRepository = jdbcConnectorJDBCDatabaseRepository;
+        this.projectRestHandler = projectRestHandler;
 
+        this.userServiceConnector = userServiceConnector;
     }
 
     /*@GetMapping(value = "/findById/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -246,5 +255,37 @@ public class ConnectorJDBCRestRouter {
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
         return response;
     }
+    @PutMapping(value = "/pushToProxemFromcheckPoint",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> pushToProxemFromCheckPoint(@RequestBody ConfigPlusCheck config){
+        List<ProxemDto> proxemDtos = JDBCToJSONFromCheckPoint(config.getConnectorJDBCDTO(),config.getCheck());
+        ObjectMapper objectMapper = new ObjectMapper();
+        ArrayNode jsonArray = objectMapper.valueToTree(proxemDtos);
+        String url = "https://studio3.proxem.com/validation5a/api/v1/corpus/a0e04a5f-ab7c-4b0e-97be-af263a61ba49/documents";
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("Authorization","ApiKey mehdi.khayati@keyrus.com:63cdd92e-adb4-42fe-a655-8e54aeb0653f");
+        HttpEntity<String> entity = new HttpEntity<>(jsonArray.toString(), headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
+        return response;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @GetMapping("GetProjectByProjectName/{name}")//name unique
+    public ResponseEntity<ProjectDTO> GetProjectByProjectName(@PathVariable("name") final String name, @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode){
+        //return ResponseEntity.ok(connectorCSVService.getProjectByName(name));
+        return projectRestHandler.findOneByName(name,languageCode);
+    }
+    @GetMapping("GetUserByUserId/{id}")
+    public ResponseEntity<?> GetUserById(@PathVariable("id") final Long id){
+        return ResponseEntity.ok(userServiceConnector.getUserById(id));
+    }
+
+////////////////////////////////////////////////////////////////////////ACCSESS TO USER OR PROJECT/////////////////////////////////////////////////////////////////////////////
+
 
 }

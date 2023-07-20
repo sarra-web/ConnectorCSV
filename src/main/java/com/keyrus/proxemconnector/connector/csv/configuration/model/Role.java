@@ -1,11 +1,16 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.model;
 
+import com.keyrus.proxemconnector.connector.csv.configuration.dao.ERole;
+import lombok.Data;
 
-public class Role{
-
-
+@Data
+public class Role {
     private Integer id;
-   private String  name;
-   private String roleDescription;
 
+    private ERole name;
+
+    public Role(Integer id, ERole name) {
+        this.id = id;
+        this.name = name;
+    }
 }

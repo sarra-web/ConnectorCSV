@@ -4,11 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorCSVDTO;
+import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProjectDTO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.RepCommune;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.CSVConnectorJDBCDatabaseRepository;
 import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ConnectorCSVRestHandler;
+import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ProjectRestHandler;
 import com.keyrus.proxemconnector.connector.csv.configuration.rest.router.log.Logging;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.UserServiceConnector;
 import com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -36,7 +39,9 @@ public class ConnectorCSVRestRouter {
 Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
     private final CSVConnectorJDBCDatabaseRepository CSVConnectorJDBCDatabaseRepository;
     private final ConnectorCSVRestHandler connectorRestHandler;
+    private final ProjectRestHandler projectRestHandler;
     private final RepCommune repCommune;
+    private final UserServiceConnector userServiceConnector;
     private final Logging logging;
 
     private final ConnectorCSVService connectorCSVService;
@@ -53,10 +58,12 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
 
     public ConnectorCSVRestRouter(
             final ConnectorCSVRestHandler connectorRestHandler,
-            CSVConnectorJDBCDatabaseRepository CSVConnectorJDBCDatabaseRepository1, RepCommune repCommune, Logging logging, ConnectorCSVService connectorCSVService) {
+            CSVConnectorJDBCDatabaseRepository CSVConnectorJDBCDatabaseRepository1, ProjectRestHandler projectRestHandler, RepCommune repCommune, UserServiceConnector userServiceConnector, Logging logging, ConnectorCSVService connectorCSVService) {
         this.connectorRestHandler = connectorRestHandler;
         this.CSVConnectorJDBCDatabaseRepository = CSVConnectorJDBCDatabaseRepository1;
+        this.projectRestHandler = projectRestHandler;
         this.repCommune = repCommune;
+        this.userServiceConnector = userServiceConnector;
         this.logging = logging;
         this.connectorCSVService = connectorCSVService;
 
@@ -319,6 +326,29 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
         System.out.println(config);
         return  CSVDataToJSON(config);
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @GetMapping("GetProjectByProjectName/{name}")//name unique
+    public ResponseEntity<ProjectDTO> GetProjectByProjectName(@PathVariable("name") final String name, @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode){
+        //return ResponseEntity.ok(connectorCSVService.getProjectByName(name));
+        return projectRestHandler.findOneByName(name,languageCode);
+    }
+    @GetMapping("GetUserByUserId/{id}")
+    public ResponseEntity<?> GetUserById(@PathVariable("id") final Long id){
+        return ResponseEntity.ok(userServiceConnector.getUserById(id));
+    }
+
+////////////////////////////////////////////////////////////////////////ACCSESS TO USER OR PROJECT/////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
 
    /* public static void main(String[] args) {
         Timer timer = new Timer();

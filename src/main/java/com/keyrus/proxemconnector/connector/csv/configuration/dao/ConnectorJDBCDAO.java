@@ -4,6 +4,7 @@ import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.Query
 import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Project;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.jdbc.ConnectorJDBCService;
 import io.vavr.control.Either;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -60,7 +61,9 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
             String incrementalQuery,
             QueryMode mode,
             Collection<FieldDAO> fields
-             ,String projectName
+             //,String projectName
+            ,ProjectDAO  project
+            //, UserDAO user
     ) {
         this.id=id;
         this.name=name;
@@ -76,7 +79,9 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
         this.incrementalQuery=incrementalQuery;
         this.mode=mode;
         this.fields=fields;
-        this.projectName=projectName;
+       // this.projectName=projectName;
+        this.project=project;
+       // this.user=user;
     }
 
     public ConnectorJDBCDAO(
@@ -98,7 +103,9 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
                 com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorJDBCDAO.headersToHeaderDAOs(
                         connectorJDBC.id(),
                         connectorJDBC.fields())
-                ,connectorJDBC.projectName()
+                , ConnectorJDBCDAO.projectToProjectDAO(ConnectorJDBCService.getProjectByName(connectorJDBC.projectName()).toProject().get())
+                //,ConnectorCSVDAO.userToUserDAO(UserServiceConnector.getUserById(connectorJDBC.userId()).get().toUser())
+
         );
     }
 
@@ -155,7 +162,8 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
     public Collection<FieldDAO> fields() {
         return this.fields;
     }
-    public String projectName(){return this.projectName;}
+    public ProjectDAO project(){return this.project;}
+    /*public UserDAO user(){return this.user;}*/
 
     public final Either<Collection<ConnectorJDBC.Error>, ConnectorJDBC> toConfiguration() {
         return
@@ -174,8 +182,8 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
                         .withincrementalQuery(this.incrementalQuery)
                         .withmode(this.mode)
                         .withHeaders(com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorJDBCDAO.headerDAOsToHeaderBuilders(this.fields))
-
-                        .withProjectName(this.projectName)
+                        .withProjectName(this.project.getName())
+                     //   .withUserId(this.user.getId())
                         .build();
     }
     /*private static Supplier<Either<Collection<Project.Error>, Project>> projectDAOToProject(

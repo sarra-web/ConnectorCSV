@@ -72,7 +72,7 @@ class ConnectorCSVTest {
                         .getLeft();
 
         Assertions.assertAll(
-                () -> Assertions.assertEquals(1, result.size()),
+                () -> Assertions.assertEquals(2, result.size()),
                 () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof ConnectorCSV.Error.IdMalformed))
         );
     }
@@ -133,7 +133,7 @@ class ConnectorCSVTest {
                         .getLeft();
 
         Assertions.assertAll(
-                () -> Assertions.assertEquals(1, result.size()),
+                () -> Assertions.assertEquals(2, result.size()),
                 () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof ConnectorCSV.Error.NameMalformed))
         );
     }
@@ -194,7 +194,7 @@ class ConnectorCSVTest {
                         .getLeft();
 
         Assertions.assertAll(
-                () -> Assertions.assertEquals(1, result.size()),
+                () -> Assertions.assertEquals(2, result.size()),
                 () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof ConnectorCSV.Error.SeparatorMalformed))
         );
     }
@@ -255,14 +255,14 @@ class ConnectorCSVTest {
                         .getLeft();
 
         Assertions.assertAll(
-                () -> Assertions.assertEquals(1, result.size()),
+                () -> Assertions.assertEquals(2, result.size()),
                 () -> Assertions.assertTrue(result.stream().anyMatch(it -> it instanceof ConnectorCSV.Error.EncodingMalformed))
         );
     }
 
     @Test
-    @DisplayName("configuration must return error if build method is called with invalid folder to scan")
-    void configuration_must_return_error_if_build_method_is_called_with_invalid_folder_to_scan() {
+    @DisplayName("configuration must return error if build method is called with invalid path")
+    void configuration_must_return_error_if_build_method_is_called_with_invalid_path() {
         final var id = UUID.randomUUID().toString();
         final var name = UUID.randomUUID().toString();
         final var separator = ";";

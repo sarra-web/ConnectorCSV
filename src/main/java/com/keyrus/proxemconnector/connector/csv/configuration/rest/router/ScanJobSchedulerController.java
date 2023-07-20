@@ -40,9 +40,10 @@ public class ScanJobSchedulerController {
 
 
             JobDetail jobDetail = buildJobDetail(scheduleDTORequest);
-            ZonedDateTime dateTimeEnd = ZonedDateTime.of(scheduleDTORequest.getEndTime(), scheduleDTORequest.getTimeZone());
-            if((scheduleDTORequest.getCronExpression()!="") && (scheduleDTORequest.getCronExpression()!=null)){
-            CronTrigger crontrigger = TriggerBuilder.newTrigger()
+            if( (scheduleDTORequest.getCronExpression()!=null)&&(scheduleDTORequest.getEndTime()!=null)){
+                ZonedDateTime dateTimeEnd = ZonedDateTime.of(scheduleDTORequest.getEndTime(), scheduleDTORequest.getTimeZone());
+
+                CronTrigger crontrigger = TriggerBuilder.newTrigger()
                     .withSchedule(CronScheduleBuilder.cronSchedule(scheduleDTORequest.getCronExpression()))
                     .startAt(Date.from(dateTime.toInstant()))
                     .endAt(Date.from(dateTimeEnd.toInstant()))
@@ -50,7 +51,8 @@ public class ScanJobSchedulerController {
 
             scheduler.scheduleJob(jobDetail, crontrigger);}
 
-else{       Trigger trigger = buildJobTrigger(jobDetail, dateTime);
+            else{
+             Trigger trigger = buildJobTrigger(jobDetail, dateTime);
             scheduler.scheduleJob(jobDetail, trigger);}
 
             ScheduleDTOResponse scheduleDTOResponse = new ScheduleDTOResponse(true,
