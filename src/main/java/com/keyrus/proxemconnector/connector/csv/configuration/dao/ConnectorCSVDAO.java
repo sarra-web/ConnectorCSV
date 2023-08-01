@@ -10,7 +10,6 @@ import lombok.Data;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -36,7 +35,8 @@ public class ConnectorCSVDAO extends ConnectorDAO{
     @Column(name = "contains_headers", nullable = false, unique = false, insertable = true, updatable = true)
     private boolean containsHeaders;
 
-
+    /*@Autowired
+    private UserJDBC userJDBC;*/
 
     public ConnectorCSVDAO() {
     }
@@ -51,9 +51,9 @@ public class ConnectorCSVDAO extends ConnectorDAO{
             String escapingCaracter,
             boolean containsHeaders,
             Collection<FieldDAO> fields
-           // String projectName
             ,ProjectDAO project
-           // ,UserDAO user
+           //,UserDAO user
+           // ,Integer userId
     ) {
         this.id=id;
         this.name=name;
@@ -65,7 +65,8 @@ public class ConnectorCSVDAO extends ConnectorDAO{
         this.containsHeaders = containsHeaders;
         this.fields=fields;
          this.project=project;
-        // this.user=user;
+         //this.user=user;
+      //  this.userId=userId;
     }
 
     public ConnectorCSVDAO(
@@ -81,13 +82,14 @@ public class ConnectorCSVDAO extends ConnectorDAO{
                 connectorCSV.escapingCaracter(),
                 connectorCSV.containsHeaders(),
                 ConnectorCSVDAO.headersToHeaderDAOs(
-                        connectorCSV.id(),
+                connectorCSV.id(),
                 connectorCSV.fields())
                 ,ConnectorCSVDAO.projectToProjectDAO(ConnectorCSVService.getProjectByName(connectorCSV.projectName()).toProject().get())
-               // ,ConnectorCSVDAO.userToUserDAO(UserServiceConnector.getUserById(connectorCSV.userId()).get().toUser())
-        );
-        System.out.println("mon Project"+ ConnectorCSVDAO.projectToProjectDAO(ConnectorCSVService.getProjectByName(connectorCSV.projectName()).toProject().get()));
-        System.out.println("mon User"+rolesToRoleDAOs(List.of(new Role(1,ERole.ROLE_USER))));
+           // ,ConnectorCSVDAO.userToUserDAO(UserServiceConnector.getUserById(connectorCSV.userId()).get().toUser())
+   // ,connectorCSV.userId()
+    );
+        //UserDAO userDAO=userJDBC.save(ConnectorCSVDAO.userToUserDAO(UserServiceConnector.getUserById(connectorCSV.userId()).get().toUser()));
+      //  System.out.println("userDaoooo"+userDAO);
     }
 
     private static ProjectDAO projectToProjectDAO(Project project) {
@@ -155,9 +157,10 @@ public class ConnectorCSVDAO extends ConnectorDAO{
                         .withContainsHeaders(this.containsHeaders)
                         .withHeaders(ConnectorCSVDAO.headerDAOsToHeaderBuilders(this.fields))
                         .withProjectName(this.project.getName())
+
+                       // .withUserId(this.userId)
                         //.withUserId(this.user.getId())
-                        //.
-                        //withProject(ConnectorCSVDAO.projectDAOToProject(this.projectDAO))
+                        //.withProject(ConnectorCSVDAO.projectDAOToProject(this.projectDAO))
                         .build();
     }
     /*private static Supplier<Either<Collection<Project.Error>, Project>> projectDAOToProject(

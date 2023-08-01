@@ -27,19 +27,24 @@ public abstract class ConnectorDAO implements Serializable {
     protected Collection<FieldDAO> fields;
     @Column(name = "connector_type", insertable=false, updatable=false)
     protected String typeConnector;
-  /*  @Column(name = "project_name", nullable = false, unique = false, insertable = true, updatable = true)
-    protected String projectName;*/
+
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "project_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     //@JsonIgnore
     protected ProjectDAO project;
 
- /*   @ManyToOne(fetch = FetchType.EAGER, optional = false)
+  /*  @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     //@JsonIgnore
     protected UserDAO user;*/
+
+
+
+ /*   @Column(name = "user_id", insertable=false, updatable=false)
+    protected Integer userId;*/
+
 
     public String getId() {
         return id;
@@ -65,14 +70,6 @@ public abstract class ConnectorDAO implements Serializable {
         this.fields = fields;
     }
 
-   /* public String getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }*/
-
     public String getTypeConnector() {
         return typeConnector;
     }
@@ -88,11 +85,19 @@ public abstract class ConnectorDAO implements Serializable {
     public void setProject(ProjectDAO projectDAO) {
         this.project = projectDAO;
     }
-  /*  public UserDAO getUser() {
+/*  public UserDAO getUser() {
         return user;
     }
 
     public void setUser(UserDAO user) {
         this.user = user;
+    }
+*/
+    /*public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }*/
 }

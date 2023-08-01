@@ -7,16 +7,13 @@ import com.keyrus.proxemconnector.connector.csv.configuration.dao.FieldDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.Meta;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.TextPart;
-import com.keyrus.proxemconnector.connector.csv.configuration.rest.router.log.Logging;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.log.Logging;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -170,11 +167,11 @@ public class ScanJob extends QuartzJobBean {
          return dataList;
      }
     private void pushToProxem(ConnectorCSVDAO connectorCSVDAO) {
-        Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT","200");
+
         List<ProxemDto> proxemDtos = CSVDataToJSON(connectorCSVDAO);
         ObjectMapper objectMapper = new ObjectMapper();
         ArrayNode jsonArray = objectMapper.valueToTree(proxemDtos);
-        String url = "https://studio3.proxem.com/validation5a/api/v1/corpus/a0e04a5f-ab7c-4b0e-97be-af263a61ba49/documents";
+        String url = "https://studio3.proxem.com/validation5a/api/v1/corpus/"+new ConnectorCSVDAO(connectorCSVDAO.toConfiguration().get()).project().getProxemToken()+"/documents";
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -182,8 +179,31 @@ public class ScanJob extends QuartzJobBean {
         headers.add("Authorization","ApiKey mehdi.khayati@keyrus.com:63cdd92e-adb4-42fe-a655-8e54aeb0653f");
         HttpEntity<String> entity = new HttpEntity<>(jsonArray.toString(), headers);
 
-         restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
+        ResponseEntity<String> response =   restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
+        if(response.getStatusCode().toString().startsWith("200")){
+            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),countOccurrences(response.getBody().toString(), "\"UpsertSuccessful\":true")+" docs pushed");
+            System.out.println("response body"+response.getBody().toString());//count appearence of "UpsertSuccessful":true
+        }
+        else{
+            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),"no docs pushed");
+        }
 
+    }
+    static int countOccurrences(String str, String word)
+    {
+        // split the string by spaces in a
+        String a[] = str.split(",");
+
+        // search for pattern in a
+        int count = 0;
+        for (int i = 0; i < a.length; i++)
+        {
+            // if match found increase count
+            if (word.equals(a[i]))
+                count++;
+        }
+
+        return count;
     }
 
 }

@@ -809,7 +809,7 @@ class ConnectorCSVTest {
                                                 position,
                                                 UUID.randomUUID().toString(),
                                                 FieldType.Text,
-                                                false, true
+                                                true, true
                                         )
                                         .get()
                         )
@@ -823,7 +823,7 @@ class ConnectorCSVTest {
                                 1,
                                 UUID.randomUUID().toString(),
                                 FieldType.Text,
-                                false, true
+                                true, true
                         );
         final Supplier<Either<Collection<Field.Error>, Field>> headerBuilder2 =
                 () ->
@@ -834,7 +834,7 @@ class ConnectorCSVTest {
                                 2,
                                 UUID.randomUUID().toString(),
                                 FieldType.Text,
-                                false, true
+                                true, true
                         );
 
         final var result =
@@ -851,6 +851,8 @@ class ConnectorCSVTest {
                         .withHeaders(fields)
                         .withHeaders(headerBuilder1)
                         .withHeaders(headerBuilder2)
+                        .withProjectName("Formation3")
+                        .withUserId(20L)
                         .build()
                         .get();
 

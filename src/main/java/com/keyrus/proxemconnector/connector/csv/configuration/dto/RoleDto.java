@@ -1,6 +1,7 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.dto;
 
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ERole;
+import com.keyrus.proxemconnector.connector.csv.configuration.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoleDto {
-    private Integer id;
+    private Long id;
 
     private ERole name;
+
+public RoleDto(Role role){
+     this(role.getId(),role.getName());
+}
 }

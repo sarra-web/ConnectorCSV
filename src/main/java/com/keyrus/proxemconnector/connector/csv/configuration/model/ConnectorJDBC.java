@@ -40,10 +40,10 @@ public class ConnectorJDBC extends Connector{
             final QueryMode mode,
             final Collection<Field> fields,
             final String projectName
-            //, final Long userId
+            , final Long userId
     ) {
         super(id,name,fields ,projectName
-                //,userId
+                ,userId
         );
         this.jdbcUrl  = jdbcUrl ;
         this.username = username;
@@ -108,7 +108,7 @@ public class ConnectorJDBC extends Connector{
     public String  projectName() {
             return this.projectName;
         }
-  /*  public Long  userId() {
+  /* public Long  userId() {
         return this.userId;
     }*/
 
@@ -179,7 +179,7 @@ public class ConnectorJDBC extends Connector{
             final QueryMode mode,
             final Collection<Field> fields
             ,final String projectName
-            //, final Long userId
+            , final Long userId
     ) {
         return
                 com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkThenInstantiate(
@@ -194,7 +194,7 @@ public class ConnectorJDBC extends Connector{
                                 initialQuery,checkpointColumn,incrementalVariable,incrementalQuery,mode,
                                 fields
                                 ,projectName
-                                //,userId
+                                ,userId
                         ),
                         com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.checkId(
                                 id
@@ -222,7 +222,7 @@ public class ConnectorJDBC extends Connector{
             final QueryMode mode,
             final Collection<Field> fields,
             final String projectName
-            //, final Long userId
+            , final Long userId
     ) {
 
         return
@@ -243,7 +243,7 @@ public class ConnectorJDBC extends Connector{
                                 mode,
                                 fields
                                 ,projectName
-                                //,userId
+                                ,userId
                         );
     }
 
@@ -511,7 +511,7 @@ public class ConnectorJDBC extends Connector{
         private final QueryMode mode;
         private final Collection<Field> fields;
         private final String projectName;
-       // private final Long userId;
+        private final Long userId;
         private final Collection<Supplier<Either<Collection<Field.Error>, Field>>> headerBuilders;
 
         private Builder(
@@ -529,7 +529,7 @@ public class ConnectorJDBC extends Connector{
                 final QueryMode mode,
                 final Collection<Field> fields,
                 final String projectName,
-               // Long userId,
+                Long userId,
                 final Collection<Supplier<Either<Collection<Field.Error>, Field>>> headerBuilders
         ) {
             this.id = id;
@@ -546,7 +546,7 @@ public class ConnectorJDBC extends Connector{
             this.mode=mode;
             this.fields = fields;
             this.projectName = projectName;
-           // this.userId = userId;
+            this.userId = userId;
             this.headerBuilders = headerBuilders;
         }
 
@@ -572,7 +572,7 @@ public class ConnectorJDBC extends Connector{
                             this.mode,
                             this.fields
                             , this.projectName
-                            //, userId
+                            , userId
                             , this.headerBuilders
                     );
         }
@@ -594,7 +594,7 @@ public class ConnectorJDBC extends Connector{
                             this.mode,
                             this.fields,
                             com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.nonNullOrDefault(projectName,this.projectName),
-                            //userId,
+                            userId,
                             this.headerBuilders
 
                     );
@@ -622,11 +622,11 @@ public class ConnectorJDBC extends Connector{
                             this.mode,
                             this.fields
                             ,this.projectName
-                            //, userId
+                            , userId
                             , this.headerBuilders
                     );
         }
-      /*  public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withUserId(
+      public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withUserId(
                 final Long userId
         ) {
             return
@@ -650,7 +650,7 @@ public class ConnectorJDBC extends Connector{
                             this.userId
                     ), this.headerBuilders
                     );
-        }*/
+        }
 
         public com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder withjdbcUrl (
                 final String jdbcUrl
@@ -674,7 +674,7 @@ public class ConnectorJDBC extends Connector{
                             this.mode,
                             this.fields,
                             this.projectName,
-                            //userId,
+                            userId,
                             this.headerBuilders
                     );
         }
@@ -701,7 +701,7 @@ public class ConnectorJDBC extends Connector{
                             this.mode,
                             this.fields,
                             this.projectName,
-                            //userId,
+                            userId,
                             this.headerBuilders
                     );
         }
@@ -728,7 +728,7 @@ public class ConnectorJDBC extends Connector{
                             this.mode,
                             this.fields,
                             this.projectName,
-                            //userId,
+                            userId,
                             this.headerBuilders
                     );
         }
@@ -756,7 +756,7 @@ public class ConnectorJDBC extends Connector{
                             this.fields
                             ,this.projectName
                             ,
-                            //userId,
+                            userId,
                             this.headerBuilders
                     );
         }
@@ -783,7 +783,7 @@ public class ConnectorJDBC extends Connector{
                             this.mode,
                             this.fields
                             , this.projectName
-                            //, userId
+                            , userId
                             , this.headerBuilders
                     );
         }
@@ -812,7 +812,7 @@ public class ConnectorJDBC extends Connector{
                             this.mode,
                             this.fields
                             , this.projectName
-                           // , userId
+                            , userId
                             , this.headerBuilders
                     );
         }
@@ -839,7 +839,7 @@ public class ConnectorJDBC extends Connector{
                             this.mode,
                             this.fields,
                             this.projectName,
-                            //userId,
+                            userId,
                             this.headerBuilders
                     );
         }
@@ -866,7 +866,7 @@ public class ConnectorJDBC extends Connector{
                             this.mode,
                             this.fields
                             , this.projectName
-                            //, userId
+                            , userId
                             , this.headerBuilders
                     );
         }
@@ -893,7 +893,7 @@ public class ConnectorJDBC extends Connector{
 
                             this.fields
                             , this.projectName
-                            //, userId
+                            , userId
                             , this.headerBuilders
                     );
         }
@@ -922,7 +922,7 @@ public class ConnectorJDBC extends Connector{
 
                             this.fields
                             , this.projectName
-                          //  , userId
+                            , userId
                             , this.headerBuilders
                     );
         }
@@ -950,7 +950,7 @@ public class ConnectorJDBC extends Connector{
                             this.mode,
                             this.fields
                             ,this.projectName
-                           // , userId
+                            , userId
                             , this.headerBuilders
                     );
         }
@@ -977,7 +977,7 @@ public class ConnectorJDBC extends Connector{
                                     fields
                             )
                             ,this.projectName
-                           // , userId
+                            , userId
                             , this.headerBuilders
                     );
         }
@@ -1002,7 +1002,7 @@ public class ConnectorJDBC extends Connector{
                             this.mode,
                             this.fields
                             ,this.projectName
-                            //, userId
+                            , userId
                             , com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC.Builder.addToCollection(
                             this.headerBuilders,
                             headerBuilders
@@ -1031,7 +1031,7 @@ public class ConnectorJDBC extends Connector{
                                             this.incrementalQuery,
                                             this.mode
                                              ,this.projectName
-                                            //,this.userId
+                                            ,this.userId
                                     )
                             )
                             .flatMap(
@@ -1049,7 +1049,7 @@ public class ConnectorJDBC extends Connector{
                                             this.incrementalQuery,
                                             this.mode
                                             , this.projectName
-                                            //,this.userId
+                                            ,this.userId
                                     )
                             );
         }
@@ -1066,7 +1066,7 @@ public class ConnectorJDBC extends Connector{
                             null,null,null,null,null,null,
                             null,
                             null, null
-                            //,null
+                            ,null
                     );
         }
 
@@ -1084,7 +1084,7 @@ public class ConnectorJDBC extends Connector{
                 final String incrementalQuery,
                 final QueryMode mode,
                 final String projectName
-                //, final Long userId
+                , final Long userId
         ) {
             return
                     headersErrors ->
@@ -1105,7 +1105,7 @@ public class ConnectorJDBC extends Connector{
                                                     mode,
                                                     null,
                                                     projectName
-                                                    //,userId
+                                                    ,userId
                                             )
                                             .fold(
                                                     Function.identity(),
@@ -1128,7 +1128,7 @@ public class ConnectorJDBC extends Connector{
                 final String incrementalQuery,
                 final QueryMode mode,
                 final String projectName
-                //final Long userId
+                ,final Long userId
 
         ) {
             return
@@ -1144,7 +1144,7 @@ public class ConnectorJDBC extends Connector{
                                     mode
                                     ,fields
                                      ,projectName
-                                            //,userId
+                                            ,userId
 
 
                             );

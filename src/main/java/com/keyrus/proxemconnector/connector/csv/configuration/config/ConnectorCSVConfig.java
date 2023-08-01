@@ -20,8 +20,6 @@ import org.springframework.web.client.RestTemplate;
 @EnableAsync
 @Configuration
 public class ConnectorCSVConfig {
-
-
     @Bean
     public CSVConnectorRepository csvConnectorRepository(
             final CSVConnectorJDBCDatabaseRepository csvConnectorJDBCDatabaseRepository
@@ -31,7 +29,6 @@ public class ConnectorCSVConfig {
                         csvConnectorJDBCDatabaseRepository
                 );
     }
-
     @Bean
     public ConnectorCSVService connectorCSVService(
             final CSVConnectorRepository csvConnectorRepository
@@ -41,7 +38,6 @@ public class ConnectorCSVConfig {
                         csvConnectorRepository
                 );
     }
-
     @Bean
     public ConnectorCSVRestHandler connectorRestHandler(
             final ConnectorCSVService connectorCSVService,

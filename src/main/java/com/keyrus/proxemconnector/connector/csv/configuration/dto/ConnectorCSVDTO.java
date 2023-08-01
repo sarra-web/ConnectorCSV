@@ -38,7 +38,7 @@ public record ConnectorCSVDTO (
 
         @JsonProperty
         String projectName
-        /*@JsonProperty
+      /*  @JsonProperty
         Long userId*/
 ) {
 
@@ -56,7 +56,7 @@ public record ConnectorCSVDTO (
                 connectorCSV.containsHeaders(),
                 ConnectorCSVDTO.headersToHeaderDTOs(connectorCSV.fields())
                 ,connectorCSV.projectName()
-               // ,connectorCSV.userId()
+               //,connectorCSV.userId()
 
                 //, ConnectorCSVDTO.projectToProjectDTO(connectorCSV.project())
         );
@@ -71,7 +71,9 @@ public record ConnectorCSVDTO (
     }
 
     public Either<Collection<ConnectorCSV.Error>, ConnectorCSV> toConfiguration() {
+
         return
+
                 ConnectorCSV.Builder
                         .builder()
                         .withId(ConnectorCSVDTO.idNonNullOrRandomId(this.id))
@@ -91,6 +93,7 @@ public record ConnectorCSVDTO (
                         .withProjectName(this.projectName)
                        // .withUserId(this.userId)
                         .build();
+
     }
 
     private static Collection<FieldDTO> headersToHeaderDTOs(

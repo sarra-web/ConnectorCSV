@@ -1,16 +1,21 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.dao;
 
 
+import com.keyrus.proxemconnector.connector.csv.configuration.model.Role;
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Entity
+@Data
 @Table(name = "roles")
-public class RoleDAO implements Serializable {
+@NoArgsConstructor
+public final class RoleDAO implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+  private Long id;
 
   @Enumerated(EnumType.STRING)
   @Column(length = 20)
@@ -18,16 +23,16 @@ public class RoleDAO implements Serializable {
 
 
 
-  public RoleDAO(Integer id, ERole name) {
+  public RoleDAO(Long id, ERole name) {
     this.id = id;
     this.name = name;
   }
 
-  public Integer getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -38,4 +43,19 @@ public class RoleDAO implements Serializable {
   public void setName(ERole name) {
     this.name = name;
   }
+
+  public RoleDAO(
+          final Role role
+          ) {
+    this( role.getId(),role.getName()
+    );
+  }
+
+
+
+
+
+
+
+
 }

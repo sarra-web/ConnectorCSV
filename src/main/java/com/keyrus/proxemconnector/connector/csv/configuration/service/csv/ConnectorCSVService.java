@@ -69,16 +69,7 @@ public final class ConnectorCSVService {
                         )
                         .mapLeft(ConnectorCSVService::repositoryErrorToServiceError);
     }
-    public Either<Error, ConnectorCSV> create2(
-            final ConnectorCSV connectorCSV ,final String idProject
-    ) {
-        return
-                this.cSVConnectorRepository
-                        .create2(
-                                connectorCSV,idProject
-                        )
-                        .mapLeft(ConnectorCSVService::repositoryErrorToServiceError);
-    }
+
 
     public Either<Error, ConnectorCSV> update(
             final ConnectorCSV connectorCSV

@@ -310,31 +310,25 @@ public final class Field {
 
 
     public sealed interface Error {
-
         default String message() {
             return this.getClass().getCanonicalName();
         }
-
         final class IdMalformed implements Error {
             private IdMalformed() {
             }
         }
-
         final class ReferenceConnectorMalformed implements Error {
             private ReferenceConnectorMalformed() {
             }
         }
-
         final class NameMalformed implements Error {
             private NameMalformed() {
             }
         }
-
         final class PositionMalformed implements Error {
             private PositionMalformed() {
             }
         }
-
         final class MetaMalformed implements Error {
             private MetaMalformed() {
             }

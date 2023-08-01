@@ -61,21 +61,7 @@ public final class ConnectorCSVRestHandler {
                 );
     }
 
-    public ResponseEntity<ConnectorCSVDTO> create2(String idProject,
-            final ConnectorCSVDTO connectorCSVDTO,
-            final String languageCode
-    ) {
-        return
-                ConnectorCSVRestHandler.convertConfigurationDTOToConfigurationThenApplyOnServiceCreateOperation(
-                        this.connectorCSVService,
-                        connectorCSVDTO
-                        ,idProject,
-                        ConnectorCSVService::create2,
-                        languageCode,
-                        this.errorHeader,
-                        this.messageSource
-                );
-    }
+
 
 
 
@@ -229,38 +215,7 @@ public final class ConnectorCSVRestHandler {
                                 Function.identity()
                         );
     }
-    private static ResponseEntity<ConnectorCSVDTO> convertConfigurationDTOToConfigurationThenApplyOnServiceCreateOperation(
-            final ConnectorCSVService connectorCSVService,
-            final ConnectorCSVDTO connectorCSVDTO
-            ,final String idProject,
-            final  TriFunction<ConnectorCSVService, ConnectorCSV,String, Either<ConnectorCSVService.Error, ConnectorCSV>>  serviceOperation,
-            final String languageCode,
-            final String errorHeader,
-            final MessageSource messageSource
-    ) {
-        return
-                ConnectorCSVRestHandler.<ConnectorCSVDTO>configurationDTOToConfiguration(
-                                connectorCSVDTO,
-                                languageCode,
-                                errorHeader,
-                                messageSource
-                        )
-                        .flatMap(
-                                ConnectorCSVRestHandler.executeOnCreateService(
-                                        connectorCSVService,
-                                        serviceOperation,
-                                        languageCode,
-                                        errorHeader,
-                                        messageSource
-                                        ,idProject
-                                )
-                        )
-                        .map(ConnectorCSVRestHandler::toOkResponse)
-                        .fold(
-                                Function.identity(),
-                                Function.identity()
-                        );
-    }
+
 
     private static Function<ConnectorCSV, Either<ResponseEntity<ConnectorCSVDTO>, ConnectorCSV>> executeOnService(
             final ConnectorCSVService connectorCSVService,
@@ -284,29 +239,7 @@ public final class ConnectorCSVRestHandler {
                                         )
                                 );
     }
-    private static Function<ConnectorCSV, Either<ResponseEntity<ConnectorCSVDTO>, ConnectorCSV>> executeOnCreateService(
-            final ConnectorCSVService connectorCSVService,
-            final TriFunction<ConnectorCSVService, ConnectorCSV,String, Either<ConnectorCSVService.Error, ConnectorCSV>> serviceOperation,
-            final String languageCode,
-            final String errorHeader,
-            final MessageSource messageSource
-            ,final String idProject
-    ) {
-        return
-                configuration->
-                        serviceOperation.apply(
-                                        connectorCSVService
-                                        ,configuration,idProject
-                                )
-                                .mapLeft(serviceError ->
-                                        ConnectorCSVRestHandler.serviceErrorToRestResponse(
-                                                serviceError,
-                                                languageCode,
-                                                errorHeader,
-                                                messageSource
-                                        )
-                                );
-    }
+
 
     private static <RESPONSE> Either<ResponseEntity<RESPONSE>, ConnectorCSV> configurationDTOToConfiguration(
             final ConnectorCSVDTO connectorCSVDTO,
@@ -432,13 +365,4 @@ public final class ConnectorCSVRestHandler {
         }
     }
 }
-@FunctionalInterface
- interface TriFunction<T, U, V, R> {
 
-    R apply(T t, U u, V v);
-
-    default <K> TriFunction<T, U, V, K> andThen(Function<? super R, ? extends K> after) {
-        Objects.requireNonNull(after);
-        return (T t, U u, V v) -> after.apply(apply(t, u, v));
-    }
-}

@@ -63,7 +63,8 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
             Collection<FieldDAO> fields
              //,String projectName
             ,ProjectDAO  project
-            //, UserDAO user
+           // , UserDAO user
+          //  ,Integer userId
     ) {
         this.id=id;
         this.name=name;
@@ -82,6 +83,7 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
        // this.projectName=projectName;
         this.project=project;
        // this.user=user;
+      //  this.userId=userId;
     }
 
     public ConnectorJDBCDAO(
@@ -104,7 +106,9 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
                         connectorJDBC.id(),
                         connectorJDBC.fields())
                 , ConnectorJDBCDAO.projectToProjectDAO(ConnectorJDBCService.getProjectByName(connectorJDBC.projectName()).toProject().get())
-                //,ConnectorCSVDAO.userToUserDAO(UserServiceConnector.getUserById(connectorJDBC.userId()).get().toUser())
+
+                //,connectorJDBC.userId()
+               //  ,ConnectorCSVDAO.userToUserDAO(UserServiceConnector.getUserById(connectorJDBC.userId()).get().toUser())
 
         );
     }
@@ -183,7 +187,8 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
                         .withmode(this.mode)
                         .withHeaders(com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorJDBCDAO.headerDAOsToHeaderBuilders(this.fields))
                         .withProjectName(this.project.getName())
-                     //   .withUserId(this.user.getId())
+                        //.withUserId(this.userId)
+                        // .withUserId(this.user.getId())
                         .build();
     }
     /*private static Supplier<Either<Collection<Project.Error>, Project>> projectDAOToProject(

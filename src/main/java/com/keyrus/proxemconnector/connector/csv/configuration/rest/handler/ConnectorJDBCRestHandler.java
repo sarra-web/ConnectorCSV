@@ -61,21 +61,7 @@ public class ConnectorJDBCRestHandler {
                     );
         }
 
-        public ResponseEntity<ConnectorJDBCDTO> create2(String idProject,
-                                                       final ConnectorJDBCDTO connectorJDBCDTO,
-                                                       final String languageCode
-        ) {
-            return
-                    ConnectorJDBCRestHandler.convertConfigurationDTOToConfigurationThenApplyOnServiceCreateOperation(
-                            this.connectorJDBCService,
-                            connectorJDBCDTO
-                            ,idProject,
-                            ConnectorJDBCService::create2,
-                            languageCode,
-                            this.errorHeader,
-                            this.messageSource
-                    );
-        }
+
 
 
 
@@ -188,7 +174,7 @@ public class ConnectorJDBCRestHandler {
                 final Collection<ConnectorJDBC> connectorJDBCS
         ) {
             return
-                    ResponseEntity.ok(
+                    org.springframework.http.ResponseEntity.ok(
 
                             connectorJDBCS.stream().map(
                                     ConnectorJDBCDTO::new
@@ -228,37 +214,7 @@ public class ConnectorJDBCRestHandler {
                                     Function.identity()
                             );
         }
-        private static ResponseEntity<ConnectorJDBCDTO> convertConfigurationDTOToConfigurationThenApplyOnServiceCreateOperation(
-                final ConnectorJDBCService connectorJDBCService,
-                final ConnectorJDBCDTO connectorJDBCDTO
-                ,final String idProject,
-                final com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.TriFunction<ConnectorJDBCService, ConnectorJDBC,String, Either<ConnectorJDBCService.Error, ConnectorJDBC>> serviceOperation,
-                final String languageCode,
-                final String errorHeader,
-                final MessageSource messageSource
-        ) {
-            return
-                    ConnectorJDBCRestHandler.<ConnectorJDBCDTO>configurationDTOToConfiguration(
-                                    connectorJDBCDTO,
-                                    languageCode,
-                                    errorHeader,
-                                    messageSource
-                            )
-                            .flatMap(ConnectorJDBCRestHandler.executeOnCreateService(
-                                            connectorJDBCService,
-                                            serviceOperation,
-                                            languageCode,
-                                            errorHeader,
-                                            messageSource
-                                            ,idProject
-                                    )
-                            )
-                            .map(ConnectorJDBCRestHandler::toOkResponse)
-                            .fold(
-                                    Function.identity(),
-                                    Function.identity()
-                            );
-        }
+
 
         private static Function<ConnectorJDBC, Either<ResponseEntity<ConnectorJDBCDTO>, ConnectorJDBC>> executeOnService(
                 final ConnectorJDBCService connectorJDBCService,
@@ -282,29 +238,7 @@ public class ConnectorJDBCRestHandler {
                                             )
                                     );
         }
-        private static Function<ConnectorJDBC, Either<ResponseEntity<ConnectorJDBCDTO>, ConnectorJDBC>> executeOnCreateService(
-                final ConnectorJDBCService connectorJDBCService,
-                final com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.TriFunction<ConnectorJDBCService, ConnectorJDBC,String, Either<ConnectorJDBCService.Error, ConnectorJDBC>> serviceOperation,
-                final String languageCode,
-                final String errorHeader,
-                final MessageSource messageSource
-                ,final String idProject
-        ) {
-            return
-                    configuration->
-                            serviceOperation.apply(
-                                            connectorJDBCService
-                                            ,configuration,idProject
-                                    )
-                                    .mapLeft(serviceError ->
-                                            ConnectorJDBCRestHandler.serviceErrorToRestResponse(
-                                                    serviceError,
-                                                    languageCode,
-                                                    errorHeader,
-                                                    messageSource
-                                            )
-                                    );
-        }
+
 
         private static <RESPONSE> Either<ResponseEntity<RESPONSE>, ConnectorJDBC> configurationDTOToConfiguration(
                 final ConnectorJDBCDTO connectorJDBCDTO,

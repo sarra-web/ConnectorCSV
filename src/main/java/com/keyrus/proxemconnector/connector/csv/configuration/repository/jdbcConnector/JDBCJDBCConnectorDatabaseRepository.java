@@ -61,26 +61,7 @@ public final class JDBCJDBCConnectorDatabaseRepository implements JDBCConnectorR
                 );
     }
 
-    @Override
-    public Either<Error, ConnectorJDBC> create2(
-            final ConnectorJDBC connectorJDBC,String projectId
-    ) {
-        return
-                JDBCJDBCConnectorDatabaseRepository.checkThenExecute(
-                        JDBCJDBCConnectorDatabaseRepository.createConfiguration2(
-                                connectorJDBC,
-                                this.JDBCConnectorJDBCDatabaseRepository,projectId
-                        ),
-                        JDBCJDBCConnectorDatabaseRepository.checkConfigurationIdDoesNotExist(
-                                connectorJDBC.id(),
-                                this.JDBCConnectorJDBCDatabaseRepository
-                        ),
-                        JDBCJDBCConnectorDatabaseRepository.checkConfigurationNameDoesNotExist(
-                                connectorJDBC.name(),
-                                this.JDBCConnectorJDBCDatabaseRepository
-                        )
-                );
-    }
+
 
     @Override
     public Either<Error, ConnectorJDBC> update(

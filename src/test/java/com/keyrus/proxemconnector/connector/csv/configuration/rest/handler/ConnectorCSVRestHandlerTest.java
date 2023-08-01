@@ -73,9 +73,12 @@ class ConnectorCSVRestHandlerTest {
                                         " ",
                                         " ",
                                         " ",
-                                        " ","",
-
-                                        " ",true,Collections.emptySet(),""
+                                        " ",
+                                        "",
+                                        " ",
+                                        true,
+                                        Collections.emptySet(),
+                                        "",88L
 
                                 ),
                                 null
@@ -195,14 +198,16 @@ class ConnectorCSVRestHandlerTest {
         final var result =
                 this.connectorCSVRestHandler
                         .update(
-                                new ConnectorCSVDTO(
+                                new ConnectorCSVDTO( " ",
                                         " ",
                                         " ",
                                         " ",
                                         " ",
+                                        "",
                                         " ",
-                                        " ",
-                                        " ",true,Collections.emptySet(),""
+                                        true,
+                                        Collections.emptySet(),
+                                        "",88L
                                 ),
                                 null
                         );

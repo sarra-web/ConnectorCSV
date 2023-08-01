@@ -5,13 +5,13 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorJDBCDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConfigPlusCheck;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorJDBCDTO;
-import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProjectDTO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.jdbcConnector.JDBCConnectorJDBCDatabaseRepository;
 import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ConnectorJDBCRestHandler;
 import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ProjectRestHandler;
 import com.keyrus.proxemconnector.connector.csv.configuration.service.UserServiceConnector;
 import com.keyrus.proxemconnector.connector.csv.configuration.service.jdbc.ConnectorJDBCService;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.log.Logging;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.keyrus.proxemconnector.connector.csv.configuration.service.jdbc.ConnectorJDBCService.JDBCToJSON;
@@ -42,8 +43,8 @@ public class ConnectorJDBCRestRouter {
     Logger logger= LoggerFactory.getLogger(ConnectorJDBCRestRouter.class);
     private final JDBCConnectorJDBCDatabaseRepository jdbcConnectorJDBCDatabaseRepository;
     private final ConnectorJDBCRestHandler connectorRestHandler;
-    private final ProjectRestHandler projectRestHandler;
-    private final UserServiceConnector userServiceConnector;
+
+
 
 
     private Sort.Direction getSortDirection(String direction) {
@@ -62,9 +63,9 @@ public class ConnectorJDBCRestRouter {
             ProjectRestHandler projectRestHandler, UserServiceConnector userServiceConnector) {
         this.connectorRestHandler = connectorRestHandler;
         this.jdbcConnectorJDBCDatabaseRepository = jdbcConnectorJDBCDatabaseRepository;
-        this.projectRestHandler = projectRestHandler;
 
-        this.userServiceConnector = userServiceConnector;
+
+
     }
 
     /*@GetMapping(value = "/findById/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -170,18 +171,7 @@ public class ConnectorJDBCRestRouter {
                                 languageCode
                         );
     }
-    @PostMapping(value = "add/{idProject}",produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ConnectorJDBCDTO> create2(@PathVariable(value = "idProject") final String idProject,
-                                                   @RequestBody final ConnectorJDBCDTO connectorJDBCDTO,
-                                                   @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
-    ) {
-        return
-                this.connectorRestHandler
-                        .create2(
-                                idProject,connectorJDBCDTO,
-                                languageCode
-                        );
-    }
+
 
 
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
@@ -244,7 +234,7 @@ public class ConnectorJDBCRestRouter {
         List<ProxemDto> proxemDtos = JDBCToJSON(config);
         ObjectMapper objectMapper = new ObjectMapper();
         ArrayNode jsonArray = objectMapper.valueToTree(proxemDtos);
-        String url = "https://studio3.proxem.com/validation5a/api/v1/corpus/a0e04a5f-ab7c-4b0e-97be-af263a61ba49/documents";
+        String url = "https://studio3.proxem.com/validation5a/api/v1/corpus/"+new ConnectorJDBCDAO(config.toConfiguration().get()).project().getProxemToken()+"/documents";
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -253,14 +243,38 @@ public class ConnectorJDBCRestRouter {
         HttpEntity<String> entity = new HttpEntity<>(jsonArray.toString(), headers);
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
+        if(response.getStatusCode().toString().startsWith("200")){
+            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),countOccurrences(response.getBody().toString(), "\"UpsertSuccessful\":true")+" docs pushed");
+            System.out.println("response body"+response.getBody().toString());//count appearence of "UpsertSuccessful":true
+        }
+        else{
+            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),"no docs pushed");
+        }
+
         return response;
+    }
+    static int countOccurrences(String str, String word)
+    {
+        // split the string by spaces in a
+        String a[] = str.split(",");
+
+        // search for pattern in a
+        int count = 0;
+        for (int i = 0; i < a.length; i++)
+        {
+            // if match found increase count
+            if (word.equals(a[i]))
+                count++;
+        }
+
+        return count;
     }
     @PutMapping(value = "/pushToProxemFromcheckPoint",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> pushToProxemFromCheckPoint(@RequestBody ConfigPlusCheck config){
         List<ProxemDto> proxemDtos = JDBCToJSONFromCheckPoint(config.getConnectorJDBCDTO(),config.getCheck());
         ObjectMapper objectMapper = new ObjectMapper();
         ArrayNode jsonArray = objectMapper.valueToTree(proxemDtos);
-        String url = "https://studio3.proxem.com/validation5a/api/v1/corpus/a0e04a5f-ab7c-4b0e-97be-af263a61ba49/documents";
+        String url = "https://studio3.proxem.com/validation5a/api/v1/corpus/"+new ConnectorJDBCDAO(config.getConnectorJDBCDTO().toConfiguration().get()).project().getProxemToken()+"/documents";
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -269,21 +283,25 @@ public class ConnectorJDBCRestRouter {
         HttpEntity<String> entity = new HttpEntity<>(jsonArray.toString(), headers);
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
+        if(response.getStatusCode().toString().startsWith("200")){
+            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),countOccurrences(response.getBody().toString(), "\"UpsertSuccessful\":true")+" docs pushed");
+            System.out.println("response body"+response.getBody().toString());//count appearence of "UpsertSuccessful":true
+        }
+        else{
+            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),"no docs pushed");
+        }
         return response;
     }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @GetMapping("GetProjectByProjectName/{name}")//name unique
+    /*@GetMapping("GetProjectByProjectName/{name}")//name unique
     public ResponseEntity<ProjectDTO> GetProjectByProjectName(@PathVariable("name") final String name, @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode){
         //return ResponseEntity.ok(connectorCSVService.getProjectByName(name));
         return projectRestHandler.findOneByName(name,languageCode);
-    }
-    @GetMapping("GetUserByUserId/{id}")
-    public ResponseEntity<?> GetUserById(@PathVariable("id") final Long id){
-        return ResponseEntity.ok(userServiceConnector.getUserById(id));
-    }
+    }*/
+
 
 ////////////////////////////////////////////////////////////////////////ACCSESS TO USER OR PROJECT/////////////////////////////////////////////////////////////////////////////
 

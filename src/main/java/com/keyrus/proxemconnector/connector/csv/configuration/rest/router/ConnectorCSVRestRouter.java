@@ -2,17 +2,17 @@ package com.keyrus.proxemconnector.connector.csv.configuration.rest.router;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorCSVDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorCSVDTO;
-import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProjectDTO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.RepCommune;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.CSVConnectorJDBCDatabaseRepository;
 import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ConnectorCSVRestHandler;
 import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ProjectRestHandler;
-import com.keyrus.proxemconnector.connector.csv.configuration.rest.router.log.Logging;
 import com.keyrus.proxemconnector.connector.csv.configuration.service.UserServiceConnector;
 import com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.log.Logging;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +24,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService.CSVDataToJSON;
@@ -37,11 +38,10 @@ import static org.springframework.http.HttpStatus.OK;
 public class ConnectorCSVRestRouter {
 
 Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
-    private final CSVConnectorJDBCDatabaseRepository CSVConnectorJDBCDatabaseRepository;
+
     private final ConnectorCSVRestHandler connectorRestHandler;
-    private final ProjectRestHandler projectRestHandler;
     private final RepCommune repCommune;
-    private final UserServiceConnector userServiceConnector;
+
     private final Logging logging;
 
     private final ConnectorCSVService connectorCSVService;
@@ -60,10 +60,8 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
             final ConnectorCSVRestHandler connectorRestHandler,
             CSVConnectorJDBCDatabaseRepository CSVConnectorJDBCDatabaseRepository1, ProjectRestHandler projectRestHandler, RepCommune repCommune, UserServiceConnector userServiceConnector, Logging logging, ConnectorCSVService connectorCSVService) {
         this.connectorRestHandler = connectorRestHandler;
-        this.CSVConnectorJDBCDatabaseRepository = CSVConnectorJDBCDatabaseRepository1;
-        this.projectRestHandler = projectRestHandler;
+       // this.projectRestHandler = projectRestHandler;
         this.repCommune = repCommune;
-        this.userServiceConnector = userServiceConnector;
         this.logging = logging;
         this.connectorCSVService = connectorCSVService;
 
@@ -133,8 +131,8 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
 /* @GetMapping("/connectors")
  public ResponseEntity<HttpResponse> getAllConnectors(
 
-         @RequestParam(defaultValue = "0") Optional<Integer> page,
-         @RequestParam(defaultValue = "3") Optional<Integer> size)throws InterruptedException{
+         @RequestParam(defaultValue = "0") Optional<Long> page,
+         @RequestParam(defaultValue = "3") Optional<Long> size)throws InterruptedException{
      //throw new RuntimeException("Forced exception for testing");
      return ResponseEntity.ok().body(
              HttpResponse.builder()
@@ -233,18 +231,7 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
                                 languageCode
                         );
     }
-    @PostMapping(value = "add/{idProject}",produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ConnectorCSVDTO> create2(@PathVariable(value = "idProject") final String idProject,
-            @RequestBody final ConnectorCSVDTO connectorCSVDTO,
-            @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
-    ) {
-        return
-                this.connectorRestHandler
-                        .create2(
-                                idProject,connectorCSVDTO,
-                                languageCode
-                        );
-    }
+
 
 
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
@@ -300,7 +287,7 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
         List<ProxemDto> proxemDtos = CSVDataToJSON(config);
         ObjectMapper objectMapper = new ObjectMapper();
         ArrayNode jsonArray = objectMapper.valueToTree(proxemDtos);
-        String url = "https://studio3.proxem.com/validation5a/api/v1/corpus/a0e04a5f-ab7c-4b0e-97be-af263a61ba49/documents";
+        String url = "https://studio3.proxem.com/validation5a/api/v1/corpus/"+new ConnectorCSVDAO(config.toConfiguration().get()).project().getProxemToken()+"/documents";
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -309,17 +296,31 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
         HttpEntity<String> entity = new HttpEntity<>(jsonArray.toString(), headers);
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
-
-     /*   int j=0;
-        for (int i = 0; i < response.getBody().length(); i = i + 1){
-            if(response[i].UpsertSuccessful===true){
-                j=j+1;
-            }}
-             Logging.putInCSV("","","",bo)
-                System.out.println("body response"+response.getBody().+"nombre"+response.getBody().length());
-            */
+        if(response.getStatusCode().toString().startsWith("200")){
+            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),countOccurrences(response.getBody().toString(), "\"UpsertSuccessful\":true")+" docs pushed");
+            System.out.println("response body"+countOccurrences(response.getBody().toString(), "\"UpsertSuccessful\":true"));//count appearence of "UpsertSuccessful":true
+        }
+        else{
+            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),"no docs pushed");
+        }
 
         return response;
+    }
+    static int countOccurrences(String str, String word)
+    {
+        // split the string by spaces in a
+        String a[] = str.split(",");
+
+        // search for pattern in a
+        int count = 0;
+        for (int i = 0; i < a.length; i++)
+        {
+            // if match found increase count
+            if (word.equals(a[i]))
+                count++;
+        }
+
+        return count;
     }
     @GetMapping(value = "csvToJson")
     public Collection<ProxemDto> csvToJson(@RequestBody ConnectorCSVDTO config){
@@ -328,15 +329,12 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @GetMapping("GetProjectByProjectName/{name}")//name unique
+   /* @GetMapping("GetProjectByProjectName/{name}")//name unique
     public ResponseEntity<ProjectDTO> GetProjectByProjectName(@PathVariable("name") final String name, @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode){
         //return ResponseEntity.ok(connectorCSVService.getProjectByName(name));
         return projectRestHandler.findOneByName(name,languageCode);
-    }
-    @GetMapping("GetUserByUserId/{id}")
-    public ResponseEntity<?> GetUserById(@PathVariable("id") final Long id){
-        return ResponseEntity.ok(userServiceConnector.getUserById(id));
-    }
+    }*/
+
 
 ////////////////////////////////////////////////////////////////////////ACCSESS TO USER OR PROJECT/////////////////////////////////////////////////////////////////////////////
 

@@ -45,4 +45,7 @@ public class UserDto {
         return roleDtos.stream().map(roleDto -> new Role(roleDto.getId(),roleDto.getName())).collect(Collectors.toSet());
 
     }
+    public  UserDto(User user){
+        this(user.getId(),user.getUsername(),user.getEmail(),user.getPassword(),user.getRoles().stream().map(role -> new RoleDto(role)).collect(Collectors.toSet()));
+    }
 }

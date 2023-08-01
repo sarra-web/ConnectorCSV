@@ -10,7 +10,6 @@ import java.util.Collection;
 
 public interface JDBCConnectorRepository {
 
-    Either<Error, ConnectorJDBC> create2(final ConnectorJDBC connectorJDBC,String idProject);
 
     Either<Error, ConnectorJDBC> create(final ConnectorJDBC connectorJDBC);
     Either<Error, ConnectorJDBC> update(final ConnectorJDBC connectorJDBC);

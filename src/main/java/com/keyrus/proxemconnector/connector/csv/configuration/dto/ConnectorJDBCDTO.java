@@ -30,7 +30,7 @@ public record ConnectorJDBCDTO (
         @JsonProperty
         Collection<FieldDTO> fields,
         String projectName
-       /* @JsonProperty
+       /*,@JsonProperty
         Long userId*/
 ) {
 

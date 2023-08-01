@@ -60,26 +60,7 @@ public final class CSVConnectorDatabaseRepository implements CSVConnectorReposit
                 );
     }
 
-    @Override
-    public Either<Error, ConnectorCSV> create2(
-            final ConnectorCSV connectorCSV,String projectId
-    ) {
-        return
-                CSVConnectorDatabaseRepository.checkThenExecute(
-                        CSVConnectorDatabaseRepository.createConfiguration2(
-                                connectorCSV,
-                                this.cSVConnectorJDBCDatabaseRepository,projectId
-                        ),
-                        CSVConnectorDatabaseRepository.checkConfigurationIdDoesNotExist(
-                                connectorCSV.id(),
-                                this.cSVConnectorJDBCDatabaseRepository
-                        ),
-                        CSVConnectorDatabaseRepository.checkConfigurationNameDoesNotExist(
-                                connectorCSV.name(),
-                                this.cSVConnectorJDBCDatabaseRepository
-                        )
-                );
-    }
+
 
     @Override
     public Either<Error, ConnectorCSV> update(

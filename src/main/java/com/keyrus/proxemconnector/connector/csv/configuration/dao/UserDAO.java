@@ -1,37 +1,41 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.dao;
 
+import com.keyrus.proxemconnector.connector.csv.configuration.model.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "users",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "username"),
-                @UniqueConstraint(columnNames = "email")
-        })
-public class UserDAO {
+@Data
+@NoArgsConstructor
+@Table(name = "users")
+public class UserDAO implements Serializable {
 
         @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column
+       // @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
-        @NotBlank
-        @Size(max = 20)
+     //   @NotBlank
+     //   @Size(max = 20)
+     @Column
         private String username;
 
-        @NotBlank
-        @Size(max = 50)
-        @Email
+     //   @NotBlank
+    //    @Size(max = 50)
+    //    @Email
+     @Column
         private String email;
 
-        @NotBlank
-        @Size(max = 120)
-        private String password;
+  //      @NotBlank
+  //      @Size(max = 120)
+  @Column
+    private String password;
 
         @ManyToMany(fetch = FetchType.LAZY)
         @JoinTable(name = "user_roles",
@@ -47,6 +51,13 @@ public class UserDAO {
         this.email = email;
         this.password = password;
         this.roles = roles;
+    }
+    public UserDAO(User user) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+        this.roles = user.getRoles().stream().map(role -> new RoleDAO(role.getId(),role.getName())).collect(Collectors.toSet());
     }
 
     public Long getId() {

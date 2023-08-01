@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS connector (
     id VARCHAR(255) NOT NULL CHECK(id <> ''),
     name VARCHAR(255) NOT NULL CHECK(name <> ''),
      project_id VARCHAR(255)  NOT NULL REFERENCES project(id) ON DELETE CASCADE ON UPDATE CASCADE,
+   /*  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,*/
     separator VARCHAR(255),
     encoding VARCHAR(255) ,
     path VARCHAR(255) ,

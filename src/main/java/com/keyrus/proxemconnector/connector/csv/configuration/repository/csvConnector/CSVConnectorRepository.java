@@ -12,8 +12,6 @@ import java.util.Collection;
 
 public interface CSVConnectorRepository {
 
-    Either<Error, ConnectorCSV> create2(final ConnectorCSV connectorCSV,String idProject);
-
     Either<Error, ConnectorCSV> create(final ConnectorCSV connectorCSV);
     Either<Error, ConnectorCSV> update(final ConnectorCSV connectorCSV);
 

@@ -63,16 +63,7 @@ public final class ConnectorJDBCService {
                         )
                         .mapLeft(ConnectorJDBCService::repositoryErrorToServiceError);
     }
-    public Either<Error, ConnectorJDBC> create2(
-            final ConnectorJDBC connectorJDBC ,final String idProject
-    ) {
-        return
-                this.JDBCConnectorRepository
-                        .create2(
-                                connectorJDBC,idProject
-                        )
-                        .mapLeft(ConnectorJDBCService::repositoryErrorToServiceError);
-    }
+
 
     public Either<Error, ConnectorJDBC> update(
             final ConnectorJDBC connectorJDBC
