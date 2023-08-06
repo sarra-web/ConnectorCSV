@@ -138,6 +138,41 @@ public final class ConnectorJDBCService {
         return columnCount;
     }
 
+
+
+    public  static String testConnection(String className, String password, String jdbcUrl, String username){
+        Connection connection = null;
+        try {
+            // Register the JDBC driver
+            Class.forName(className);
+
+            // Open a connection
+            connection = DriverManager.getConnection(jdbcUrl, username, password);
+
+            // If the connection is successful, print a success message
+           // System.out.println("Database connection successful!");
+            return "Database connection successful!";
+        } catch (SQLException e) {
+            // Handle any errors that may occur
+            System.out.println("Database connection failed!");
+            e.printStackTrace();
+            return "Database connection failed!";
+        } catch (ClassNotFoundException e) {
+            // Handle any errors that may occur while loading the JDBC driver
+            System.out.println("JDBC driver not found!");
+            e.printStackTrace();
+            return "JDBC driver not found!";
+        } finally {
+            // Close the connection
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     public static List<String> getNameColumns(String className, String password, String jdbcUrl, String username, String tableName, int columnCount) {
         List<String> columnNames = new ArrayList<>();
         try {

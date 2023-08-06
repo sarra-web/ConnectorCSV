@@ -7,20 +7,20 @@ public abstract class Connector {
     protected final String name;
     protected final Collection<Field> fields;
     protected final String projectName;
-  //  protected final Long userId;
+    protected final String userName;
 
     protected Connector(
             final String id,
             final String name,
             final Collection<Field> fields
             ,final String projectName
-           , Long userId
+           ,final String userName
     ) {
         this.id = id;
         this.name = name;
         this.fields = fields;
          this.projectName = projectName;
-     //   this.userId = userId;
+       this.userName = userName;
     }
 
 
@@ -37,9 +37,9 @@ public abstract class Connector {
     public String projectName() {
         return this.projectName;
     }
-  /*  public Long userId() {
-        return this.userId;
-    }*/
+   public String userName() {
+        return this.userName;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

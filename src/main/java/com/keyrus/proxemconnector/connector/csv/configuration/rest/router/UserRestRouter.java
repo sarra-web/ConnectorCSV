@@ -21,4 +21,8 @@ public class UserRestRouter {
     public ResponseEntity<?> GetUserById(@PathVariable("id") final Long id){
         return ResponseEntity.ok(userServiceConnector.getUserById(id));
     }
+    @GetMapping("GetUserByUserName/{name}")
+    public ResponseEntity<?> GetUserByName(@PathVariable("name") final String name){
+        return ResponseEntity.ok(userServiceConnector.getUserByName(name));
+    }
 }

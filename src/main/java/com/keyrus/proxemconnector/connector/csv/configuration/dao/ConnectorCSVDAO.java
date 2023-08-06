@@ -53,7 +53,7 @@ public class ConnectorCSVDAO extends ConnectorDAO{
             Collection<FieldDAO> fields
             ,ProjectDAO project
            //,UserDAO user
-           // ,Integer userId
+           ,String userName
     ) {
         this.id=id;
         this.name=name;
@@ -66,7 +66,7 @@ public class ConnectorCSVDAO extends ConnectorDAO{
         this.fields=fields;
          this.project=project;
          //this.user=user;
-      //  this.userId=userId;
+       this.userName=userName;
     }
 
     public ConnectorCSVDAO(
@@ -86,7 +86,7 @@ public class ConnectorCSVDAO extends ConnectorDAO{
                 connectorCSV.fields())
                 ,ConnectorCSVDAO.projectToProjectDAO(ConnectorCSVService.getProjectByName(connectorCSV.projectName()).toProject().get())
            // ,ConnectorCSVDAO.userToUserDAO(UserServiceConnector.getUserById(connectorCSV.userId()).get().toUser())
-   // ,connectorCSV.userId()
+                 ,connectorCSV.userName()
     );
         //UserDAO userDAO=userJDBC.save(ConnectorCSVDAO.userToUserDAO(UserServiceConnector.getUserById(connectorCSV.userId()).get().toUser()));
       //  System.out.println("userDaoooo"+userDAO);
@@ -141,7 +141,7 @@ public class ConnectorCSVDAO extends ConnectorDAO{
         return this.fields;
     }
     public  ProjectDAO project() {return this.project;}
-    /*public  UserDAO user() {return this.user;}*/
+    public  String userName() {return this.userName;}
 
     public final Either<Collection<ConnectorCSV.Error>, ConnectorCSV> toConfiguration() {
         return
@@ -158,7 +158,7 @@ public class ConnectorCSVDAO extends ConnectorDAO{
                         .withHeaders(ConnectorCSVDAO.headerDAOsToHeaderBuilders(this.fields))
                         .withProjectName(this.project.getName())
 
-                       // .withUserId(this.userId)
+                        .withUserName(this.userName)
                         //.withUserId(this.user.getId())
                         //.withProject(ConnectorCSVDAO.projectDAOToProject(this.projectDAO))
                         .build();

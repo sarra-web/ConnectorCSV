@@ -50,7 +50,7 @@ public  final class Logging {
             ,"Requeust Body","Response status","Response Body ");
     public static  List<List<String>> listLogs =List.of(l);*/
 
-    public static void putInCSV(String madate, String uri, String methode,String status,String info){
+    public static void putInCSV(String madate, String uri, String methode,String status,String info,String user){
      /*   try (FileWriter writer = new FileWriter("myLog.csv")) {
             // Écrire les en-têtes des champs dans le fichier CSV
             // Écrire les données dans le fichier CSV
@@ -84,6 +84,8 @@ public  final class Logging {
             sb.append(status);
             sb.append(",");
             sb.append(info);
+            sb.append(",");
+            sb.append(user);
 
 
 

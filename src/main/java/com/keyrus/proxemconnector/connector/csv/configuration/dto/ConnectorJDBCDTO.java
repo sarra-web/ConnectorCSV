@@ -30,8 +30,8 @@ public record ConnectorJDBCDTO (
         @JsonProperty
         Collection<FieldDTO> fields,
         String projectName
-       /*,@JsonProperty
-        Long userId*/
+       ,@JsonProperty
+        String userName
 ) {
 
     public ConnectorJDBCDTO(
@@ -52,7 +52,7 @@ public record ConnectorJDBCDTO (
                 connectorJDBC.mode(),
                 ConnectorJDBCDTO.headersToHeaderDTOs(connectorJDBC.fields()),
                 connectorJDBC.projectName()
-                //, connectorJDBC.userId()
+                , connectorJDBC.userName()
 
 
         );
@@ -83,7 +83,7 @@ public record ConnectorJDBCDTO (
                         .withincrementalQuery(this.incrementalQuery)
                         .withmode(this.mode)
                         .withProjectName(this.projectName)
-                       // .withUserId(userId)
+                       .withUserName(userName)
                         .withHeaders(
                                 ConnectorJDBCDTO.headerDTOsToHeaderBuilders(
                                         this.id,

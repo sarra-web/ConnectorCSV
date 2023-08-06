@@ -39,11 +39,8 @@ public abstract class ConnectorDAO implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     //@JsonIgnore
     protected UserDAO user;*/
-
-
-
- /*   @Column(name = "user_id", insertable=false, updatable=false)
-    protected Integer userId;*/
+    @Column(name = "user_name")
+    protected String userName;
 
 
     public String getId() {
@@ -93,11 +90,12 @@ public abstract class ConnectorDAO implements Serializable {
         this.user = user;
     }
 */
-    /*public Integer getUserId() {
-        return userId;
+
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }*/
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 }

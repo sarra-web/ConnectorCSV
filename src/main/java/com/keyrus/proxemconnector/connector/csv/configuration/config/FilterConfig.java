@@ -13,7 +13,7 @@ public class FilterConfig {
         FilterRegistrationBean<RequestResponseLoggingFilter> registrationBean = new FilterRegistrationBean<>();
 
         registrationBean.setFilter(requestResponseLoggers);
-        registrationBean.addUrlPatterns("/configuration","/configuration/connectors","/configuration/NameContainsIgnoreCase/*", "/configuration/connectorsByProjectName","/configuration/findById2/*","/configuration/findById/*","/configuration/add","/configurationJDBC","/configurationJDBC/connectors","/configurationJDBC/NameContainsIgnoreCase/*", "/configurationJDBC/connectorsByProjectName","/configurationJDBC/findById2/*","/configurationJDBC/findById/*","/configurationJDBC/add","/project/*","/squeduler/*","/ScheduleScanCSV","/ScheduleScanJDBC");
+        registrationBean.addUrlPatterns("/configuration","/configuration/NameContainsIgnoreCase/*", "/configuration/connectorsByProjectName","/configuration/findById2/*","/configuration/findById/*","/configuration/add","/configurationJDBC","/configurationJDBC/connectors","/configurationJDBC/NameContainsIgnoreCase/*", "/configurationJDBC/connectorsByProjectName","/configurationJDBC/findById2/*","/configurationJDBC/findById/*","/configurationJDBC/add","/project/*","/squeduler/*","/ScheduleScanCSV","/ScheduleScanJDBC");
         return registrationBean;
     }
 }

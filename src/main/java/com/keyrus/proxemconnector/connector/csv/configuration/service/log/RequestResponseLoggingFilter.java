@@ -63,7 +63,7 @@ public class RequestResponseLoggingFilter implements Filter {
 
           a=  "status_:"+String.valueOf(responseWrapper.getStatus());
         }
-        Logging.putInCSV(LocalDateTime.now().toString(), uri,requestWrapper.getMethod(),a,"");
+        Logging.putInCSV(LocalDateTime.now().toString(), uri,requestWrapper.getMethod(),a,"","user");
     }
 
 

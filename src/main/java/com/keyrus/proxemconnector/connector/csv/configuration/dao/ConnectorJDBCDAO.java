@@ -64,7 +64,7 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
              //,String projectName
             ,ProjectDAO  project
            // , UserDAO user
-          //  ,Integer userId
+            ,String userName
     ) {
         this.id=id;
         this.name=name;
@@ -83,7 +83,7 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
        // this.projectName=projectName;
         this.project=project;
        // this.user=user;
-      //  this.userId=userId;
+       this.userName=userName;
     }
 
     public ConnectorJDBCDAO(
@@ -107,7 +107,7 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
                         connectorJDBC.fields())
                 , ConnectorJDBCDAO.projectToProjectDAO(ConnectorJDBCService.getProjectByName(connectorJDBC.projectName()).toProject().get())
 
-                //,connectorJDBC.userId()
+                ,connectorJDBC.userName()
                //  ,ConnectorCSVDAO.userToUserDAO(UserServiceConnector.getUserById(connectorJDBC.userId()).get().toUser())
 
         );
@@ -162,12 +162,11 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
     public QueryMode  mode() {
         return this.mode;
     }
-
     public Collection<FieldDAO> fields() {
         return this.fields;
     }
     public ProjectDAO project(){return this.project;}
-    /*public UserDAO user(){return this.user;}*/
+    public String userName(){return this.userName;}
 
     public final Either<Collection<ConnectorJDBC.Error>, ConnectorJDBC> toConfiguration() {
         return
@@ -187,7 +186,7 @@ public class ConnectorJDBCDAO extends ConnectorDAO {
                         .withmode(this.mode)
                         .withHeaders(com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorJDBCDAO.headerDAOsToHeaderBuilders(this.fields))
                         .withProjectName(this.project.getName())
-                        //.withUserId(this.userId)
+                        .withUserName(this.userName)
                         // .withUserId(this.user.getId())
                         .build();
     }

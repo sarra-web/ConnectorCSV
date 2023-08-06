@@ -123,6 +123,33 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/connectorsUser")
+    public ResponseEntity<Map<String, Object>> getAllConnectorsUser(
+            @RequestParam(defaultValue = "") String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int size
+    ) {
+
+        try {
+            List<ConnectorDAO> connectors = new ArrayList<ConnectorDAO>();
+            Pageable paging = PageRequest.of(page, size);
+
+            Page<ConnectorDAO> pageTuts;
+
+            pageTuts = repCommune.findByUserName(name, paging);
+
+            connectors = pageTuts.getContent();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("connectors", connectors);
+            response.put("currentPage", pageTuts.getNumber());
+            response.put("totalItems", pageTuts.getTotalElements());
+            response.put("totalPages", pageTuts.getTotalPages());
+            return new ResponseEntity<>(response, OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
 
@@ -151,8 +178,10 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
             @PathVariable("name") final String name,
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
     ) {
-        return this.connectorRestHandler.findManyByNameContainsIgnoreCase(name, languageCode
+        ResponseEntity<Collection<ConnectorCSVDTO>> response= this.connectorRestHandler.findManyByNameContainsIgnoreCase(name, languageCode
         );
+       // Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),"no docs pushed",response.getBody().stream().collect(Collectors.toSet()).toArray()..userName());
+        return response;
     }
 
 
@@ -171,6 +200,7 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
 
     @GetMapping("/connectorsByProjectName")
     public ResponseEntity<Map<String, Object>> getAllConnectorsByProjectName(
+            @RequestParam(defaultValue = "") String userName,
             @RequestParam(defaultValue = "") String name,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
@@ -183,6 +213,35 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
             Page<ConnectorDAO> pageTuts;
 
             pageTuts = repCommune.findByProjectName(name, paging);
+
+            connectors = pageTuts.getContent();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("connectors", connectors);
+            response.put("currentPage", pageTuts.getNumber());
+            response.put("totalItems", pageTuts.getTotalElements());
+            response.put("totalPages", pageTuts.getTotalPages());
+            return new ResponseEntity<>(response, OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/connectorsByProjectNameAndUser")
+    public ResponseEntity<Map<String, Object>> getAllConnectorsByProjectNameAndUser(
+            @RequestParam(defaultValue = "") String userName,
+            @RequestParam(defaultValue = "") String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int size
+    ) {
+
+        try {
+            List<ConnectorDAO> connectors = new ArrayList<ConnectorDAO>();
+            Pageable paging = PageRequest.of(page, size);
+
+            Page<ConnectorDAO> pageTuts;
+
+            pageTuts = (Page<ConnectorDAO>) repCommune.findByProjectName(name, paging).and(repCommune.findByUserName(userName,paging));
+
 
             connectors = pageTuts.getContent();
 
@@ -219,32 +278,39 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
     }
 
 
-    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/CreateCSVConnector",produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ConnectorCSVDTO> create(
             @RequestBody final ConnectorCSVDTO connectorCSVDTO,
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
     ) {
-        return
+        ResponseEntity<ConnectorCSVDTO> a=
                 this.connectorRestHandler
                         .create(
                                 connectorCSVDTO,
                                 languageCode
                         );
+        Logging.putInCSV(LocalDateTime.now().toString(),"configuration/CreateCSVConnector","POST",a .getStatusCode().toString(),"Adding new CSVconnector",connectorCSVDTO.userName());
+
+        return a;
+
     }
 
 
 
-    @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value="/UpadateCSVconnector",produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ConnectorCSVDTO> update(
             @RequestBody final ConnectorCSVDTO connectorCSVDTO,
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
     ) {
-        return
-                this.connectorRestHandler
+
+        ResponseEntity<ConnectorCSVDTO> b=    this.connectorRestHandler
                         .update(
                                 connectorCSVDTO,
                                 languageCode
                         );
+
+        Logging.putInCSV(LocalDateTime.now().toString(),"configuration/UpdateCSVConnector","PUT",b .getStatusCode().toString(),"Updating "+connectorCSVDTO.name()+ " CSVconnector",connectorCSVDTO.userName());
+        return b;
     }
 
     @DeleteMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -297,11 +363,11 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
         if(response.getStatusCode().toString().startsWith("200")){
-            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),countOccurrences(response.getBody().toString(), "\"UpsertSuccessful\":true")+" docs pushed");
+            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),countOccurrences(response.getBody().toString(), "\"UpsertSuccessful\":true")+" docs pushed",config.userName());
             System.out.println("response body"+countOccurrences(response.getBody().toString(), "\"UpsertSuccessful\":true"));//count appearence of "UpsertSuccessful":true
         }
         else{
-            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),"no docs pushed");
+            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),"no docs pushed",config.userName());
         }
 
         return response;

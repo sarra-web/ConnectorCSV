@@ -26,10 +26,11 @@ CREATE TABLE IF NOT EXISTS project (
     PRIMARY KEY (id)
 );
 CREATE TABLE IF NOT EXISTS connector (
-    connector_type       VARCHAR(255)     NOT NULL,
+    connector_type VARCHAR(255)  NOT NULL,
     id VARCHAR(255) NOT NULL CHECK(id <> ''),
     name VARCHAR(255) NOT NULL CHECK(name <> ''),
      project_id VARCHAR(255)  NOT NULL REFERENCES project(id) ON DELETE CASCADE ON UPDATE CASCADE,
+     user_name VARCHAR(255) ,
    /*  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,*/
     separator VARCHAR(255),
     encoding VARCHAR(255) ,

@@ -210,6 +210,7 @@ public final class ConnectorCSVService {
             }
             while ((line = br.readLine()) != null) {
 
+
                 String[] values = parseLine(line,config.separator().charAt(0),config.quotingCaracter().charAt(0),config.escapingCaracter().charAt(0));
                 ProxemDto data = new ProxemDto();
                 position++;//pp les lignes
@@ -251,8 +252,11 @@ public final class ConnectorCSVService {
                 TextPart titlePart = new TextPart();
                 titlePart.setName("title");
                 List<FieldDTO> l3=config.fields().stream().filter(field1 -> field1.fieldType().toString()=="Title").collect(Collectors.toList());
+
                 if (!l3.isEmpty()){
+
                 String value =values[l3.get(0).position()-1];
+                    System.out.println("l333333333"+value);
                 titlePart.setContent(value);
                 textPartsList.add(titlePart);}
                 TextPart bodyPart = new TextPart();

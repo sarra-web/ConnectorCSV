@@ -3,9 +3,7 @@ package com.keyrus.proxemconnector.connector.csv.configuration.rest.router;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorJDBCDAO;
-import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConfigPlusCheck;
-import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorJDBCDTO;
-import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
+import com.keyrus.proxemconnector.connector.csv.configuration.dto.*;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.jdbcConnector.JDBCConnectorJDBCDatabaseRepository;
 import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ConnectorJDBCRestHandler;
 import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ProjectRestHandler;
@@ -159,32 +157,36 @@ public class ConnectorJDBCRestRouter {
     }
 
 
-    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/CreateJDBCConnector",produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ConnectorJDBCDTO> create(
             @RequestBody final ConnectorJDBCDTO connectorJDBCDTO,
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
     ) {
-        return
-                this.connectorRestHandler
+
+                ResponseEntity<ConnectorJDBCDTO> a=   this.connectorRestHandler
                         .create(
                                 connectorJDBCDTO,
                                 languageCode
                         );
+        Logging.putInCSV(LocalDateTime.now().toString(),"configuration/CreateCSVConnector","POST",a .getStatusCode().toString(),"Adding new JDBC connector",connectorJDBCDTO.userName());
+        return a;
     }
 
 
 
-    @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value="/UpadateJDBCconnector",produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ConnectorJDBCDTO> update(
             @RequestBody final ConnectorJDBCDTO connectorJDBCDTO,
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
     ) {
-        return
-                this.connectorRestHandler
+
+                ResponseEntity<ConnectorJDBCDTO> b=    this.connectorRestHandler
                         .update(
                                 connectorJDBCDTO,
                                 languageCode
                         );
+        Logging.putInCSV(LocalDateTime.now().toString(),"configuration/UpdateJDBCConnector","PUT",b .getStatusCode().toString(),"Updating "+connectorJDBCDTO.name()+ " JDBCconnector",connectorJDBCDTO.userName());
+                return b;
     }
 
     @DeleteMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -244,11 +246,11 @@ public class ConnectorJDBCRestRouter {
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
         if(response.getStatusCode().toString().startsWith("200")){
-            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),countOccurrences(response.getBody().toString(), "\"UpsertSuccessful\":true")+" docs pushed");
+            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),countOccurrences(response.getBody().toString(), "\"UpsertSuccessful\":true")+" docs pushed",config.userName());
             System.out.println("response body"+response.getBody().toString());//count appearence of "UpsertSuccessful":true
         }
         else{
-            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),"no docs pushed");
+            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),"no docs pushed",config.userName());
         }
 
         return response;
@@ -284,17 +286,21 @@ public class ConnectorJDBCRestRouter {
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
         if(response.getStatusCode().toString().startsWith("200")){
-            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),countOccurrences(response.getBody().toString(), "\"UpsertSuccessful\":true")+" docs pushed");
+            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),countOccurrences(response.getBody().toString(), "\"UpsertSuccessful\":true")+" docs pushed",config.getConnectorJDBCDTO().userName());
             System.out.println("response body"+response.getBody().toString());//count appearence of "UpsertSuccessful":true
         }
         else{
-            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),"no docs pushed");
+            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),"no docs pushed",config.getConnectorJDBCDTO().userName());
         }
         return response;
     }
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////test connection////////////////////////////////////////////////////////////////////////////////////
+    @PostMapping("/testConnection")
+    public ResponseEntity<List<String>> testConnection(@RequestBody TestConnection connection){
+        List<String> l=List.of( ConnectorJDBCService.testConnection(connection.getClassName(),connection.getPassword(),connection.getJdbcURL(),connection.getUsername()));
+        return new ResponseEntity<>(l, OK);
+}
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /*@GetMapping("GetProjectByProjectName/{name}")//name unique
     public ResponseEntity<ProjectDTO> GetProjectByProjectName(@PathVariable("name") final String name, @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode){

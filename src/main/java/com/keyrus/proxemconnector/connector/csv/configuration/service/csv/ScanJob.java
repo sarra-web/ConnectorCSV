@@ -181,11 +181,11 @@ public class ScanJob extends QuartzJobBean {
 
         ResponseEntity<String> response =   restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
         if(response.getStatusCode().toString().startsWith("200")){
-            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),countOccurrences(response.getBody().toString(), "\"UpsertSuccessful\":true")+" docs pushed");
+            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),countOccurrences(response.getBody().toString(), "\"UpsertSuccessful\":true")+" docs pushed",connectorCSVDAO.userName());
             System.out.println("response body"+response.getBody().toString());//count appearence of "UpsertSuccessful":true
         }
         else{
-            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),"no docs pushed");
+            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),"no docs pushed",connectorCSVDAO.userName());
         }
 
     }

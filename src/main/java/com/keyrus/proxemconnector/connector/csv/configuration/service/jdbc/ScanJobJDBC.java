@@ -179,7 +179,7 @@ public class ScanJobJDBC extends QuartzJobBean {
      }
     //@Scheduled(cron = "${cron-string}")
     private void pushToProxem(ConnectorJDBCDAO connectorJDBCDAO) {
-        Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT","200","x docs pushed");
+        Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT","200","x docs pushed",connectorJDBCDAO.userName());
 
         List<ProxemDto> proxemDtos = JDBCDataToJSON(connectorJDBCDAO);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -194,11 +194,11 @@ public class ScanJobJDBC extends QuartzJobBean {
 
         ResponseEntity<String> response =   restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
         if(response.getStatusCode().toString().startsWith("200")){
-            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),countOccurrences(response.getBody().toString(), "\"UpsertSuccessful\":true")+" docs pushed");
+            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),countOccurrences(response.getBody().toString(), "\"UpsertSuccessful\":true")+" docs pushed",connectorJDBCDAO.userName());
             System.out.println("response body"+response.getBody().toString());//count appearence of "UpsertSuccessful":true
         }
         else{
-            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),"no docs pushed");
+            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),"no docs pushed",connectorJDBCDAO.userName());
         }
     }
     static int countOccurrences(String str, String word)
