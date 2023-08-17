@@ -19,7 +19,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -231,7 +230,9 @@ public final class ConnectorCSVService {
                 } else {
 
                     SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                    data.setDocUtcDate(format2.parse(values[l2.get(0).position()-1]).toString());
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                   // data.setDocUtcDate(format2.parse(values[l2.get(0).position()-1]).toString());
+                    data.setDocUtcDate(values[l2.get(0).position()-1]);
                 }
                 Collection<Meta> metasList = new ArrayList<>();
 
@@ -276,7 +277,7 @@ public final class ConnectorCSVService {
         }
         catch (IOException e) {
             e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (/*ParseException*/ Exception e) {
             throw new RuntimeException(e);
         }
         return dataList;

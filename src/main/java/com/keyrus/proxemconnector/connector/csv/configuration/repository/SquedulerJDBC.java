@@ -12,7 +12,7 @@ public interface SquedulerJDBC extends JpaRepository<SquedulerDAO,Long> {
     List<SquedulerDAO> findByConnectorDAOId(String id);
      @Transactional
   void deleteByConnectorDAOId(String connectorId);
-    Page<SquedulerDAO> findByNameContaining(String name, Pageable pageable);
+    Page<SquedulerDAO> findByConnectorDAOId(String id, Pageable pageable);
 
 
 }
