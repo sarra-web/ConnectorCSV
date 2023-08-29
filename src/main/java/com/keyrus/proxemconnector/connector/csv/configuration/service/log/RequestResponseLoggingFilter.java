@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +62,7 @@ public class RequestResponseLoggingFilter implements Filter {
 
           a=  "status_:"+String.valueOf(responseWrapper.getStatus());
         }
-        Logging.putInCSV(LocalDateTime.now().toString(), uri,requestWrapper.getMethod(),a,"","user");
+      //  Logging.putInCSV(LocalDateTime.now().toString(), uri,requestWrapper.getMethod(),a,"","user");
     }
 
 

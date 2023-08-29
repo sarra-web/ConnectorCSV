@@ -78,7 +78,7 @@ class ConnectorCSVRestHandlerTest {
                                         " ",
                                         true,
                                         Collections.emptySet(),
-                                        "",88L
+                                        "","Admin"
 
                                 ),
                                 null
@@ -207,7 +207,7 @@ class ConnectorCSVRestHandlerTest {
                                         " ",
                                         true,
                                         Collections.emptySet(),
-                                        "",88L
+                                        "","Admin"
                                 ),
                                 null
                         );

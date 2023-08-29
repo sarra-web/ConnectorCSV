@@ -21,7 +21,6 @@ import org.springframework.web.client.RestTemplate;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -119,7 +118,9 @@ public class ScanJob extends QuartzJobBean {
                  } else {
 
                      SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                     data.setDocUtcDate(format2.parse(values[l2.get(0).getPosition()-1]).toString());
+                     //data.setDocUtcDate(format2.parse(values[l2.get(0).getPosition()-1]).toString());
+                     data.setDocUtcDate(values[l2.get(0).getPosition()-1]);
+
                  }
                  Collection<Meta> metasList = new ArrayList<>();
 
@@ -161,7 +162,7 @@ public class ScanJob extends QuartzJobBean {
          }
          catch (IOException e) {
              e.printStackTrace();
-         } catch (ParseException e) {
+         } catch (/*ParseException*/Exception e) {
              throw new RuntimeException(e);
          }
          return dataList;

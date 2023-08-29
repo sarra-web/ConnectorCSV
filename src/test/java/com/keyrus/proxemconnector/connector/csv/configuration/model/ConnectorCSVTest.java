@@ -852,7 +852,7 @@ class ConnectorCSVTest {
                         .withHeaders(headerBuilder1)
                         .withHeaders(headerBuilder2)
                         .withProjectName("Formation3")
-                        .withUserId(20L)
+                        .withUserName("Admin")
                         .build()
                         .get();
 

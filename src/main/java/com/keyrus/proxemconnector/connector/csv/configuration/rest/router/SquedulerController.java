@@ -5,11 +5,19 @@ import com.keyrus.proxemconnector.connector.csv.configuration.exception.Resource
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.RepCommune;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.SquedulerJDBC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static org.springframework.http.HttpStatus.OK;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
@@ -28,27 +36,27 @@ public class SquedulerController {
         }
 
         List<SquedulerDAO> squedulerDAOs = squedulerJDBC.findByConnectorDAOId(connectorDAOId);
-        return new ResponseEntity<>(squedulerDAOs, HttpStatus.OK);
+        return new ResponseEntity<>(squedulerDAOs, OK);
     }
-   /* @GetMapping("pagination/ConnectorDAOs/{ConnectorDAOId}/SquedulerDAOs")
+    @GetMapping("pagination/ConnectorDAOs/{ConnectorDAOId}/SquedulerDAOs")
     public ResponseEntity<Map<String, Object>> SquedulerDAOsByConnectorDAOIdWithPagination(
-            @RequestParam(defaultValue = "") String name,
+            @PathVariable String ConnectorDAOId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
     ) {
 
         try {
-            List<ConnectorDAO> connectors = new ArrayList<ConnectorDAO>();
+            List<SquedulerDAO> schedulers = new ArrayList<SquedulerDAO>();
             Pageable paging = PageRequest.of(page, size);
 
-            Page<ConnectorDAO> pageTuts;
+            Page<SquedulerDAO> pageTuts;
 
-            pageTuts = repCommune.findByNameContaining(name, paging);
+            pageTuts = squedulerJDBC.findByConnectorDAOId(ConnectorDAOId,paging);
 
-            connectors = pageTuts.getContent();
+            schedulers = pageTuts.getContent();
 
             Map<String, Object> response = new HashMap<>();
-            response.put("connectors", connectors);
+            response.put("schedulers", schedulers);
             response.put("currentPage", pageTuts.getNumber());
             response.put("totalItems", pageTuts.getTotalElements());
             response.put("totalPages", pageTuts.getTotalPages());
@@ -57,7 +65,7 @@ public class SquedulerController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-*/
+
 
 
 
@@ -74,7 +82,7 @@ public class SquedulerController {
         SquedulerDAO SquedulerDAO = squedulerJDBC.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found SquedulerDAO with id = " + id));
 
-        return new ResponseEntity<>(SquedulerDAO, HttpStatus.OK);
+        return new ResponseEntity<>(SquedulerDAO, OK);
     }
 
     @PostMapping("/ConnectorDAOs/{ConnectorDAOId}/SquedulerDAOs")
@@ -95,7 +103,7 @@ public class SquedulerController {
 
         squedulerDAO.setName(squedulerDAORequest.getName());
 
-        return new ResponseEntity<>(squedulerJDBC.save(squedulerDAO), HttpStatus.OK);
+        return new ResponseEntity<>(squedulerJDBC.save(squedulerDAO), OK);
     }
 
     @DeleteMapping("/SquedulerDAOs/{id}")

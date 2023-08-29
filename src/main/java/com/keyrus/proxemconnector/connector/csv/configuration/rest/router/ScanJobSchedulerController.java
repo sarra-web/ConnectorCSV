@@ -4,6 +4,7 @@ package com.keyrus.proxemconnector.connector.csv.configuration.rest.router;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ScheduleDTORequest;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ScheduleDTOResponse;
 import com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ScanJob;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.log.Logging;
 import jakarta.validation.Valid;
 import org.quartz.*;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.UUID;
@@ -25,17 +27,40 @@ public class ScanJobSchedulerController {
 
     @Autowired
     private Scheduler scheduler;
+    class DeleteScheduleDTOResponse {
+        private boolean value;
+
+        public DeleteScheduleDTOResponse(boolean value) {
+            this.value = value;
+        }
+
+        public boolean isValue() {
+            return value;
+        }
+
+        public void setValue(boolean value) {
+            this.value = value;
+        }}
+   @PostMapping("/delete")
+    public ResponseEntity<DeleteScheduleDTOResponse> deleteJob(@Valid @RequestBody  ScheduleDTOResponse scheduleDTOResponse) throws SchedulerException {
+       System.out.println("reeeeeeees:"+scheduleDTOResponse);
+       boolean res= scheduler.deleteJob(new JobKey(scheduleDTOResponse.getJobId(),scheduleDTOResponse.getJobGroup()));
+       System.out.println("reeeeeeees:"+res);
+       DeleteScheduleDTOResponse dtoResponse=new DeleteScheduleDTOResponse(res);
+      // RestController response =new ResponseEntity<DeleteScheduleDTOResponse>(res) ;
+       return ResponseEntity.ok(dtoResponse);
+   }
     @PostMapping()
     public ResponseEntity<ScheduleDTOResponse> scheduleScanCSV(@Valid @RequestBody ScheduleDTORequest scheduleDTORequest) throws SchedulerException {
-
-
-
         try {
             ZonedDateTime dateTime = ZonedDateTime.of(scheduleDTORequest.getDateTime(), scheduleDTORequest.getTimeZone());
             if(dateTime.isBefore(ZonedDateTime.now())) {
                 ScheduleDTOResponse scheduleDTOResponse = new ScheduleDTOResponse(false,
                         "dateTime must be after current time");
-                return ResponseEntity.badRequest().body(scheduleDTOResponse);
+             ResponseEntity<ScheduleDTOResponse> res= ResponseEntity.badRequest().body(scheduleDTOResponse);
+
+                Logging.putInCSV(LocalDateTime.now().toString(),"/ScheduleScanCSV","POST",res.getStatusCode().toString(),"dateTime must be after current time",scheduleDTORequest.getConnectorDAO().userName());
+                return res;
             }
 
 
@@ -51,13 +76,17 @@ public class ScanJobSchedulerController {
 
             scheduler.scheduleJob(jobDetail, crontrigger);}
 
+
             else{
+
              Trigger trigger = buildJobTrigger(jobDetail, dateTime);
             scheduler.scheduleJob(jobDetail, trigger);}
 
             ScheduleDTOResponse scheduleDTOResponse = new ScheduleDTOResponse(true,
                     jobDetail.getKey().getName(), jobDetail.getKey().getGroup(), "PushToProxem Scheduled Successfully!");
-            return ResponseEntity.ok(scheduleDTOResponse);
+            ResponseEntity res= ResponseEntity.ok(scheduleDTOResponse);
+            Logging.putInCSV(LocalDateTime.now().toString(),"/ScheduleScanCSV","POST",res.getStatusCode().toString(),"PushToProxem Scheduled Successfully!",scheduleDTORequest.getConnectorDAO().userName());
+            return res;
         } catch (SchedulerException ex) {
             logger.error("Error scheduling push", ex);
 
@@ -65,6 +94,8 @@ public class ScanJobSchedulerController {
                     "Error scheduling push. Please try later!");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(scheduleDTOResponse);
         }
+
+
     }
 
 

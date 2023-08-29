@@ -69,7 +69,7 @@ class ConnectorCSVRepositoryTest {
                         .withquotingCaracter(UUID.randomUUID().toString())
                         .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
-                        .withUserId(20L)
+                        .withUserName("Admin")
                         .withProjectName("")
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
@@ -102,7 +102,7 @@ class ConnectorCSVRepositoryTest {
                         .withescapingCaracter(UUID.randomUUID().toString())
                         .withContainsHeaders(new Random().nextBoolean())
                         .withProjectName("")
-                        .withUserId(20L)
+                        .withUserName("Admin")
                         .withHeaders(
                                 IntStream.iterate(1, it -> it + 1)
                                         .limit(10)
@@ -534,7 +534,7 @@ class ConnectorCSVRepositoryTest {
         RoleDAO roleDAO= new RoleDAO(8L, ERole.ROLE_USER);
         UserDAO userDAO =new UserDAO(88L,"","","", Set.of(roleDAO));
         this.cSVConnectorJDBCDatabaseRepository.save(
-                new ConnectorCSVDAO("id","","","","","","",true,fields,projectDAO,userDAO)
+                new ConnectorCSVDAO("id","","","","","","",true,fields,projectDAO,"Admin")
         );
         final var result =
                 this.cSVConnectorRepository
