@@ -18,6 +18,7 @@
 2023-08-16T15:55:00.450197700,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
 2023-08-16T15:56:00.552996500,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
 2023-08-16T15:57:00.780871600,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+<<<<<<< HEAD
 2023-08-17T16:53:34.341239900,configuration/CreateCSVConnector,POST,400 BAD_REQUEST,Adding new JDBC connector,sarra
 2023-08-17T16:53:35.473790800,configuration/CreateCSVConnector,POST,200 OK,Adding new JDBC connector,sarra
 2023-08-17T16:53:57.145559500,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
@@ -589,3 +590,5 @@
 2023-08-30T08:49:52.380075200,configuration/CreateXMLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new XMLconnector,Admin
 2023-08-30T10:44:59.352152,configuration/CreateXMLConnector,POST,200 OK,Adding new XMLconnector,Admin
 2023-08-30T10:44:59.393751600,configuration/CreateXMLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new XMLconnector,Admin
+=======
+>>>>>>> 19e97ebe77e87f9c7cbee704e10b94b253111afa

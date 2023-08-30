@@ -28,7 +28,11 @@ public class CSVScanJobSchedulerController {
 
     @Autowired
     private Scheduler scheduler;
+<<<<<<< HEAD:src/main/java/com/keyrus/proxemconnector/connector/csv/configuration/rest/router/CSVScanJobSchedulerController.java
     static class DeleteScheduleDTOResponse {
+=======
+    class DeleteScheduleDTOResponse {
+>>>>>>> 19e97ebe77e87f9c7cbee704e10b94b253111afa:src/main/java/com/keyrus/proxemconnector/connector/csv/configuration/rest/router/ScanJobSchedulerController.java
         private boolean value;
 
         public DeleteScheduleDTOResponse(boolean value) {
@@ -42,6 +46,7 @@ public class CSVScanJobSchedulerController {
         public void setValue(boolean value) {
             this.value = value;
         }}
+<<<<<<< HEAD:src/main/java/com/keyrus/proxemconnector/connector/csv/configuration/rest/router/CSVScanJobSchedulerController.java
     @PostMapping("/delete")
     public ResponseEntity<CSVScanJobSchedulerController.DeleteScheduleDTOResponse> deleteJob(@RequestBody JobKeyDTO jobKeyDTO) throws SchedulerException {
 
@@ -54,6 +59,19 @@ public class CSVScanJobSchedulerController {
 
     @PostMapping()
     public ResponseEntity<ScheduleDTOResponse> scheduleScanCSV(@Valid @RequestBody ScheduleDTORequestCSV scheduleDTORequestCSV) throws SchedulerException {
+=======
+   @PostMapping("/delete")
+    public ResponseEntity<DeleteScheduleDTOResponse> deleteJob(@Valid @RequestBody  ScheduleDTOResponse scheduleDTOResponse) throws SchedulerException {
+       System.out.println("reeeeeeees:"+scheduleDTOResponse);
+       boolean res= scheduler.deleteJob(new JobKey(scheduleDTOResponse.getJobId(),scheduleDTOResponse.getJobGroup()));
+       System.out.println("reeeeeeees:"+res);
+       DeleteScheduleDTOResponse dtoResponse=new DeleteScheduleDTOResponse(res);
+      // RestController response =new ResponseEntity<DeleteScheduleDTOResponse>(res) ;
+       return ResponseEntity.ok(dtoResponse);
+   }
+    @PostMapping()
+    public ResponseEntity<ScheduleDTOResponse> scheduleScanCSV(@Valid @RequestBody ScheduleDTORequest scheduleDTORequest) throws SchedulerException {
+>>>>>>> 19e97ebe77e87f9c7cbee704e10b94b253111afa:src/main/java/com/keyrus/proxemconnector/connector/csv/configuration/rest/router/ScanJobSchedulerController.java
         try {
             ZonedDateTime dateTime = ZonedDateTime.of(scheduleDTORequestCSV.getDateTime(), scheduleDTORequestCSV.getTimeZone());
             if(dateTime.isBefore(ZonedDateTime.now())) {
@@ -61,7 +79,11 @@ public class CSVScanJobSchedulerController {
                         "dateTime must be after current time");
              ResponseEntity<ScheduleDTOResponse> res= ResponseEntity.badRequest().body(scheduleDTOResponse);
 
+<<<<<<< HEAD:src/main/java/com/keyrus/proxemconnector/connector/csv/configuration/rest/router/CSVScanJobSchedulerController.java
                 Logging.putInCSV(LocalDateTime.now().toString(),"/ScheduleScanCSV","POST",res.getStatusCode().toString(),"dateTime must be after current time", scheduleDTORequestCSV.getConnectorDAO().userName());
+=======
+                Logging.putInCSV(LocalDateTime.now().toString(),"/ScheduleScanCSV","POST",res.getStatusCode().toString(),"dateTime must be after current time",scheduleDTORequest.getConnectorDAO().userName());
+>>>>>>> 19e97ebe77e87f9c7cbee704e10b94b253111afa:src/main/java/com/keyrus/proxemconnector/connector/csv/configuration/rest/router/ScanJobSchedulerController.java
                 return res;
             }
 
@@ -87,7 +109,11 @@ public class CSVScanJobSchedulerController {
             ScheduleDTOResponse scheduleDTOResponse = new ScheduleDTOResponse(true,
                     jobDetail.getKey().getName(), jobDetail.getKey().getGroup(), "PushToProxem Scheduled Successfully!");
             ResponseEntity res= ResponseEntity.ok(scheduleDTOResponse);
+<<<<<<< HEAD:src/main/java/com/keyrus/proxemconnector/connector/csv/configuration/rest/router/CSVScanJobSchedulerController.java
             Logging.putInCSV(LocalDateTime.now().toString(),"/ScheduleScanCSV","POST",res.getStatusCode().toString(),"PushToProxem Scheduled Successfully!", scheduleDTORequestCSV.getConnectorDAO().userName());
+=======
+            Logging.putInCSV(LocalDateTime.now().toString(),"/ScheduleScanCSV","POST",res.getStatusCode().toString(),"PushToProxem Scheduled Successfully!",scheduleDTORequest.getConnectorDAO().userName());
+>>>>>>> 19e97ebe77e87f9c7cbee704e10b94b253111afa:src/main/java/com/keyrus/proxemconnector/connector/csv/configuration/rest/router/ScanJobSchedulerController.java
             return res;
         } catch (SchedulerException ex) {
             logger.error("Error scheduling push", ex);
