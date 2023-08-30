@@ -1,0 +1,55 @@
+ <?xml version="1.0" encoding="UTF-8" ?>
+ <DocAttachments xmlns="attachmentDownload" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://localhost/schema/InSiteAttachmentDownload.xsd">
+    <DocumentObject>
+       <Module>Work Order</Module>
+       <ObjectRef>ABCDWO00000718</ObjectRef>
+       <ExternalObjectRef></ExternalObjectRef>
+       <Revision/>
+       <Attachment>
+          <NonXMLContent>
+             <TextContent>VGVzdCBkYXRh</TextContent>
+             <SupportingInformation>
+                <Visibility>Public</Visibility>
+                <RestrictedViewVisibility>Yes</RestrictedViewVisibility>
+                <FileName>attachmentName_WO2.1.4.2.txt</FileName>
+                <Description>This is Work Order attachment 1</Description>
+             </SupportingInformation>
+          </NonXMLContent>
+          <NonXMLContent>
+             <TextContent>VGVzdCBkYXRh</TextContent>
+             <SupportingInformation>
+                <Visibility>Public</Visibility>
+                <RestrictedViewVisibility>Yes</RestrictedViewVisibility>
+                <FileName>attachmentName_WO2.1.4.3.txt</FileName>
+                <Description>This is Work Order attachment 2</Description>
+             </SupportingInformation>
+          </NonXMLContent>
+       </Attachment>
+    </DocumentObject>
+    <DocumentObject>
+       <Module>Statement of Work</Module>
+       <ObjectRef>ABCDTQ00000266</ObjectRef>
+       <ExternalObjectRef></ExternalObjectRef>
+       <Revision/>
+       <Attachment>
+          <NonXMLContent>
+             <TextContent>VGVzdCBkYXRh</TextContent>
+             <SupportingInformation>
+                <Visibility>Private</Visibility>
+                <RestrictedViewVisibility>Yes</RestrictedViewVisibility>
+                <FileName>attachmentName_SOW3.1.3.1.txt</FileName>
+                <Description>This is SOW attachment 1</Description>
+             </SupportingInformation>
+          </NonXMLContent>
+          <NonXMLContent>
+             <TextContent>JVBERi0x...QolJUVPRgo=</TextContent>
+             <SupportingInformation>
+                <Visibility>Public</Visibility>
+                <RestrictedViewVisibility>Yes</RestrictedViewVisibility>
+                <FileName>attachmentName_SOW4.2.4.1.txt</FileName>
+                <Description>This is SOW attachment 2</Description>
+             </SupportingInformation>
+          </NonXMLContent>
+       </Attachment>
+    </DocumentObject>
+ </DocAttachments>

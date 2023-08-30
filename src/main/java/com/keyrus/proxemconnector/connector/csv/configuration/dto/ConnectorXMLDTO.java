@@ -1,7 +1,7 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
+import com.keyrus.proxemconnector.connector.csv.configuration.model.*;
 import io.vavr.control.Either;
 
 import java.util.Collection;
@@ -11,29 +11,38 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+
+
+
 public record ConnectorXMLDTO (
+        @JsonProperty
         String id,
+        @JsonProperty
         String name,
+        @JsonProperty
         String path,
-        String xpath,
+        @JsonProperty
         String tagName,
         @JsonProperty
-        Collection<FieldDTO> fields
+        Collection<FieldDTO> fields,
 
-        //ProjectDTO projectDTO
+        @JsonProperty
+        String projectName,
+        @JsonProperty
+        String userName
 ) {
 
-  /*  public ConnectorXMLDTO(
-            final ConnectorXML connectorXML
+    public ConnectorXMLDTO(
+            final ConnectorXML connector
     ) {
         this(
-                connectorXML.id(),
-                connectorXML.name(),
-
-                ConnectorJDBCDTO.headersToHeaderDTOs(connectorJDBC.fields())
-                //,connectorJDBC.id()
-
-                //, ConnectorCJDBCTO.projectToProjectDTO(connectorJDBC.project())
+                connector.id(),
+                connector.name(),
+                connector.path(),
+                connector.tagName(),
+                ConnectorXMLDTO.headersToHeaderDTOs(connector.fields())
+                ,connector.projectName()
+                ,connector.userName()
         );
     }
 
@@ -45,27 +54,29 @@ public record ConnectorXMLDTO (
         );
     }
 
-    public Either<Collection<ConnectorJDBC.Error>, ConnectorJDBC> toConfiguration() {
+    public Either<Collection<Connector.Error>, ConnectorXML> toConfiguration() {
+
+
         return
-                ConnectorJDBC.Builder
+
+                ConnectorXML.Builder
                         .builder()
-                        .withId(ConnectorJDBCDTO.idNonNullOrRandomId(this.id))
+                        .withId(ConnectorXMLDTO.idNonNullOrRandomId(this.id))
                         .withName(this.name)
-                        .withjdbcUrl(this.jdbcUrl)
-                        .withusername(this.username)
-                        .withpassword(this.password)
-                        .withclassName(this.className)
-                        .withtableName(this.tableName)
-                        .withQuery(this.query)
-                        .withCheckPoint(this.checkPoint)
+                        .withpath(this.path)
+                        .withtagName(this.tagName)
                         .withHeaders(
-                                ConnectorJDBCDTO.headerDTOsToHeaderBuilders(
+                                ConnectorXMLDTO.headerDTOsToHeaderBuilders(
                                         this.id,
                                         this.fields
                                 )
                         )
+                        .withProjectName(this.projectName)
+                        .withUserName(this.userName)
                         .build();
-    }*/
+
+
+    }
 
     private static Collection<FieldDTO> headersToHeaderDTOs(
             final Collection<Field> fields

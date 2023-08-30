@@ -48,6 +48,8 @@ CREATE TABLE IF NOT EXISTS connector (
     incremental_variable	VARCHAR(255),
     incremental_query VARCHAR(255),
     mode VARCHAR(255),
+    path_xml VARCHAR(255) ,
+    tag_name VARCHAR(255) ,
      PRIMARY KEY (id)
 
 );
@@ -73,6 +75,8 @@ CREATE TABLE IF NOT EXISTS scheduler (
     starts_time VARCHAR(255),
     end_time VARCHAR(255),
     cron_expression VARCHAR(255),
+    status BOOLEAN,
+    job_id VARCHAR(255),
     PRIMARY KEY (id),
     connector_id VARCHAR(255)  NOT NULL REFERENCES connector(id) ON DELETE CASCADE ON UPDATE CASCADE
 );

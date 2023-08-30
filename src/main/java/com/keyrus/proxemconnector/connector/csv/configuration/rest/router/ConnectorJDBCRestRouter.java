@@ -66,10 +66,7 @@ public class ConnectorJDBCRestRouter {
 
     }
 
-    /*@GetMapping(value = "/findById/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ConnectorDAO findById(@PathVariable String id) {
-        return this.connectorJDBCDatabaseRepository.findOneById(id);
-    }*/
+
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Collection<ConnectorJDBCDTO>> findAll(
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
@@ -81,15 +78,7 @@ public class ConnectorJDBCRestRouter {
 
     }
 
-   /* @GetMapping("/message")
-    public String getMessage(){
-        logger.info("[getMessage] info message");
-        logger.warn("[getMessage] warn message");
-        logger.error("[getMessage] error message");
-        logger.debug("[getMessage] debug message");
-        logger.trace("[getMessage] trace message");
-        return "open console to show";
-    }*/
+
 
 
     @GetMapping("/connectors")
@@ -241,7 +230,10 @@ public class ConnectorJDBCRestRouter {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.add("Authorization","ApiKey mehdi.khayati@keyrus.com:63cdd92e-adb4-42fe-a655-8e54aeb0653f");
+        String mail= UserServiceConnector.getUserByName(config.userName()).get().getEmail() /*"mehdi.khayati@keyrus.com"*/;
+        String userToken=UserServiceConnector.getUserByName(config.userName()).get().getUserToken()  /*"63cdd92e-adb4-42fe-a655-8e54aeb0653f"*/;
+
+        headers.add("Authorization", "ApiKey "+mail+":"+userToken);
         HttpEntity<String> entity = new HttpEntity<>(jsonArray.toString(), headers);
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
@@ -255,7 +247,7 @@ public class ConnectorJDBCRestRouter {
 
         return response;
     }
-    static int countOccurrences(String str, String word)
+    public static int countOccurrences(String str, String word)
     {
         // split the string by spaces in a
         String a[] = str.split(",");
@@ -281,7 +273,10 @@ public class ConnectorJDBCRestRouter {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.add("Authorization","ApiKey mehdi.khayati@keyrus.com:63cdd92e-adb4-42fe-a655-8e54aeb0653f");
+        String mail= UserServiceConnector.getUserByName(config.getConnectorJDBCDTO().userName()).get().getEmail() /*"mehdi.khayati@keyrus.com"*/;
+        String userToken=UserServiceConnector.getUserByName(config.getConnectorJDBCDTO().userName()).get().getUserToken()  /*"63cdd92e-adb4-42fe-a655-8e54aeb0653f"*/;
+
+        headers.add("Authorization", "ApiKey "+mail+":"+userToken);
         HttpEntity<String> entity = new HttpEntity<>(jsonArray.toString(), headers);
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
@@ -300,16 +295,6 @@ public class ConnectorJDBCRestRouter {
         List<String> l=List.of( ConnectorJDBCService.testConnection(connection.getClassName(),connection.getPassword(),connection.getJdbcURL(),connection.getUsername()));
         return new ResponseEntity<>(l, OK);
 }
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /*@GetMapping("GetProjectByProjectName/{name}")//name unique
-    public ResponseEntity<ProjectDTO> GetProjectByProjectName(@PathVariable("name") final String name, @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode){
-        //return ResponseEntity.ok(connectorCSVService.getProjectByName(name));
-        return projectRestHandler.findOneByName(name,languageCode);
-    }*/
-
-
-////////////////////////////////////////////////////////////////////////ACCSESS TO USER OR PROJECT/////////////////////////////////////////////////////////////////////////////
 
 
 }

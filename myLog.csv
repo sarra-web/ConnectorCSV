@@ -18,3 +18,574 @@
 2023-08-16T15:55:00.450197700,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
 2023-08-16T15:56:00.552996500,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
 2023-08-16T15:57:00.780871600,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-17T16:53:34.341239900,configuration/CreateCSVConnector,POST,400 BAD_REQUEST,Adding new JDBC connector,sarra
+2023-08-17T16:53:35.473790800,configuration/CreateCSVConnector,POST,200 OK,Adding new JDBC connector,sarra
+2023-08-17T16:53:57.145559500,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-17T17:01:02.853840,configuration/UpdateJDBCConnector,PUT,200 OK,Updating bookCon JDBCconnector,sarra
+2023-08-17T17:01:02.853840,configuration/UpdateJDBCConnector,PUT,200 OK,Updating bookCon JDBCconnector,sarra
+2023-08-17T18:54:38.856781400,/ScheduleScanJDBC,POST,200 OK,PushToProxem Scheduled Successfully!,sarra
+2023-08-17T18:56:00.033848500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T18:57:17.676549200,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T18:58:00.024148200,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T18:59:00.026314900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T19:00:00.006454300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T19:01:00.015865700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T19:02:00.013816500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T19:03:00.016559700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T19:04:00.015585,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T19:05:00.009387700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T19:06:00.009600800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T19:07:00.017800300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T19:08:00.017091500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T19:09:00.007989500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T19:10:00.015807,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T19:11:00.011766700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T19:12:00.010363500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T19:20:22.181706,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T21:30:52.258286300,/ScheduleScanJDBC,POST,200 OK,PushToProxem Scheduled Successfully!,sarra
+2023-08-17T21:32:00.134001200,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T21:33:00.048423800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T21:34:00.030676900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T21:35:00.021452800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T21:36:00.009224900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T21:37:00.009341900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T21:38:00.011773800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T21:39:00.015712300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T21:40:00.006705900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T21:41:00.014832200,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T21:42:00.014485,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T21:43:00.010190800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T21:44:00.036798700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-17T21:44:01.900093900,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T11:45:27.310336800,/ScheduleScanJDBC,POST,200 OK,PushToProxem Scheduled Successfully!,sarra
+2023-08-19T11:50:00.209133400,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T11:50:03.103868400,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T11:51:00.005838700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T11:51:00.479839700,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T11:52:00.011630700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T11:52:00.422441600,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T11:53:00.111829700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T11:53:00.678676900,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T11:54:00.009881700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T11:54:00.665826300,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T11:55:00.005681100,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T11:55:00.577063300,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T11:56:00.004476800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T11:56:00.536211500,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T11:57:00.006701100,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T11:57:00.574387,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T11:58:00.004288900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T11:58:00.474217900,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T11:59:00.017190100,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T11:59:00.606122500,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:00:00.013079900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:00:00.344894600,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:01:00.011712600,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:01:00.436220200,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:02:00.004759700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:02:00.469751200,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:03:00.013561300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:03:00.504984500,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:04:00.017365100,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:04:01.373385800,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:05:00.024525300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:05:00.400661800,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:06:00.010223500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:06:00.355226300,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:17:28.753557400,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:17:30.167210200,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:20:14.024839200,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:20:15.468894700,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:21:00.020408300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:21:01.268210400,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:23:37.081643800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:23:38.477646800,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:24:00.011118600,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:24:00.350281700,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:25:00.021121400,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:25:01.214098600,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:43:19.989327900,/ScheduleScanJDBC,POST,200 OK,PushToProxem Scheduled Successfully!,sarra
+2023-08-19T12:44:00.010871600,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:44:00.852867500,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:45:00.008423800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:45:00.364456200,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:46:00.014558500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:46:00.352700,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:47:00.017259300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:47:00.471679600,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:48:00.012638900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:48:00.355169500,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:50:45.220913900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:50:46.755926200,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:51:00.009880900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:51:00.335450200,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:52:00.014554,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:52:00.962961500,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:53:00.015730500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:53:00.355905600,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:54:00.012266100,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:54:00.893507,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:55:00.014411300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:55:00.416445400,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:56:00.015373300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:56:00.363824900,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T12:57:00.010142800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T12:57:00.334453400,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T13:02:12.803552900,/ScheduleScanJDBC,POST,200 OK,PushToProxem Scheduled Successfully!,sarra
+2023-08-19T13:03:00.014878600,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:04:00.009813300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:05:00.010353,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:06:00.023823100,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:07:00.011846900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:08:00.017967,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:09:00.005603,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:10:00.021956400,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:11:00.006008900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:12:00.005599400,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:13:00.005730800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:14:00.011226,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:15:00.006044500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:16:00.022029400,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:17:00.009609600,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:18:00.015567500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:19:00.004272100,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:20:00.019620100,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:21:00.008409100,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:22:00.013875200,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:23:00.005103200,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:24:00.024839100,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:25:00.007958200,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:26:00.009261100,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:27:00.036315,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:28:00.041277600,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:29:00.016174500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:30:00.013551300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:31:00.007836700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:32:00.021266200,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:33:00.020498800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:34:00.011935900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:35:00.012466,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:36:00.006102800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:37:00.005794100,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:38:00.006087800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:39:00.028841700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:40:00.050445200,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:41:00.028879700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:42:00.009969100,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:43:00.015919300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:44:00.014319600,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:45:00.038094200,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:46:00.018134,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:47:00.014540300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:48:00.006483700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:49:00.045199300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T13:50:00.054432700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T14:48:47.812703500,/ScheduleScanJDBC,POST,200 OK,PushToProxem Scheduled Successfully!,sarra
+2023-08-19T14:49:00.026778600,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T14:50:04.513294900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T14:51:00.040811,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T14:52:00.058928800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T14:53:00.042766100,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T14:54:00.037809300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T14:55:00.032027,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T14:56:12.094451500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T14:57:00.028158,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T14:58:00.040349100,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T14:59:00.028633500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:00:00.037585400,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:01:00.035946700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:04:56.886884500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:05:00.034728200,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:06:00.019388900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:07:00.035670300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:08:00.032549500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:09:00.020468100,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:10:00.030873700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:11:00.030979,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:12:00.032029100,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:13:00.032839300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:14:00.032290500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:15:00.031453900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:21:05.668651400,/ScheduleScanJDBC,POST,200 OK,PushToProxem Scheduled Successfully!,sarra
+2023-08-19T15:22:00.034886800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:23:00.032367500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:24:00.058250600,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:24:02.815777200,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T15:25:00.028878300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:25:01.008597700,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T15:26:00.038255500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:26:01.041279900,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T15:27:00.037726500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:27:00.713908200,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T15:28:00.041947800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:28:00.641043200,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T15:29:00.036595700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T15:29:00.907630600,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T15:30:00.036910400,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:20:30.768486200,/ScheduleScanJDBC,POST,200 OK,PushToProxem Scheduled Successfully!,sarra
+2023-08-19T17:21:00.011858200,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:21:02.161163200,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:22:00.017463800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:22:00.886481400,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:23:00.024674700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:23:02.429203700,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:24:00.012753,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:24:01.143747800,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:25:00.011480900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:25:01.682631200,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:26:00.007266900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:26:00.610520,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:27:00.007226600,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:27:00.678843800,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:28:00.008606800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:28:00.761595500,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:29:00.008122600,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:29:00.616338500,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:30:00.005979800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:30:00.678996300,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:32:11.549637500,/ScheduleScanJDBC,POST,200 OK,PushToProxem Scheduled Successfully!,sarra
+2023-08-19T17:33:00.004910900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:33:00.961713400,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:34:00.007528100,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:34:00.652527500,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:35:00.006303700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:35:00.540309200,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:36:00.026446900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:36:00.745574500,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:37:00.005161800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:37:00.593523600,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:38:00.027878300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:38:00.577112300,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:39:00.019724300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:39:00.797077800,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:40:02.819279700,/ScheduleScanJDBC,POST,400 BAD_REQUEST,dateTime must be after current time,sarra
+2023-08-19T17:41:28.220952300,/ScheduleScanJDBC,POST,200 OK,PushToProxem Scheduled Successfully!,sarra
+2023-08-19T17:42:00.028566900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:42:01.010263300,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:43:00.031695400,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:43:00.759276500,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:44:00.031979100,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:44:00.453176400,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:45:00.030456700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:45:00.888754700,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:46:00.037012700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:46:00.786699600,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:47:00.030727600,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:47:00.565974100,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T17:56:10.430110200,/ScheduleScanJDBC,POST,200 OK,PushToProxem Scheduled Successfully!,sarra
+2023-08-19T17:57:00.046836400,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T17:57:02.151368100,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T18:00:18.960343100,/ScheduleScanJDBC,POST,200 OK,PushToProxem Scheduled Successfully!,sarra
+2023-08-19T18:04:08.020366500,/ScheduleScanJDBC,POST,200 OK,PushToProxem Scheduled Successfully!,sarra
+2023-08-19T18:05:00.042494300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T18:05:00.678081600,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T18:15:00.018708900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T18:15:00.426688900,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T18:25:27.316630100,/ScheduleScanJDBC,POST,200 OK,PushToProxem Scheduled Successfully!,sarra
+2023-08-19T18:26:00.043123800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T18:26:01.368998700,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T21:31:44.485971900,/ScheduleScanJDBC,POST,200 OK,PushToProxem Scheduled Successfully!,sarra
+2023-08-19T21:32:00.024535300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T21:33:00.010089300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T21:34:00.008559400,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T21:35:00.015953500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T21:36:00.008856100,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T21:37:00.019668500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T22:28:11.056279100,/ScheduleScanJDBC,POST,200 OK,PushToProxem Scheduled Successfully!,sarra
+2023-08-19T22:29:00.016091900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T22:29:01.366683800,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T22:30:00.006715400,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T22:30:01.152500900,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T22:31:00.010470500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T22:31:01.244121100,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T22:32:00.008412,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T22:32:00.805790800,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T22:33:00.018086,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T22:33:00.715393300,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T22:34:00.012654700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T22:34:00.988598800,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T22:35:00.012427700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T22:35:01.488514100,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T22:38:17.385179,/ScheduleScanJDBC,POST,200 OK,PushToProxem Scheduled Successfully!,sarra
+2023-08-19T22:39:00.012604800,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T22:39:01.011048400,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T22:40:00.017830200,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T22:40:00.713295900,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T22:41:00.013388700,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T22:41:00.752279600,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T22:42:00.012028300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T22:42:01.436598700,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T22:43:00.011143900,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T22:43:00.568238400,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T22:44:00.007370500,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T22:44:00.875557800,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-19T22:45:10.833082300,/pushToProxem,PUT,200,x docs pushed,sarra
+2023-08-19T22:53:15.660524600,/pushToProxem,PUT,200 OK,1 docs pushed,sarra
+2023-08-20T09:52:56.852785800,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T11:14:23.392918600,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T11:17:00.525519300,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T11:40:07.533689400,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T11:42:00.566904800,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T12:01:40.591913200,/ScheduleScanCSV,POST,400 BAD_REQUEST,dateTime must be after current time,Admin
+2023-08-20T12:02:47.620647,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T12:15:01.548712700,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T12:17:47.172335700,/ScheduleScanCSV,POST,400 BAD_REQUEST,dateTime must be after current time,Admin
+2023-08-20T12:18:00.665243700,/ScheduleScanCSV,POST,400 BAD_REQUEST,dateTime must be after current time,Admin
+2023-08-20T12:18:22.370359500,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T12:19:01.421679700,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T12:21:07.785242300,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T12:22:01.454240200,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T12:27:36.896221,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T12:29:01.132100300,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T12:29:38.049171500,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T12:31:02.318233,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T13:35:43.472177700,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T13:37:00.954032100,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T13:38:45.296854800,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T13:40:01.289731300,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T13:42:13.279821800,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T13:43:00.877544300,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T13:47:00.293454400,/ScheduleScanCSV,POST,400 BAD_REQUEST,dateTime must be after current time,Admin
+2023-08-20T13:47:16.568839600,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T13:49:01.079900900,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T15:07:45.803100100,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T15:09:04.410149400,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T15:11:23.822516600,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T15:13:00.712621,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T15:15:19.802166900,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T15:16:02.020666800,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T16:00:22.192339200,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T16:02:02.255671700,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T16:05:56.625168300,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T16:06:00.803180200,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T16:12:10.603987,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T16:14:08.075159900,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T16:15:03.928614700,/ScheduleScanCSV,POST,400 BAD_REQUEST,dateTime must be after current time,Admin
+2023-08-20T16:19:10.319584800,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T16:20:50.659271500,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T16:21:01.012136,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T16:22:00.832883300,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T16:25:06.682941500,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T16:26:00.697027600,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T16:39:05.855310800,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T16:40:00.953568,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T17:27:46.661293600,/ScheduleScanCSV,POST,400 BAD_REQUEST,dateTime must be after current time,Admin
+2023-08-20T17:28:08.313462800,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T17:30:03.019304200,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T17:33:18.624568,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T17:33:18.626568200,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T17:35:01.106077900,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T17:35:01.589060,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T17:35:59.667720800,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T17:36:00.090774100,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T17:37:01.587116700,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T17:37:02.572766700,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T17:53:41.324092100,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T17:53:41.458193,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T17:55:01.612802700,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T17:55:01.707802600,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:00:33.919570900,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T18:00:33.992325400,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T18:02:00.589851100,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:02:00.841882900,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:20:20.193843900,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T18:20:20.210850100,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T18:20:20.210850100,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T18:20:20.210850100,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T18:21:01.250356100,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:21:01.467058600,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:21:01.721201300,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:21:02.183218900,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:22:00.521881300,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:22:00.566442,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:22:00.664446100,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:23:00.676918100,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:23:01.120981400,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:23:01.294811400,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:24:01.112192700,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:24:01.141891200,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:24:01.452788400,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:25:01.284662700,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:25:01.643861500,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:26:00.937926900,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:26:01.032744100,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:27:01.569896500,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:31:18.933112200,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T18:31:18.934102100,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T18:32:01.210214300,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:32:01.227210700,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:33:02.551248500,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:33:02.575413200,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:34:00.861354400,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:34:00.881941700,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:35:00.856719800,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:36:00.758794700,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-20T18:44:10.414989,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-20T18:45:00.705927100,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-23T16:38:48.932679900,/ScheduleScanCSV,POST,400 BAD_REQUEST,dateTime must be after current time,Admin
+2023-08-23T16:39:50.257971600,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-23T16:40:46.976322900,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-23T16:40:51.158841,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-23T16:44:23.617356500,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-26T14:25:54.146624,configuration/CreateCSVConnector,POST,400 BAD_REQUEST,Adding new CSVconnector,Admin
+2023-08-26T14:25:54.146624,configuration/CreateCSVConnector,POST,400 BAD_REQUEST,Adding new CSVconnector,Admin
+2023-08-26T14:26:57.900215600,configuration/CreateCSVConnector,POST,400 BAD_REQUEST,Adding new CSVconnector,Admin
+2023-08-26T14:26:57.909211900,configuration/CreateCSVConnector,POST,400 BAD_REQUEST,Adding new CSVconnector,Admin
+2023-08-26T14:28:46.875299300,configuration/CreateCSVConnector,POST,400 BAD_REQUEST,Adding new CSVconnector,Admin
+2023-08-26T14:28:46.882295,configuration/CreateCSVConnector,POST,400 BAD_REQUEST,Adding new CSVconnector,Admin
+2023-08-26T14:43:16.561545500,configuration/CreateCSVConnector,POST,400 BAD_REQUEST,Adding new CSVconnector,Admin
+2023-08-26T14:43:16.567545400,configuration/CreateCSVConnector,POST,400 BAD_REQUEST,Adding new CSVconnector,Admin
+2023-08-26T14:47:06.210250900,configuration/CreateXMLConnector,POST,200 OK,Adding new XMLconnector,Admin
+2023-08-26T14:47:06.251215200,configuration/CreateXMLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new XMLconnector,Admin
+2023-08-26T15:25:25.224677,configuration/UpdateXMLConnector,PUT,200 OK,Updating connector11 XMLconnector,Admin
+2023-08-26T15:25:25.300690600,configuration/UpdateXMLConnector,PUT,200 OK,Updating connector11 XMLconnector,Admin
+2023-08-26T15:33:07.324517800,configuration/CreateXMLConnector,POST,200 OK,Adding new XMLconnector,Admin
+2023-08-26T15:33:07.354792600,configuration/CreateXMLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new XMLconnector,Admin
+2023-08-26T15:40:07.637166200,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-26T17:02:20.842963500,configuration/CreateCSVConnector,POST,400 BAD_REQUEST,Adding new CSVconnector,Admin
+2023-08-26T17:02:21.060966300,configuration/CreateCSVConnector,POST,200 OK,Adding new CSVconnector,Admin
+2023-08-26T17:03:07.524235800,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-26T17:17:29.184087100,/ScheduleScanXML,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-26T17:18:27.130689400,/ScheduleScanXML,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-26T17:23:17.018949600,/ScheduleScanXML,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-26T17:24:01.630968500,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-26T17:24:04.664273100,/ScheduleScanXML,POST,400 BAD_REQUEST,dateTime must be after current time,Admin
+2023-08-26T17:24:04.882276700,/ScheduleScanXML,POST,400 BAD_REQUEST,dateTime must be after current time,Admin
+2023-08-26T17:25:01.278518400,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-26T17:26:00.486473800,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-26T17:28:36.821233300,/ScheduleScanXML,POST,400 BAD_REQUEST,dateTime must be after current time,Admin
+2023-08-26T17:28:37.032229200,/ScheduleScanXML,POST,400 BAD_REQUEST,dateTime must be after current time,Admin
+2023-08-27T09:40:35.980773300,configuration/CreateXMLConnector,POST,200 OK,Adding new XMLconnector,Admin
+2023-08-27T09:40:36.012769100,configuration/CreateXMLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new XMLconnector,Admin
+2023-08-27T09:46:20.691774200,configuration/CreateXMLConnector,POST,200 OK,Adding new XMLconnector,Admin
+2023-08-27T09:46:20.717774100,configuration/CreateXMLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new XMLconnector,Admin
+2023-08-27T09:47:27.154954900,configuration/UpdateXMLConnector,PUT,200 OK,Updating Books XMLconnector,Admin
+2023-08-27T09:47:27.156956,configuration/UpdateXMLConnector,PUT,200 OK,Updating Books XMLconnector,Admin
+2023-08-27T13:21:50.649566100,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T13:24:50.539038300,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T13:26:58.089175400,/ScheduleScanCSV,POST,400 BAD_REQUEST,dateTime must be after current time,Admin
+2023-08-27T13:27:35.684160800,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T13:28:01.827526,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T13:50:22.950114700,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T14:01:11.622368500,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T14:07:08.258304200,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T14:16:09.330405200,/ScheduleScanCSV,POST,400 BAD_REQUEST,dateTime must be after current time,Admin
+2023-08-27T14:16:54.267475,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T14:21:06.627776700,/ScheduleScanCSV,POST,400 BAD_REQUEST,dateTime must be after current time,Admin
+2023-08-27T14:21:16.669450500,/ScheduleScanCSV,POST,400 BAD_REQUEST,dateTime must be after current time,Admin
+2023-08-27T16:21:40.538480100,/ScheduleScanCSV,POST,400 BAD_REQUEST,dateTime must be after current time,Admin
+2023-08-27T16:22:08.696564200,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T16:22:18.754763900,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T16:22:31.548341600,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T16:23:36.906752600,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T16:23:44.741158600,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T16:24:12.914356,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T17:15:02.333901900,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T17:16:00.611974600,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T17:17:00.693271300,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T17:18:01.035728800,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T17:45:51.549585900,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T17:45:57.733877100,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T17:51:32.840959800,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T17:52:47.394957100,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T17:57:48.377386700,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T18:01:32.266069300,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T18:02:17.015435700,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T18:25:06.692077300,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-27T19:26:29.039922600,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:26:29.465058800,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:26:29.602267500,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:26:29.627260400,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:26:29.673255700,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:26:29.839959700,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:27:00.405279800,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:27:00.470270200,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:27:00.505268700,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:27:00.519268700,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:27:00.578220,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:27:00.595230600,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:28:00.350877100,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:28:00.454430100,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:28:00.476434200,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:28:00.583418700,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:28:00.609905200,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:28:00.653954100,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:29:00.483305200,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:29:00.497033100,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:29:00.520825500,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:29:00.530776800,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:29:00.558790,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:30:00.645662500,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:30:00.665659500,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:30:00.673660700,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-27T19:30:00.673660700,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-28T14:13:31.288324700,configuration/CreateNoSQLConnector,POST,200 OK,Adding new NoSQLconnector,Admin
+2023-08-28T14:13:31.349321600,configuration/CreateNoSQLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new NoSQLconnector,Admin
+2023-08-28T15:04:55.544299400,configuration/UpdateNoSQLConnector,PUT,200 OK,Updating connector12 NoSQLconnector,Admin
+2023-08-28T15:04:55.543305500,configuration/UpdateNoSQLConnector,PUT,200 OK,Updating connector12 NoSQLconnector,Admin
+2023-08-28T15:09:20.313413800,/ScheduleScanNoSQL,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-28T15:26:51.677644400,/ScheduleScanNoSQL,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-28T15:29:18.063158100,/ScheduleScanNoSQL,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-28T15:30:01.216882200,/ScheduleScanNoSQL,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-28T15:30:20.753713100,/ScheduleScanNoSQL,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-28T15:32:04.032228200,/ScheduleScanNoSQL,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-28T15:33:14.997776200,/ScheduleScanNoSQL,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-28T15:36:52.696147600,/ScheduleScanNoSQL,POST,400 BAD_REQUEST,dateTime must be after current time,Admin
+2023-08-28T15:37:23.007009700,/ScheduleScanNoSQL,POST,400 BAD_REQUEST,dateTime must be after current time,Admin
+2023-08-28T16:36:10.328730700,configuration/CreateNoSQLConnector,POST,200 OK,Adding new NoSQLconnector,Admin
+2023-08-28T16:36:10.527298400,configuration/CreateNoSQLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new NoSQLconnector,Admin
+2023-08-28T16:36:28.860604600,/pushToProxem,PUT,200 OK,0 docs pushed,Admin
+2023-08-28T16:37:59.349328500,/pushToProxem,PUT,200 OK,0 docs pushed,Admin
+2023-08-28T16:42:53.250874900,configuration/CreateNoSQLConnector,POST,200 OK,Adding new NoSQLconnector,Admin
+2023-08-28T16:42:53.266897,configuration/CreateNoSQLConnector,POST,200 OK,Adding new NoSQLconnector,Admin
+2023-08-28T16:53:28.387782800,configuration/CreateNoSQLConnector,POST,200 OK,Adding new NoSQLconnector,Admin
+2023-08-28T16:53:28.403783600,configuration/CreateNoSQLConnector,POST,200 OK,Adding new NoSQLconnector,Admin
+2023-08-28T17:04:04.412302600,configuration/CreateNoSQLConnector,POST,200 OK,Adding new NoSQLconnector,Admin
+2023-08-28T17:04:04.417304700,configuration/CreateNoSQLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new NoSQLconnector,Admin
+2023-08-28T17:04:25.154653200,/pushToProxem,PUT,200 OK,2 docs pushed,Admin
+2023-08-28T17:19:43.327766,configuration/CreateXMLConnector,POST,200 OK,Adding new XMLconnector,Admin
+2023-08-28T17:19:43.346765800,configuration/CreateXMLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new XMLconnector,Admin
+2023-08-28T17:53:42.872678800,/ScheduleScanNoSQL,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-28T17:54:03.525668500,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-28T23:36:36.859304700,configuration/CreateXMLConnector,POST,400 BAD_REQUEST,Adding new XMLconnector,Admin
+2023-08-28T23:36:36.883642400,configuration/CreateXMLConnector,POST,400 BAD_REQUEST,Adding new XMLconnector,Admin
+2023-08-28T23:36:40.839824900,configuration/CreateXMLConnector,POST,400 BAD_REQUEST,Adding new XMLconnector,Admin
+2023-08-28T23:36:40.840828400,configuration/CreateXMLConnector,POST,400 BAD_REQUEST,Adding new XMLconnector,Admin
+2023-08-28T23:36:52.354500900,configuration/CreateXMLConnector,POST,400 BAD_REQUEST,Adding new XMLconnector,Admin
+2023-08-28T23:36:52.360492400,configuration/CreateXMLConnector,POST,400 BAD_REQUEST,Adding new XMLconnector,Admin
+2023-08-28T23:38:17.107243200,configuration/CreateXMLConnector,POST,400 BAD_REQUEST,Adding new XMLconnector,Admin
+2023-08-28T23:38:17.123239200,configuration/CreateXMLConnector,POST,400 BAD_REQUEST,Adding new XMLconnector,Admin
+2023-08-28T23:38:50.943365300,configuration/CreateXMLConnector,POST,400 BAD_REQUEST,Adding new XMLconnector,Admin
+2023-08-28T23:38:50.973381,configuration/CreateXMLConnector,POST,400 BAD_REQUEST,Adding new XMLconnector,Admin
+2023-08-28T23:40:41.646034900,configuration/CreateXMLConnector,POST,400 BAD_REQUEST,Adding new XMLconnector,Admin
+2023-08-28T23:40:41.664040400,configuration/CreateXMLConnector,POST,400 BAD_REQUEST,Adding new XMLconnector,Admin
+2023-08-28T23:54:51.063916500,configuration/CreateXMLConnector,POST,200 OK,Adding new XMLconnector,Admin
+2023-08-28T23:54:52.098737,configuration/CreateXMLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new XMLconnector,Admin
+2023-08-28T23:57:25.911721700,configuration/CreateXMLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new XMLconnector,Admin
+2023-08-28T23:57:25.911721700,configuration/CreateXMLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new XMLconnector,Admin
+2023-08-28T23:57:28.892410200,configuration/CreateXMLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new XMLconnector,Admin
+2023-08-28T23:57:28.892410200,configuration/CreateXMLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new XMLconnector,Admin
+2023-08-28T23:57:31.927996800,configuration/CreateXMLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new XMLconnector,Admin
+2023-08-28T23:57:31.945026500,configuration/CreateXMLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new XMLconnector,Admin
+2023-08-28T23:57:33.717414400,configuration/CreateXMLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new XMLconnector,Admin
+2023-08-28T23:57:33.717414400,configuration/CreateXMLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new XMLconnector,Admin
+2023-08-28T23:57:39.382128,configuration/CreateXMLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new XMLconnector,Admin
+2023-08-28T23:57:39.407142500,configuration/CreateXMLConnector,POST,200 OK,Adding new XMLconnector,Admin
+2023-08-28T23:58:00.301678400,/pushToProxem,PUT,200 OK,6 docs pushed,Admin
+2023-08-29T19:54:23.282947800,configuration/CreateCSVConnector,POST,400 BAD_REQUEST,Adding new CSVconnector,Admin
+2023-08-29T19:54:23.779947,configuration/CreateCSVConnector,POST,200 OK,Adding new CSVconnector,Admin
+2023-08-29T19:55:23.300702200,/ScheduleScanXML,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-29T19:56:01.189617400,/pushToProxem,PUT,200 OK,6 docs pushed,Admin
+2023-08-29T19:59:23.018491,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-29T21:44:34.871286900,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-29T21:59:54.650246700,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-29T22:02:47.356229100,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-29T22:03:01.130843200,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-29T22:19:16.863016500,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-29T22:41:04.353908700,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-29T22:47:14.099119300,/ScheduleScanCSV,POST,200 OK,PushToProxem Scheduled Successfully!,Admin
+2023-08-29T22:48:01.516918500,/pushToProxem,PUT,200 OK,1 docs pushed,Admin
+2023-08-30T08:49:52.338077400,configuration/CreateXMLConnector,POST,200 OK,Adding new XMLconnector,Admin
+2023-08-30T08:49:52.380075200,configuration/CreateXMLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new XMLconnector,Admin
+2023-08-30T10:44:59.352152,configuration/CreateXMLConnector,POST,200 OK,Adding new XMLconnector,Admin
+2023-08-30T10:44:59.393751600,configuration/CreateXMLConnector,POST,500 INTERNAL_SERVER_ERROR,Adding new XMLconnector,Admin

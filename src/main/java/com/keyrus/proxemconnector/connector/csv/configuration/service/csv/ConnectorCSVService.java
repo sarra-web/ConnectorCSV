@@ -1,13 +1,13 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.service.csv;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorCSVDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.*;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.CSVConnectorRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.UserServiceConnector;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.log.Logging;
 import io.vavr.control.Either;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -124,53 +124,9 @@ public final class ConnectorCSVService {
         return cSVConnectorRepository.findAll(PageRequest.of(page,size));
     }
 
-    public static int numRow(String csvFilePath, String stringSeparator) {
-        int numRow = 0;
-        FileReader fileReader= null;
-        try {
-            fileReader = new FileReader(csvFilePath);
-        } catch (FileNotFoundException e){
-            //System.out.println("File doesn't exist put a valid path");
-            System.out.println(e.getMessage());
 
-        }
-        try (BufferedReader br = new BufferedReader(fileReader)) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                if(!line.trim().isEmpty()) {
-                    numRow++;}
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
 
-        }
-        return numRow;
 
-    }
-
-    public static int numCol(String csvFilePath, String stringSeparator) {
-        int numCol = 0;
-        FileReader fileReader= null;
-        try {
-            fileReader = new FileReader(csvFilePath);
-        } catch (FileNotFoundException e){
-            //System.out.println("File doesn't exist put a valid path");
-            System.out.println(e.getMessage());
-
-        }
-        try (BufferedReader br = new BufferedReader(fileReader)) {
-            String line;
-            line = br.readLine();
-            String[] valuesEntete = line.split(stringSeparator);
-
-            numCol = valuesEntete.length;
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-        return numCol;
-
-    }
 
     public static String generateRecordID(int position, String fileName) {
         return String.format("%s_%s_%d",  LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")), fileName, position);
@@ -312,44 +268,51 @@ public final class ConnectorCSVService {
         newTokens[tokens.length] = sb.toString();
         return newTokens;
     }
-    public List<ProxemDto> updatePost(Collection<ProxemDto> dtos) {
-        try{
-            List<ProxemDto> proxemDto = null;
-            RestTemplate restTemplate = new RestTemplate();
-            ObjectMapper objectMapper = new ObjectMapper();
-            ArrayNode jsonArray = objectMapper.valueToTree(dtos);
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-            headers.add("Authorization", "ApiKey mehdi.khayati@keyrus.com:63cdd92e-adb4-42fe-a655-8e54aeb0653f");
 
-            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            try {
-                String json = ow.writeValueAsString(jsonArray.toString());
-                System.out.println(json);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
-            HttpEntity<String> entity = new HttpEntity<>(jsonArray.toString(), headers);
+    public static ResponseEntity<String> pushToProxem(ConnectorCSVDTO connectorCSVDAO) {
 
-            ResponseEntity<Object> response = restTemplate.exchange(BASE_POST_URL, HttpMethod.PUT, entity, Object.class);
-            if (response.getStatusCode() == HttpStatus.OK) {
-                proxemDto = (List<ProxemDto>) response.getBody();
-            }
-            return proxemDto;
+        List<ProxemDto> proxemDtos = CSVDataToJSON(connectorCSVDAO);
+        ObjectMapper objectMapper = new ObjectMapper();
+        ArrayNode jsonArray = objectMapper.valueToTree(proxemDtos);
+        String url = "https://studio3.proxem.com/validation5a/api/v1/corpus/"+new ConnectorCSVDAO(connectorCSVDAO.toConfiguration().get()).project().getProxemToken()+"/documents";
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        String mail= UserServiceConnector.getUserByName(connectorCSVDAO.userName()).get().getEmail() /*"mehdi.khayati@keyrus.com"*/;
+        String userToken=UserServiceConnector.getUserByName(connectorCSVDAO.userName()).get().getUserToken()  /*"63cdd92e-adb4-42fe-a655-8e54aeb0653f"*/;
+
+        headers.add("Authorization", "ApiKey "+mail+":"+userToken);
+        HttpEntity<String> entity = new HttpEntity<>(jsonArray.toString(), headers);
+
+        ResponseEntity<String> response =   restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
+        if(response.getStatusCode().toString().startsWith("200")){
+            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),countOccurrences(response.getBody().toString(), "\"UpsertSuccessful\":true")+" docs pushed",connectorCSVDAO.userName());
+            System.out.println("response body"+response.getBody().toString());//count appearence of "UpsertSuccessful":true
         }
-        catch (Exception e){
-            throw new RuntimeException("Error: " + e.getMessage());
-
+        else{
+            Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),"no docs pushed",connectorCSVDAO.userName());
         }
+        return response;
+
     }
+    public static int countOccurrences(String str, String word)
+    {
+        // split the string by spaces in a
+        String a[] = str.split(",");
 
-    public List<ProxemDto> pushToProxem(ConnectorCSVDTO config) {
+        // search for pattern in a
+        int count = 0;
+        for (int i = 0; i < a.length; i++)
+        {
+            // if match found increase count
+            if (word.equals(a[i]))
+                count++;
+        }
 
-        return this.updatePost(CSVDataToJSON(config));
+        return count;
     }
-
 
     private static Error repositoryErrorToServiceError(
             final CSVConnectorRepository.Error repositoryError
@@ -362,7 +325,7 @@ public final class ConnectorCSVService {
             return new Error.NotFound();
         throw new IllegalStateException("repository error not mapped to service error");
     }
-    //////////////////////////getProjectByName///////////////////////////////////
+//////////////////////////getProjectByName///////////////////////////////////
 
     public static ProjectDTO getProjectByName(String id ){
         RestTemplate restTemplate=new RestTemplate();

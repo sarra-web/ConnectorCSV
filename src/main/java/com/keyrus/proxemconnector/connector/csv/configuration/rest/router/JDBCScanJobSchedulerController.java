@@ -1,8 +1,9 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.rest.router;
 
 
-import com.keyrus.proxemconnector.connector.csv.configuration.dto.ScheduleDTORequestJDBC;
-import com.keyrus.proxemconnector.connector.csv.configuration.dto.ScheduleDTOResponse;
+import com.keyrus.proxemconnector.connector.csv.configuration.dto.quartzDto.JobKeyDTO;
+import com.keyrus.proxemconnector.connector.csv.configuration.dto.quartzDto.ScheduleDTORequestJDBC;
+import com.keyrus.proxemconnector.connector.csv.configuration.dto.quartzDto.ScheduleDTOResponse;
 import com.keyrus.proxemconnector.connector.csv.configuration.service.jdbc.ScanJobJDBC;
 import com.keyrus.proxemconnector.connector.csv.configuration.service.log.Logging;
 import jakarta.validation.Valid;
@@ -27,6 +28,15 @@ public class JDBCScanJobSchedulerController {
 
         @Autowired
         private Scheduler scheduler;
+        @PostMapping("/delete")
+    public ResponseEntity<CSVScanJobSchedulerController.DeleteScheduleDTOResponse> deleteJob(@RequestBody JobKeyDTO jobKeyDTO) throws SchedulerException {
+            boolean res=  scheduler.deleteJob(new JobKey(jobKeyDTO.getJobId(),jobKeyDTO.getJobGroup()));
+        //boolean res=  scheduler.interrupt(new JobKey(jobKeyDTO.getJobId(),jobKeyDTO.getJobGroup()));
+        //scheduler.resumeJob(new JobKey(jobKeyDTO.getJobId(),jobKeyDTO.getJobGroup()));
+        CSVScanJobSchedulerController.DeleteScheduleDTOResponse dtoResponse=new CSVScanJobSchedulerController.DeleteScheduleDTOResponse(res);
+        // RestController response =new ResponseEntity<DeleteScheduleDTOResponse>(res) ;
+        return ResponseEntity.ok(dtoResponse);
+    }
         @PostMapping()
         public ResponseEntity<ScheduleDTOResponse> scheduleScanJDBC(@Valid @RequestBody ScheduleDTORequestJDBC scheduleDTORequest) {
             try {

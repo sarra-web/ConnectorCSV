@@ -1,9 +1,5 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.service.jdbc;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorJDBCDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.*;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC;
@@ -13,13 +9,14 @@ import io.vavr.control.Either;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -279,8 +276,13 @@ public final class ConnectorJDBCService {
                     data.setDocUtcDate(LocalDateTime.now().toString());
                 } else {
 
-                    SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                    data.setDocUtcDate(format2.parse(values.get(l2.get(0).position() - 1)).toString());
+                    String dateStr=values.get(l2.get(0).position() - 1);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    LocalDateTime dateTime = LocalDateTime.parse(dateStr, formatter);
+                    String isoFormat = dateTime.atZone(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
+                    //  SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                    // data.setDocUtcDate(format2.parse(values.get(l2.get(0).position() - 1)).toString());
+                    data.setDocUtcDate(isoFormat);
                 }
                 Collection<Meta> metasList = new ArrayList<>();
 
@@ -371,9 +373,14 @@ public final class ConnectorJDBCService {
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
                     data.setDocUtcDate(LocalDateTime.now().toString());
                 } else {
+                    String dateStr=values.get(l2.get(0).position() - 1);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    LocalDateTime dateTime = LocalDateTime.parse(dateStr, formatter);
+                    String isoFormat = dateTime.atZone(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
+                  //  SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                   // data.setDocUtcDate(format2.parse(values.get(l2.get(0).position() - 1)).toString());
+                    data.setDocUtcDate(isoFormat);
 
-                    SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                    data.setDocUtcDate(format2.parse(values.get(l2.get(0).position() - 1)).toString());
                 }
                 Collection<Meta> metasList = new ArrayList<>();
 
@@ -420,102 +427,6 @@ public final class ConnectorJDBCService {
 
     }
 
-
-//mettre dans les testes
-    /*public static void main(String[] args){
-       ConnectorJDBC connectorJDBC= ConnectorJDBC.Builder
-                .builder()
-                .withId("test")
-                .withName(UUID.randomUUID().toString())
-                .withclassName("com.mysql.cj.jdbc.Driver")
-                .withjdbcUrl("jdbc:mysql://localhost:3306/testdb_spring")
-                .withpassword("123456")
-                .withtableName("tutorials")
-                .withusername("root")
-                .withHeaders(
-
-                        Collections.singleton(Field.of(
-                                        UUID.randomUUID().toString(),
-                                        "test",
-                                        UUID.randomUUID().toString(),
-                                        1,
-                                        UUID.randomUUID().toString(),
-                                        FieldType.Text,
-                                        false, true
-                                )
-                                .get())
-                                )
-                .build()
-                .get();
-        System.out.println(connectorJDBC);
-
-        ConnectorJDBCDTO jdbcdto=new ConnectorJDBCDTO(connectorJDBC);
-
-
-}*/
-
-    public static String[] parseLine(String line, char separator, char quote, char escape) {
-        StringBuilder sb = new StringBuilder();
-        boolean inQuotes = false;
-        String[] tokens = new String[0];
-        if (line == null || line.isEmpty()) {
-            return tokens;
-        }
-        for (int i = 0; i < line.length(); i++) {
-            char c = line.charAt(i);
-            if (c == escape && i + 1 < line.length()) {
-                sb.append(line.charAt(++i));
-            } else if (c == quote) {
-                inQuotes = !inQuotes;
-            } else if (c == separator && !inQuotes) {
-                tokens = addToken(tokens, sb);
-                sb = new StringBuilder();
-            } else {
-                sb.append(c);
-            }
-        }
-        tokens = addToken(tokens, sb);
-        return tokens;
-    }
-
-    private static String[] addToken(String[] tokens, StringBuilder sb) {
-        String[] newTokens = new String[tokens.length + 1];
-        System.arraycopy(tokens, 0, newTokens, 0, tokens.length);
-        newTokens[tokens.length] = sb.toString();
-        return newTokens;
-    }
-    public List<ProxemDto> updatePost(Collection<ProxemDto> dtos) {
-        try{
-            List<ProxemDto> proxemDto = null;
-            RestTemplate restTemplate = new RestTemplate();
-            ObjectMapper objectMapper = new ObjectMapper();
-            ArrayNode jsonArray = objectMapper.valueToTree(dtos);
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-            headers.add("Authorization", "ApiKey mehdi.khayati@keyrus.com:63cdd92e-adb4-42fe-a655-8e54aeb0653f");
-
-            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            try {
-                String json = ow.writeValueAsString(jsonArray.toString());
-                System.out.println(json);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
-            HttpEntity<String> entity = new HttpEntity<>(jsonArray.toString(), headers);
-
-            ResponseEntity<Object> response = restTemplate.exchange(BASE_POST_URL, HttpMethod.PUT, entity, Object.class);
-            if (response.getStatusCode() == HttpStatus.OK) {
-                proxemDto = (List<ProxemDto>) response.getBody();
-            }
-            return proxemDto;
-        }
-        catch (Exception e){
-            throw new RuntimeException("Error: " + e.getMessage());
-
-        }
-    }
     //////////////////////////getProjectByName///////////////////////////////////
 
     public static ProjectDTO getProjectByName(String id ){
@@ -523,13 +434,6 @@ public final class ConnectorJDBCService {
         ResponseEntity<ProjectDTO> result= restTemplate.getForEntity(PROJECT_URL+"/"+id,ProjectDTO.class);
         return  result.getBody();
     }
-
-/////////////////////////////getProjectByName///////////////////////////////////
-
-/*    public List<ProxemDto> pushToProxem(ConnectorJDBCDTO config) {
-
-        return this.updatePost(CSVDataToJSON(config));
-    }*/
 
 
     private static Error repositoryErrorToServiceError(

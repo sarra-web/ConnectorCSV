@@ -74,7 +74,9 @@ class ConnecteurCSVServiceTest {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.add("Authorization","ApiKey mehdi.khayati@keyrus.com:63cdd92e-adb4-42fe-a655-8e54aeb0653f");
+        String mail="mehdi.khayati@keyrus.com";
+        String userToken="63cdd92e-adb4-42fe-a655-8e54aeb0653f";
+        headers.add("Authorization", "ApiKey "+mail+":"+userToken);
         HttpEntity<String> entity = new HttpEntity<>(jsonArray.toString(), headers);
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);

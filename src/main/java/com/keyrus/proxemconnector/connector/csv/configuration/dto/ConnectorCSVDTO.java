@@ -1,6 +1,7 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Field;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Project;
@@ -12,9 +13,6 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Supplier;
-
-
-
 
 public record ConnectorCSVDTO (
         @JsonProperty
@@ -38,7 +36,7 @@ public record ConnectorCSVDTO (
 
         @JsonProperty
         String projectName,
-       @JsonProperty
+        @JsonProperty
         String userName
 ) {
 
@@ -56,7 +54,7 @@ public record ConnectorCSVDTO (
                 connectorCSV.containsHeaders(),
                 ConnectorCSVDTO.headersToHeaderDTOs(connectorCSV.fields())
                 ,connectorCSV.projectName()
-               ,connectorCSV.userName()
+                ,connectorCSV.userName()
 
                 //, ConnectorCSVDTO.projectToProjectDTO(connectorCSV.project())
         );
@@ -70,7 +68,7 @@ public record ConnectorCSVDTO (
         );
     }
 
-    public Either<Collection<ConnectorCSV.Error>, ConnectorCSV> toConfiguration() {
+    public Either<Collection<Connector.Error>, ConnectorCSV> toConfiguration() {
 
 
         return

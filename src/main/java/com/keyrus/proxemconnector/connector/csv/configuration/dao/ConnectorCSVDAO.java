@@ -52,8 +52,8 @@ public class ConnectorCSVDAO extends ConnectorDAO{
             boolean containsHeaders,
             Collection<FieldDAO> fields
             ,ProjectDAO project
-           //,UserDAO user
-           ,String userName
+            //,UserDAO user
+            ,String userName
     ) {
         this.id=id;
         this.name=name;
@@ -64,9 +64,9 @@ public class ConnectorCSVDAO extends ConnectorDAO{
         this.escapingCaracter = escapingCaracter;
         this.containsHeaders = containsHeaders;
         this.fields=fields;
-         this.project=project;
-         //this.user=user;
-       this.userName=userName;
+        this.project=project;
+        //this.user=user;
+        this.userName=userName;
     }
 
     public ConnectorCSVDAO(
@@ -82,14 +82,14 @@ public class ConnectorCSVDAO extends ConnectorDAO{
                 connectorCSV.escapingCaracter(),
                 connectorCSV.containsHeaders(),
                 ConnectorCSVDAO.headersToHeaderDAOs(
-                connectorCSV.id(),
-                connectorCSV.fields())
+                        connectorCSV.id(),
+                        connectorCSV.fields())
                 ,ConnectorCSVDAO.projectToProjectDAO(ConnectorCSVService.getProjectByName(connectorCSV.projectName()).toProject().get())
-           // ,ConnectorCSVDAO.userToUserDAO(UserServiceConnector.getUserById(connectorCSV.userId()).get().toUser())
-                 ,connectorCSV.userName()
-    );
+                // ,ConnectorCSVDAO.userToUserDAO(UserServiceConnector.getUserById(connectorCSV.userId()).get().toUser())
+                ,connectorCSV.userName()
+        );
         //UserDAO userDAO=userJDBC.save(ConnectorCSVDAO.userToUserDAO(UserServiceConnector.getUserById(connectorCSV.userId()).get().toUser()));
-      //  System.out.println("userDaoooo"+userDAO);
+        //  System.out.println("userDaoooo"+userDAO);
     }
 
     private static ProjectDAO projectToProjectDAO(Project project) {
@@ -143,7 +143,7 @@ public class ConnectorCSVDAO extends ConnectorDAO{
     public  ProjectDAO project() {return this.project;}
     public  String userName() {return this.userName;}
 
-    public final Either<Collection<ConnectorCSV.Error>, ConnectorCSV> toConfiguration() {
+    public final Either<Collection<Connector.Error>, ConnectorCSV> toConfiguration() {
         return
                 ConnectorCSV.Builder
                         .builder()

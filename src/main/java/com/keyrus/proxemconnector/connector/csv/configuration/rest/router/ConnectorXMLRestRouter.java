@@ -1,14 +1,14 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.rest.router;
 
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorDAO;
-import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorCSVDTO;
+import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorXMLDTO;
 import com.keyrus.proxemconnector.connector.csv.configuration.repository.RepCommune;
-import com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector.CSVConnectorJDBCDatabaseRepository;
-import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ConnectorCSVRestHandler;
+import com.keyrus.proxemconnector.connector.csv.configuration.repository.xmlConnector.XMLConnectorJDBCDatabaseRepository;
+import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ConnectorXMLRestHandler;
 import com.keyrus.proxemconnector.connector.csv.configuration.rest.handler.ProjectRestHandler;
 import com.keyrus.proxemconnector.connector.csv.configuration.service.UserServiceConnector;
-import com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService;
 import com.keyrus.proxemconnector.connector.csv.configuration.service.log.Logging;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.xml.ConnectorXMLService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -29,16 +32,16 @@ import static org.springframework.http.HttpStatus.OK;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
-@RequestMapping("/configuration")
+@RequestMapping("/configurationXML")
 @Slf4j
-public class ConnectorCSVRestRouter {
+public class ConnectorXMLRestRouter {
 
-Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
+    Logger logger= LoggerFactory.getLogger(ConnectorXMLRestRouter.class);
 
-    private final ConnectorCSVRestHandler connectorRestHandler;
+    private final ConnectorXMLRestHandler connectorRestHandler;
     private final RepCommune repCommune;
 
-    private final ConnectorCSVService connectorCSVService;
+    private final ConnectorXMLService connectorXMLService;
 
     private Sort.Direction getSortDirection(String direction) {
         if (direction.equals("asc")) {
@@ -50,20 +53,20 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
         return Sort.Direction.ASC;
     }
 
-    public ConnectorCSVRestRouter(
-            final ConnectorCSVRestHandler connectorRestHandler,
-            CSVConnectorJDBCDatabaseRepository CSVConnectorJDBCDatabaseRepository1, ProjectRestHandler projectRestHandler, RepCommune repCommune, UserServiceConnector userServiceConnector,  ConnectorCSVService connectorCSVService) {
+    public ConnectorXMLRestRouter(
+            final ConnectorXMLRestHandler connectorRestHandler,
+            XMLConnectorJDBCDatabaseRepository XMLConnectorJDBCDatabaseRepository1, ProjectRestHandler projectRestHandler, RepCommune repCommune, UserServiceConnector userServiceConnector, ConnectorXMLService connectorXMLService) {
         this.connectorRestHandler = connectorRestHandler;
-       // this.projectRestHandler = projectRestHandler;
+        // this.projectRestHandler = projectRestHandler;
         this.repCommune = repCommune;
 
-        this.connectorCSVService = connectorCSVService;
+        this.connectorXMLService = connectorXMLService;
 
     }
 
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Collection<ConnectorCSVDTO>> findAll(
+    public ResponseEntity<Collection<ConnectorXMLDTO>> findAll(
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
 
     ) {
@@ -73,6 +76,10 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
 
 
     }
+
+
+
+
     @GetMapping("/connectors")
     public ResponseEntity<Map<String, Object>> getAllConnectors(
             @RequestParam(defaultValue = "") String name,
@@ -130,19 +137,19 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
 
 
     @GetMapping(value = "/NameContainsIgnoreCase/{name}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Collection<ConnectorCSVDTO>> findManyByNameContainsIgnoreCase(
+    public ResponseEntity<Collection<ConnectorXMLDTO>> findManyByNameContainsIgnoreCase(
             @PathVariable("name") final String name,
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
     ) {
-        ResponseEntity<Collection<ConnectorCSVDTO>> response= this.connectorRestHandler.findManyByNameContainsIgnoreCase(name, languageCode
+        ResponseEntity<Collection<ConnectorXMLDTO>> response= this.connectorRestHandler.findManyByNameContainsIgnoreCase(name, languageCode
         );
-       // Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),"no docs pushed",response.getBody().stream().collect(Collectors.toSet()).toArray()..userName());
+        // Logging.putInXML(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),"no docs pushed",response.getBody().stream().collect(Collectors.toSet()).toArray()..userName());
         return response;
     }
 
 
     @GetMapping(value = "/{name}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ConnectorCSVDTO> findOneByName(
+    public ResponseEntity<ConnectorXMLDTO> findOneByName(
             @PathVariable("name") final String name,
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
     ) {
@@ -221,7 +228,7 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
                 new ResponseEntity<> (this.repCommune.findById(id).get(), OK);
     }
     @GetMapping(value = "findById/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ConnectorCSVDTO> findOneById(
+    public ResponseEntity<ConnectorXMLDTO> findOneById(
             @PathVariable("id") final String id,
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
     ) {
@@ -234,18 +241,18 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
     }
 
 
-    @PostMapping(value = "/CreateCSVConnector",produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ConnectorCSVDTO> create(
-            @RequestBody final ConnectorCSVDTO connectorCSVDTO,
+    @PostMapping(value = "/CreateXMLConnector",produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ConnectorXMLDTO> create(
+            @RequestBody final ConnectorXMLDTO connectorXMLDTO,
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
     ) {
-        ResponseEntity<ConnectorCSVDTO> a=
+        ResponseEntity<ConnectorXMLDTO> a=
                 this.connectorRestHandler
                         .create(
-                                connectorCSVDTO,
+                                connectorXMLDTO,
                                 languageCode
                         );
-        Logging.putInCSV(LocalDateTime.now().toString(),"configuration/CreateCSVConnector","POST",a .getStatusCode().toString(),"Adding new CSVconnector",connectorCSVDTO.userName());
+        Logging.putInCSV(LocalDateTime.now().toString(),"configuration/CreateXMLConnector","POST",a .getStatusCode().toString(),"Adding new XMLconnector",connectorXMLDTO.userName());
 
         return a;
 
@@ -253,24 +260,24 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
 
 
 
-    @PutMapping(value="/UpadateCSVconnector",produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ConnectorCSVDTO> update(
-            @RequestBody final ConnectorCSVDTO connectorCSVDTO,
+    @PutMapping(value="/UpadateXMLconnector",produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ConnectorXMLDTO> update(
+            @RequestBody final ConnectorXMLDTO connectorXMLDTO,
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
     ) {
 
-        ResponseEntity<ConnectorCSVDTO> b=    this.connectorRestHandler
-                        .update(
-                                connectorCSVDTO,
-                                languageCode
-                        );
+        ResponseEntity<ConnectorXMLDTO> b=    this.connectorRestHandler
+                .update(
+                        connectorXMLDTO,
+                        languageCode
+                );
 
-        Logging.putInCSV(LocalDateTime.now().toString(),"configuration/UpdateCSVConnector","PUT",b .getStatusCode().toString(),"Updating "+connectorCSVDTO.name()+ " CSVconnector",connectorCSVDTO.userName());
+        Logging.putInCSV(LocalDateTime.now().toString(),"configuration/UpdateXMLConnector","PUT",b .getStatusCode().toString(),"Updating "+connectorXMLDTO.name()+ " XMLconnector",connectorXMLDTO.userName());
         return b;
     }
 
     @DeleteMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ConnectorCSVDTO> delete(
+    public ResponseEntity<ConnectorXMLDTO> delete(
             @PathVariable("id") final String id,
             @RequestParam(name = "languageCode", required = false, defaultValue = "en") final String languageCode
     ) {
@@ -293,11 +300,14 @@ Logger logger= LoggerFactory.getLogger(ConnectorCSVRestRouter.class);
 
     }
     @PutMapping(value = "/pushToProxem",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> pushToProxem(@RequestBody ConnectorCSVDTO config){
+    public ResponseEntity<String> pushToProxem(@RequestBody ConnectorXMLDTO config) throws ParserConfigurationException, IOException, SAXException {
 
-        return ConnectorCSVService.pushToProxem(config);
+        return ConnectorXMLService.pushToProxem(config);
     }
 
-
+    @PostMapping("/extract")
+    public ResponseEntity<List<List<String>>> readXML(@RequestBody ConnectorXMLDTO config) throws ParserConfigurationException, IOException, SAXException {
+        return  new ResponseEntity<>(ConnectorXMLService.ReadXML(config), OK);
+    }
 
 }

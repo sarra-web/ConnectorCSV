@@ -1,0 +1,7 @@
+<products>
+    <product>
+        <id>1</id>
+        <name>Product 1</name>
+        <price>10.99</price>
+    </product>  
+</products>

@@ -1,9 +1,9 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.rest.handler;
 
-import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorCSVDTO;
+import com.keyrus.proxemconnector.connector.csv.configuration.dto.ConnectorXMLDTO;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
-import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
-import com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService;
+import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorXML;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.xml.ConnectorXMLService;
 import io.vavr.control.Either;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
@@ -14,48 +14,48 @@ import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public final class ConnectorCSVRestHandler {
+public final class ConnectorXMLRestHandler {
 
-    private static ConnectorCSVRestHandler instance = null;
+    private static ConnectorXMLRestHandler instance = null;
 
-    public static ConnectorCSVRestHandler instance(
-            final ConnectorCSVService connectorCSVService,
+    public static ConnectorXMLRestHandler instance(
+            final ConnectorXMLService connectorXMLService,
             final String errorHeader,
             final MessageSource messageSource
     ) {
         if (Objects.isNull(instance))
             instance =
-                    new ConnectorCSVRestHandler(
-                            connectorCSVService,
+                    new ConnectorXMLRestHandler(
+                            connectorXMLService,
                             errorHeader,
                             messageSource
                     );
         return instance;
     }
 
-    private final ConnectorCSVService connectorCSVService;
+    private final ConnectorXMLService connectorXMLService;
     private final String errorHeader;
     private final MessageSource messageSource;
 
-    private ConnectorCSVRestHandler(
-            final ConnectorCSVService connectorCSVService,
+    private ConnectorXMLRestHandler(
+            final ConnectorXMLService connectorXMLService,
             final String errorHeader,
             final MessageSource messageSource
     ) {
-        this.connectorCSVService = connectorCSVService;
+        this.connectorXMLService = connectorXMLService;
         this.errorHeader = errorHeader;
         this.messageSource = messageSource;
     }
 
-    public ResponseEntity<ConnectorCSVDTO> create(
-            final ConnectorCSVDTO connectorCSVDTO,
+    public ResponseEntity<ConnectorXMLDTO> create(
+            final ConnectorXMLDTO connectorXMLDTO,
             final String languageCode
     ) {
         return
-                ConnectorCSVRestHandler.convertConfigurationDTOToConfigurationThenApplyOnServiceOperation(
-                        this.connectorCSVService,
-                        connectorCSVDTO,
-                        ConnectorCSVService::create,
+                ConnectorXMLRestHandler.convertConfigurationDTOToConfigurationThenApplyOnServiceOperation(
+                        this.connectorXMLService,
+                        connectorXMLDTO,
+                        ConnectorXMLService::create,
                         languageCode,
                         this.errorHeader,
                         this.messageSource
@@ -66,119 +66,119 @@ public final class ConnectorCSVRestHandler {
 
 
 
-    public ResponseEntity<ConnectorCSVDTO> update(
-            final ConnectorCSVDTO connectorCSVDTO,
+    public ResponseEntity<ConnectorXMLDTO> update(
+            final ConnectorXMLDTO connectorXMLDTO,
             final String languageCode
     ) {
         return
-                ConnectorCSVRestHandler.convertConfigurationDTOToConfigurationThenApplyOnServiceOperation(
-                        this.connectorCSVService,
-                        connectorCSVDTO,
-                        ConnectorCSVService::update,
+                ConnectorXMLRestHandler.convertConfigurationDTOToConfigurationThenApplyOnServiceOperation(
+                        this.connectorXMLService,
+                        connectorXMLDTO,
+                        ConnectorXMLService::update,
                         languageCode,
                         this.errorHeader,
                         this.messageSource
                 );
     }
 
-    public ResponseEntity<ConnectorCSVDTO> delete(
+    public ResponseEntity<ConnectorXMLDTO> delete(
             final String id,
             final String languageCode
     ) {
         return
-                this.connectorCSVService
+                this.connectorXMLService
                         .delete(id)
                         .mapLeft(serviceError ->
-                                ConnectorCSVRestHandler.<ConnectorCSVDTO>serviceErrorToRestResponse(
+                                ConnectorXMLRestHandler.<ConnectorXMLDTO>serviceErrorToRestResponse(
                                         serviceError,
                                         languageCode,
                                         this.errorHeader,
                                         this.messageSource
                                 )
                         )
-                        .map(ConnectorCSVRestHandler::toOkResponse)
+                        .map(ConnectorXMLRestHandler::toOkResponse)
                         .fold(
                                 Function.identity(),
                                 Function.identity()
                         );
     }
-    public ResponseEntity<Collection<ConnectorCSVDTO>> findAll(final String languageCode) {
-        return this.connectorCSVService
+    public ResponseEntity<Collection<ConnectorXMLDTO>> findAll(final String languageCode) {
+        return this.connectorXMLService
                 .findAll()
                 .mapLeft(serviceError ->
-                        ConnectorCSVRestHandler.<Collection<ConnectorCSVDTO>>serviceErrorToRestResponse(
+                        ConnectorXMLRestHandler.<Collection<ConnectorXMLDTO>>serviceErrorToRestResponse(
                                 serviceError,
                                 languageCode,
                                 this.errorHeader,
                                 this.messageSource
                         )
                 )
-                .map(ConnectorCSVRestHandler::toOkResponseForManyDTO)
+                .map(ConnectorXMLRestHandler::toOkResponseForManyDTO)
                 .fold(Function.identity(),
                         Function.identity());
     }
-    public ResponseEntity<ConnectorCSVDTO> findOneByName(final String name, String languageCode) {
+    public ResponseEntity<ConnectorXMLDTO> findOneByName(final String name, String languageCode) {
         return
-                this.connectorCSVService
+                this.connectorXMLService
                         .findOneByName(name)
                         .mapLeft(serviceError ->
-                                ConnectorCSVRestHandler.<ConnectorCSVDTO>serviceErrorToRestResponse(
+                                ConnectorXMLRestHandler.<ConnectorXMLDTO>serviceErrorToRestResponse(
                                         serviceError,
                                         languageCode,
                                         this.errorHeader,
                                         this.messageSource
                                 )
                         )
-                        .map(ConnectorCSVRestHandler::toOkResponse)
+                        .map(ConnectorXMLRestHandler::toOkResponse)
                         .fold(
                                 Function.identity(),
                                 Function.identity()
                         );
 
     }
-    public ResponseEntity<ConnectorCSVDTO> findOneById(final String id, String languageCode) {
+    public ResponseEntity<ConnectorXMLDTO> findOneById(final String id, String languageCode) {
         return
-                this.connectorCSVService
+                this.connectorXMLService
                         .findOneById(id)
                         .mapLeft(serviceError ->
-                                ConnectorCSVRestHandler.<ConnectorCSVDTO>serviceErrorToRestResponse(
+                                ConnectorXMLRestHandler.<ConnectorXMLDTO>serviceErrorToRestResponse(
                                         serviceError,
                                         languageCode,
                                         this.errorHeader,
                                         this.messageSource
                                 )
                         )
-                        .map(ConnectorCSVRestHandler::toOkResponse)
+                        .map(ConnectorXMLRestHandler::toOkResponse)
                         .fold(
                                 Function.identity(),
                                 Function.identity()
                         );
 
     }
-    public ResponseEntity<Collection<ConnectorCSVDTO>> findManyByNameContainsIgnoreCase(final String name, final String languageCode) {
-        return this.connectorCSVService
+    public ResponseEntity<Collection<ConnectorXMLDTO>> findManyByNameContainsIgnoreCase(final String name, final String languageCode) {
+        return this.connectorXMLService
                 .findManyByNameContainsIgnoreCase(name)
                 .mapLeft(serviceError ->
-                        ConnectorCSVRestHandler.<Collection<ConnectorCSVDTO>>serviceErrorToRestResponse(
+                        ConnectorXMLRestHandler.<Collection<ConnectorXMLDTO>>serviceErrorToRestResponse(
                                 serviceError,
                                 languageCode,
                                 this.errorHeader,
                                 this.messageSource
                         )
                 )
-                .map(ConnectorCSVRestHandler::toOkResponseForManyDTO)
+                .map(ConnectorXMLRestHandler::toOkResponseForManyDTO)
                 .fold(Function.identity(),
                         Function.identity());
     }
 
-    private static ResponseEntity<Collection<ConnectorCSVDTO>> toOkResponseForManyDTO(
-            final Collection<ConnectorCSV> connectorCSVS
+    private static ResponseEntity<Collection<ConnectorXMLDTO>> toOkResponseForManyDTO(
+            final Collection<ConnectorXML> connectorXMLS
     ) {
         return
                 ResponseEntity.ok(
 
-                        connectorCSVS.stream().map(
-                                ConnectorCSVDTO::new
+                        connectorXMLS.stream().map(
+                                ConnectorXMLDTO::new
                         ).toList()
 
                 );
@@ -186,31 +186,31 @@ public final class ConnectorCSVRestHandler {
 
     }
 
-    private static ResponseEntity<ConnectorCSVDTO> convertConfigurationDTOToConfigurationThenApplyOnServiceOperation(
-            final ConnectorCSVService connectorCSVService,
-            final ConnectorCSVDTO connectorCSVDTO,
-            final BiFunction<ConnectorCSVService, ConnectorCSV, Either<ConnectorCSVService.Error, ConnectorCSV>> serviceOperation,
+    private static ResponseEntity<ConnectorXMLDTO> convertConfigurationDTOToConfigurationThenApplyOnServiceOperation(
+            final ConnectorXMLService connectorXMLService,
+            final ConnectorXMLDTO connectorXMLDTO,
+            final BiFunction<ConnectorXMLService, ConnectorXML, Either<ConnectorXMLService.Error, ConnectorXML>> serviceOperation,
             final String languageCode,
             final String errorHeader,
             final MessageSource messageSource
     ) {
         return
-                ConnectorCSVRestHandler.<ConnectorCSVDTO>configurationDTOToConfiguration(
-                                connectorCSVDTO,
+                ConnectorXMLRestHandler.<ConnectorXMLDTO>configurationDTOToConfiguration(
+                                connectorXMLDTO,
                                 languageCode,
                                 errorHeader,
                                 messageSource
                         )
                         .flatMap(
-                                ConnectorCSVRestHandler.executeOnService(
-                                        connectorCSVService,
+                                ConnectorXMLRestHandler.executeOnService(
+                                        connectorXMLService,
                                         serviceOperation,
                                         languageCode,
                                         errorHeader,
                                         messageSource
                                 )
                         )
-                        .map(ConnectorCSVRestHandler::toOkResponse)
+                        .map(ConnectorXMLRestHandler::toOkResponse)
                         .fold(
                                 Function.identity(),
                                 Function.identity()
@@ -218,9 +218,9 @@ public final class ConnectorCSVRestHandler {
     }
 
 
-    private static Function<ConnectorCSV, Either<ResponseEntity<ConnectorCSVDTO>, ConnectorCSV>> executeOnService(
-            final ConnectorCSVService connectorCSVService,
-            final BiFunction<ConnectorCSVService, ConnectorCSV, Either<ConnectorCSVService.Error, ConnectorCSV>> serviceOperation,
+    private static Function<ConnectorXML, Either<ResponseEntity<ConnectorXMLDTO>, ConnectorXML>> executeOnService(
+            final ConnectorXMLService connectorXMLService,
+            final BiFunction<ConnectorXMLService, ConnectorXML, Either<ConnectorXMLService.Error, ConnectorXML>> serviceOperation,
             final String languageCode,
             final String errorHeader,
             final MessageSource messageSource
@@ -228,11 +228,11 @@ public final class ConnectorCSVRestHandler {
         return
                 configuration ->
                         serviceOperation.apply(
-                                        connectorCSVService,
+                                        connectorXMLService,
                                         configuration
                                 )
                                 .mapLeft(serviceError ->
-                                        ConnectorCSVRestHandler.serviceErrorToRestResponse(
+                                        ConnectorXMLRestHandler.serviceErrorToRestResponse(
                                                 serviceError,
                                                 languageCode,
                                                 errorHeader,
@@ -242,16 +242,16 @@ public final class ConnectorCSVRestHandler {
     }
 
 
-    private static <RESPONSE> Either<ResponseEntity<RESPONSE>, ConnectorCSV> configurationDTOToConfiguration(
-            final ConnectorCSVDTO connectorCSVDTO,
+    private static <RESPONSE> Either<ResponseEntity<RESPONSE>, ConnectorXML> configurationDTOToConfiguration(
+            final ConnectorXMLDTO connectorXMLDTO,
             final String languageCode,
             final String errorHeader,
             final MessageSource messageSource
     ) {
         return
-                connectorCSVDTO.toConfiguration()
+                connectorXMLDTO.toConfiguration()
                         .mapLeft(configurationErrors ->
-                                ConnectorCSVRestHandler.configurationErrorsToRestResponse(
+                                ConnectorXMLRestHandler.configurationErrorsToRestResponse(
                                         configurationErrors,
                                         languageCode,
                                         errorHeader,
@@ -260,25 +260,25 @@ public final class ConnectorCSVRestHandler {
                         );
     }
 
-    private static ResponseEntity<ConnectorCSVDTO> toOkResponse(
-            final ConnectorCSV connectorCSV
+    private static ResponseEntity<ConnectorXMLDTO> toOkResponse(
+            final ConnectorXML connectorXML
     ) {
         return
                 ResponseEntity.ok(
-                        new ConnectorCSVDTO(
-                                connectorCSV
+                        new ConnectorXMLDTO(
+                                connectorXML
                         )
                 );
     }
 
     private static <RESPONSE> ResponseEntity<RESPONSE> serviceErrorToRestResponse(
-            final ConnectorCSVService.Error serviceError,
+            final ConnectorXMLService.Error serviceError,
             final String languageCode,
             final String errorHeader,
             final MessageSource messageSource
     ) {
         return
-                serviceError instanceof ConnectorCSVService.Error.IO
+                serviceError instanceof ConnectorXMLService.Error.IO
                         ?
                         ResponseEntity
                                 .internalServerError()
@@ -288,7 +288,7 @@ public final class ConnectorCSVRestHandler {
                                 .badRequest()
                                 .header(
                                         errorHeader,
-                                        ConnectorCSVRestHandler.i18nMessageOrCode(
+                                        ConnectorXMLRestHandler.i18nMessageOrCode(
                                                 serviceError.message(),
                                                 languageCode,
                                                 messageSource
@@ -325,7 +325,7 @@ public final class ConnectorCSVRestHandler {
         return
                 configurationErrors.stream()
                         .map(error ->
-                                ConnectorCSVRestHandler.configurationErrorToRestHeader(
+                                ConnectorXMLRestHandler.configurationErrorToRestHeader(
                                         error,
                                         languageCode,
                                         messageSource
@@ -340,7 +340,7 @@ public final class ConnectorCSVRestHandler {
             final MessageSource messageSource
     ) {
         return
-                ConnectorCSVRestHandler.i18nMessageOrCode(
+                ConnectorXMLRestHandler.i18nMessageOrCode(
                         configurationError.message(),
                         languageCode,
                         messageSource

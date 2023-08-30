@@ -13,14 +13,14 @@ public abstract class Connector {
             final String id,
             final String name,
             final Collection<Field> fields
-            ,final String projectName
-           ,final String userName
+            , final String projectName
+            , final String userName
     ) {
         this.id = id;
         this.name = name;
         this.fields = fields;
-         this.projectName = projectName;
-       this.userName = userName;
+        this.projectName = projectName;
+        this.userName = userName;
     }
 
 
@@ -31,15 +31,19 @@ public abstract class Connector {
     public String id() {
         return this.id;
     }
+
     public Collection<Field> fields() {
         return this.fields;
     }
+
     public String projectName() {
         return this.projectName;
     }
-   public String userName() {
+
+    public String userName() {
         return this.userName;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,4 +75,89 @@ public abstract class Connector {
                 ", projectName='" + projectName + '\'' +
                 '}';
     }
+
+
+    public  interface Error {
+
+        default String message() {
+            return this.getClass().getCanonicalName();
+        }
+
+        final class IdMalformed implements Error {
+            protected IdMalformed() {
+            }
+        }
+
+        final class NameMalformed implements Error {
+            public NameMalformed() {
+            }
+        }
+
+        final class HeaderMalformed implements Error {
+            public HeaderMalformed() {
+            }
+        }
+
+        final class IdHeaderMissing implements Error {
+            public IdHeaderMissing() {
+            }
+        }
+
+        final class HeadersSequenceMalformed implements Error {
+            public HeadersSequenceMalformed() {
+            }
+        }
+
+        interface Header extends Error {
+
+            final class IdMalformed implements Header {
+                public IdMalformed() {
+                }
+            }
+
+            final class ReferenceConnectorMalformed implements Header {
+                public ReferenceConnectorMalformed() {
+                }
+            }
+
+            final class NameMalformed implements Header {
+                public NameMalformed() {
+                }
+            }
+
+            final class PositionMalformed implements Header {
+                public PositionMalformed() {
+                }
+            }
+
+            final class MetaMalformed implements Header {
+                public MetaMalformed() {
+                }
+            }
+
+            final class NullOrEmptyRestrictionCombination implements Header {
+                public NullOrEmptyRestrictionCombination() {
+                }
+            }
+        }
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

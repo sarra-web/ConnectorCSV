@@ -3,7 +3,6 @@ package com.keyrus.proxemconnector.connector.csv.configuration.repository.jdbcCo
 
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorJDBCDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorJDBC;
-import com.keyrus.proxemconnector.connector.csv.configuration.repository.project.ProjectJDBCDatabaseRepository;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
 import org.springframework.data.domain.Page;
@@ -18,8 +17,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class JDBCJDBCConnectorDatabaseRepository implements JDBCConnectorRepository {
-
-    private static ProjectJDBCDatabaseRepository projectJDBCDatabaseRepository;
     private static JDBCJDBCConnectorDatabaseRepository instance = null;
 
     public static JDBCJDBCConnectorDatabaseRepository instance(
@@ -393,26 +390,6 @@ public final class JDBCJDBCConnectorDatabaseRepository implements JDBCConnectorR
                 );
     }
 
-    private static Supplier<Either<Error, ConnectorJDBC>> createConfiguration2(
-            final ConnectorJDBC connectorJDBC,
-            final JDBCConnectorJDBCDatabaseRepository JDBCConnectorJDBCDatabaseRepository
-            ,final String idProject
-    ) {
-        ConnectorJDBCDAO connectorJDBCDAO=new ConnectorJDBCDAO(
-                connectorJDBC);
-       //  connectorJDBCDAO.setProjectDAO(projectJDBCDatabaseRepository.findOneById(idProject));
-
-
-        return
-                JDBCJDBCConnectorDatabaseRepository.executeOnRepositoryForSingleResult(
-                        JDBCConnectorJDBCDatabaseRepository,
-                        it ->
-                                it.save(connectorJDBCDAO
-
-                                        )
-                                );
-
-    }
 
     private static Supplier<Either<Error, ConnectorJDBC>> executeOnRepositoryForSingleResult(
             final JDBCConnectorJDBCDatabaseRepository JDBCConnectorJDBCDatabaseRepository,

@@ -1,8 +1,8 @@
 package com.keyrus.proxemconnector.connector.csv.configuration.repository.csvConnector;
 
 import com.keyrus.proxemconnector.connector.csv.configuration.dao.ConnectorCSVDAO;
+import com.keyrus.proxemconnector.connector.csv.configuration.model.Connector;
 import com.keyrus.proxemconnector.connector.csv.configuration.model.ConnectorCSV;
-import com.keyrus.proxemconnector.connector.csv.configuration.repository.project.ProjectJDBCDatabaseRepository;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
 import org.springframework.data.domain.Page;
@@ -18,7 +18,6 @@ import java.util.stream.Stream;
 
 public final class CSVConnectorDatabaseRepository implements CSVConnectorRepository {
 
-    private static ProjectJDBCDatabaseRepository projectJDBCDatabaseRepository;
     private static CSVConnectorDatabaseRepository instance = null;
 
     public static CSVConnectorDatabaseRepository instance(
@@ -263,13 +262,7 @@ public final class CSVConnectorDatabaseRepository implements CSVConnectorReposit
                 .mapLeft(CSVConnectorDatabaseRepository::configurationErrorsToRespositoryError)).collect(Collectors.toList());
 
     }
-    private static Collection<ConnectorCSV> findValidConnectors(final Collection<Either<Error, ConnectorCSV>> collection) {
-        return collection.
-                stream()
-                .filter(Either::isRight).
-                map(Either::get)
-                .collect(Collectors.toList());
-    }
+
 
 
     private static Supplier<Optional<Error>> checkConfigurationIdDoesNotExist(
@@ -392,26 +385,7 @@ public final class CSVConnectorDatabaseRepository implements CSVConnectorReposit
                 );
     }
 
-    private static Supplier<Either<Error, ConnectorCSV>> createConfiguration2(
-            final ConnectorCSV connectorCSV,
-            final CSVConnectorJDBCDatabaseRepository CSVConnectorJDBCDatabaseRepository
-            ,final String idProject
-    ) {
-        ConnectorCSVDAO connectorCSVDAO=new ConnectorCSVDAO(
-                connectorCSV);
-       //  connectorCSVDAO.setProjectDAO(projectJDBCDatabaseRepository.findOneById(idProject));
 
-
-        return
-                CSVConnectorDatabaseRepository.executeOnRepositoryForSingleResult(
-                        CSVConnectorJDBCDatabaseRepository,
-                        it ->
-                                it.save(connectorCSVDAO
-
-                                        )
-                                );
-
-    }
 
     private static Supplier<Either<Error, ConnectorCSV>> executeOnRepositoryForSingleResult(
             final CSVConnectorJDBCDatabaseRepository CSVConnectorJDBCDatabaseRepository,
@@ -434,12 +408,12 @@ public final class CSVConnectorDatabaseRepository implements CSVConnectorReposit
     }
 
     private static Error configurationErrorsToRespositoryError(
-            final Collection<ConnectorCSV.Error> configurationErrors
+            final Collection<Connector.Error> configurationErrors
     ) {
         return
                 new Error.IO(
                         configurationErrors.stream()
-                                .map(ConnectorCSV.Error::message)
+                                .map(Connector.Error::message)
                                 .collect(Collectors.joining(", "))
                 );
     }

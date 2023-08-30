@@ -17,3 +17,10 @@ services:
     image: adminer:4.8.1-standalone
     ports:
       - "9180:8080"
+  proxem_connector_app:
+    container_name: proxem_connector_app
+    image: proxemconnector.jar
+    ports:
+      - "8080:8080"
+
+

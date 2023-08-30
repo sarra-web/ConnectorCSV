@@ -7,8 +7,10 @@ import com.keyrus.proxemconnector.connector.csv.configuration.dao.FieldDAO;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.Meta;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.ProxemDto;
 import com.keyrus.proxemconnector.connector.csv.configuration.dto.TextPart;
-import com.keyrus.proxemconnector.connector.csv.configuration.service.log.Logging;
+import com.keyrus.proxemconnector.connector.csv.configuration.enumerations.QueryMode;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.UserServiceConnector;
 import com.keyrus.proxemconnector.connector.csv.configuration.service.csv.ConnectorCSVService;
+import com.keyrus.proxemconnector.connector.csv.configuration.service.log.Logging;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -21,16 +23,16 @@ import org.springframework.web.client.RestTemplate;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.keyrus.proxemconnector.connector.csv.configuration.service.jdbc.ConnectorJDBCService.getNameColumns;
-import static com.keyrus.proxemconnector.connector.csv.configuration.service.jdbc.ConnectorJDBCService.getNumCol;
+import static com.keyrus.proxemconnector.connector.csv.configuration.rest.router.ConnectorJDBCRestRouter.countOccurrences;
+import static com.keyrus.proxemconnector.connector.csv.configuration.service.jdbc.ConnectorJDBCService.*;
 
 @Component
 public class ScanJobJDBC extends QuartzJobBean {
@@ -54,43 +56,50 @@ public class ScanJobJDBC extends QuartzJobBean {
     }
 
 
-     //@Scheduled(cron ="0 * * ? * *" ) every minute
-    // @Async
-     public static String[] parseLine(String line, char separator, char quote, char escape) {
-         StringBuilder sb = new StringBuilder();
-         boolean inQuotes = false;
-         String[] tokens = new String[0];
-         if (line == null || line.isEmpty()) {
-             return tokens;
-         }
-         for (int i = 0; i < line.length(); i++) {
-             char c = line.charAt(i);
-             if (c == escape && i + 1 < line.length()) {
-                 sb.append(line.charAt(++i));
-             } else if (c == quote) {
-                 inQuotes = !inQuotes;
-             } else if (c == separator && !inQuotes) {
-                 tokens = addToken(tokens, sb);
-                 sb = new StringBuilder();
-             } else {
-                 sb.append(c);
-             }
-         }
-         tokens = addToken(tokens, sb);
-         return tokens;
-     }
 
-    public static String generateRecordID(int position, String fileName) {
-        return String.format("%s_%s_%d",  LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")), fileName, position);
+
+    public static String maxValue(final ConnectorJDBCDAO config){
+        try{
+            Class.forName(config.className());
+            Connection connection= DriverManager.getConnection(config.jdbcUrl(),config.username(),config.password());
+            Statement statement=connection.createStatement();
+            String queryGlobal="Select * from "+config.getTableName();
+            String queryMax = "SELECT MAX("+config.checkpointColumn()+") AS valeur_max FROM "+ config.getTableName();
+            System.out.println(queryMax);
+        ResultSet resultSet = statement.executeQuery(queryGlobal);
+
+            ResultSet resultSet2 = statement.executeQuery(queryMax);
+
+           // int columnIndex = resultSet2.findColumn(config.getCheckpointColumn());
+
+            if (resultSet2.next()) {
+                java.sql.Timestamp valeurMax = resultSet2.getTimestamp("valeur_max");
+
+                System.out.println("La valeur maximale de ModifiedDate est : " + valeurMax);
+                System.out.println("maaaax"+valeurMax.toString());
+            return valeurMax.toString();
+            }
+            else return "error";
+
+    } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
     }
-    private static String[] addToken(String[] tokens, StringBuilder sb) {
-        String[] newTokens = new String[tokens.length + 1];
-        System.arraycopy(tokens, 0, newTokens, 0, tokens.length);
-        newTokens[tokens.length] = sb.toString();
-        return newTokens;
-    }
-     public static   List<ProxemDto> JDBCDataToJSON(final ConnectorJDBCDAO config)  {
-        String query=config.initialQuery();
+        public static   List<ProxemDto> JDBCDataToJSON(final ConnectorJDBCDAO config)  {
+            String  query="";
+           if (config.getMode().equals(QueryMode.Incremental)){
+         String query1 = config.incrementalQuery();
+           query = query1.replace("$("+config.incrementalVariable()+")", maxValue(config));
+         System.out.println("voila"+query);}
+           else {
+                 query=config.initialQuery();
+           }
+
+         //   String query=config.initialQuery();
+
        /*  if(config.mode()== QueryMode.Full){
              query = config.initialQuery();}
          else{
@@ -131,8 +140,13 @@ public class ScanJobJDBC extends QuartzJobBean {
                      data.setDocUtcDate(LocalDateTime.now().toString());
                  } else {
 
-                     SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                     data.setDocUtcDate(format2.parse(values.get(l2.get(0).getPosition() - 1)).toString());
+                     String dateStr=values.get(l2.get(0).getPosition() - 1);
+                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                     LocalDateTime dateTime = LocalDateTime.parse(dateStr, formatter);
+                     String isoFormat = dateTime.atZone(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
+                     //  SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                     // data.setDocUtcDate(format2.parse(values.get(l2.get(0).position() - 1)).toString());
+                     data.setDocUtcDate(isoFormat);
                  }
                  Collection<Meta> metasList = new ArrayList<>();
 
@@ -179,7 +193,6 @@ public class ScanJobJDBC extends QuartzJobBean {
      }
     //@Scheduled(cron = "${cron-string}")
     private void pushToProxem(ConnectorJDBCDAO connectorJDBCDAO) {
-        Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT","200","x docs pushed",connectorJDBCDAO.userName());
 
         List<ProxemDto> proxemDtos = JDBCDataToJSON(connectorJDBCDAO);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -189,7 +202,9 @@ public class ScanJobJDBC extends QuartzJobBean {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.add("Authorization","ApiKey mehdi.khayati@keyrus.com:63cdd92e-adb4-42fe-a655-8e54aeb0653f");
+        String mail= UserServiceConnector.getUserByName(connectorJDBCDAO.userName()).get().getEmail() /*"mehdi.khayati@keyrus.com"*/;
+        String userToken=UserServiceConnector.getUserByName(connectorJDBCDAO.userName()).get().getUserToken()  /*"63cdd92e-adb4-42fe-a655-8e54aeb0653f"*/;
+        headers.add("Authorization", "ApiKey "+mail+":"+userToken);
         HttpEntity<String> entity = new HttpEntity<>(jsonArray.toString(), headers);
 
         ResponseEntity<String> response =   restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
@@ -201,21 +216,6 @@ public class ScanJobJDBC extends QuartzJobBean {
             Logging.putInCSV(LocalDateTime.now().toString(),"/pushToProxem","PUT",response.getStatusCode().toString(),"no docs pushed",connectorJDBCDAO.userName());
         }
     }
-    static int countOccurrences(String str, String word)
-    {
-        // split the string by spaces in a
-        String a[] = str.split(",");
 
-        // search for pattern in a
-        int count = 0;
-        for (int i = 0; i < a.length; i++)
-        {
-            // if match found increase count
-            if (word.equals(a[i]))
-                count++;
-        }
-
-        return count;
-    }
 
 }

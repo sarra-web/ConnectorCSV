@@ -67,16 +67,6 @@ public class SquedulerController {
     }
 
 
-
-
-
-
-
-
-
-
-
-
     @GetMapping("/SquedulerDAOs/{id}")
     public ResponseEntity<SquedulerDAO> getSquedulerById(@PathVariable(value = "id") Long id) {
         SquedulerDAO SquedulerDAO = squedulerJDBC.findById(id)
@@ -102,7 +92,11 @@ public class SquedulerController {
                 .orElseThrow(() -> new ResourceNotFoundException("SquedulerDAOId " + id + "not found"));
 
         squedulerDAO.setName(squedulerDAORequest.getName());
-
+        squedulerDAO.setStartsTime(squedulerDAORequest.getStartsTime());
+        squedulerDAO.setEndTime(squedulerDAORequest.getEndTime());
+        squedulerDAO.setScanMode(squedulerDAORequest.getScanMode());
+        squedulerDAO.setCronExpression(squedulerDAORequest.getCronExpression());
+        squedulerDAO.setJobId(squedulerDAORequest.getJobId());
         return new ResponseEntity<>(squedulerJDBC.save(squedulerDAO), OK);
     }
 
