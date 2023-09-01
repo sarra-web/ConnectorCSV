@@ -23,8 +23,8 @@ import java.util.UUID;
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/ScheduleScanCSV")
-public class ScanJobSchedulerController {
-    private static final Logger logger = LoggerFactory.getLogger(ScanJobSchedulerController.class);
+public class CSVScanJobSchedulerController {
+    private static final Logger logger = LoggerFactory.getLogger(CSVScanJobSchedulerController.class);
 
     @Autowired
     private Scheduler scheduler;
@@ -43,11 +43,11 @@ public class ScanJobSchedulerController {
             this.value = value;
         }}
     @PostMapping("/delete")
-    public ResponseEntity<ScanJobSchedulerController.DeleteScheduleDTOResponse> deleteJob(@RequestBody JobKeyDTO jobKeyDTO) throws SchedulerException {
+    public ResponseEntity<DeleteScheduleDTOResponse> deleteJob(@RequestBody JobKeyDTO jobKeyDTO) throws SchedulerException {
 
         boolean res=  scheduler.deleteJob(new JobKey(jobKeyDTO.getJobId(),jobKeyDTO.getJobGroup()));
 
-        ScanJobSchedulerController.DeleteScheduleDTOResponse dtoResponse=new ScanJobSchedulerController.DeleteScheduleDTOResponse(res);
+        DeleteScheduleDTOResponse dtoResponse=new DeleteScheduleDTOResponse(res);
         // RestController response =new ResponseEntity<DeleteScheduleDTOResponse>(res) ;
         return ResponseEntity.ok(dtoResponse);
     }

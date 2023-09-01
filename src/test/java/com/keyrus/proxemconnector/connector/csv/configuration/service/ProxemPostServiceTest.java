@@ -123,7 +123,7 @@ class ProxemPostServiceTest {
 
         ConnectorCSVDTO dto=(new ConnectorCSVDTO(connnectorCSV));
         System.out.println(dto);
-        List<ProxemDto> proxemDtos =connectorCSVService.updatePost( CSVDataToJSON(dto));
+        List<ProxemDto> proxemDtos =ConnectorCSVService.CSVDataToJSON(dto);
         System.out.println(proxemDtos );
 
 
