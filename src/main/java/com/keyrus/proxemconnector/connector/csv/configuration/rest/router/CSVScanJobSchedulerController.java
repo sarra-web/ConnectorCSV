@@ -23,16 +23,12 @@ import java.util.UUID;
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/ScheduleScanCSV")
-public class CSVScanJobSchedulerController {
-    private static final Logger logger = LoggerFactory.getLogger(CSVScanJobSchedulerController.class);
+public class ScanJobSchedulerController {
+    private static final Logger logger = LoggerFactory.getLogger(ScanJobSchedulerController.class);
 
     @Autowired
     private Scheduler scheduler;
-<<<<<<< HEAD:src/main/java/com/keyrus/proxemconnector/connector/csv/configuration/rest/router/CSVScanJobSchedulerController.java
     static class DeleteScheduleDTOResponse {
-=======
-    class DeleteScheduleDTOResponse {
->>>>>>> 19e97ebe77e87f9c7cbee704e10b94b253111afa:src/main/java/com/keyrus/proxemconnector/connector/csv/configuration/rest/router/ScanJobSchedulerController.java
         private boolean value;
 
         public DeleteScheduleDTOResponse(boolean value) {
@@ -46,74 +42,52 @@ public class CSVScanJobSchedulerController {
         public void setValue(boolean value) {
             this.value = value;
         }}
-<<<<<<< HEAD:src/main/java/com/keyrus/proxemconnector/connector/csv/configuration/rest/router/CSVScanJobSchedulerController.java
     @PostMapping("/delete")
-    public ResponseEntity<CSVScanJobSchedulerController.DeleteScheduleDTOResponse> deleteJob(@RequestBody JobKeyDTO jobKeyDTO) throws SchedulerException {
+    public ResponseEntity<ScanJobSchedulerController.DeleteScheduleDTOResponse> deleteJob(@RequestBody JobKeyDTO jobKeyDTO) throws SchedulerException {
 
         boolean res=  scheduler.deleteJob(new JobKey(jobKeyDTO.getJobId(),jobKeyDTO.getJobGroup()));
 
-        CSVScanJobSchedulerController.DeleteScheduleDTOResponse dtoResponse=new CSVScanJobSchedulerController.DeleteScheduleDTOResponse(res);
+        ScanJobSchedulerController.DeleteScheduleDTOResponse dtoResponse=new ScanJobSchedulerController.DeleteScheduleDTOResponse(res);
         // RestController response =new ResponseEntity<DeleteScheduleDTOResponse>(res) ;
         return ResponseEntity.ok(dtoResponse);
     }
 
     @PostMapping()
-    public ResponseEntity<ScheduleDTOResponse> scheduleScanCSV(@Valid @RequestBody ScheduleDTORequestCSV scheduleDTORequestCSV) throws SchedulerException {
-=======
-   @PostMapping("/delete")
-    public ResponseEntity<DeleteScheduleDTOResponse> deleteJob(@Valid @RequestBody  ScheduleDTOResponse scheduleDTOResponse) throws SchedulerException {
-       System.out.println("reeeeeeees:"+scheduleDTOResponse);
-       boolean res= scheduler.deleteJob(new JobKey(scheduleDTOResponse.getJobId(),scheduleDTOResponse.getJobGroup()));
-       System.out.println("reeeeeeees:"+res);
-       DeleteScheduleDTOResponse dtoResponse=new DeleteScheduleDTOResponse(res);
-      // RestController response =new ResponseEntity<DeleteScheduleDTOResponse>(res) ;
-       return ResponseEntity.ok(dtoResponse);
-   }
-    @PostMapping()
-    public ResponseEntity<ScheduleDTOResponse> scheduleScanCSV(@Valid @RequestBody ScheduleDTORequest scheduleDTORequest) throws SchedulerException {
->>>>>>> 19e97ebe77e87f9c7cbee704e10b94b253111afa:src/main/java/com/keyrus/proxemconnector/connector/csv/configuration/rest/router/ScanJobSchedulerController.java
+    public ResponseEntity<ScheduleDTOResponse> scheduleScanCSV(@Valid @RequestBody ScheduleDTORequestCSV scheduleDTORequest) throws SchedulerException {
         try {
-            ZonedDateTime dateTime = ZonedDateTime.of(scheduleDTORequestCSV.getDateTime(), scheduleDTORequestCSV.getTimeZone());
+            ZonedDateTime dateTime = ZonedDateTime.of(scheduleDTORequest.getDateTime(), scheduleDTORequest.getTimeZone());
             if(dateTime.isBefore(ZonedDateTime.now())) {
                 ScheduleDTOResponse scheduleDTOResponse = new ScheduleDTOResponse(false,
                         "dateTime must be after current time");
-             ResponseEntity<ScheduleDTOResponse> res= ResponseEntity.badRequest().body(scheduleDTOResponse);
+                ResponseEntity<ScheduleDTOResponse> res= ResponseEntity.badRequest().body(scheduleDTOResponse);
 
-<<<<<<< HEAD:src/main/java/com/keyrus/proxemconnector/connector/csv/configuration/rest/router/CSVScanJobSchedulerController.java
-                Logging.putInCSV(LocalDateTime.now().toString(),"/ScheduleScanCSV","POST",res.getStatusCode().toString(),"dateTime must be after current time", scheduleDTORequestCSV.getConnectorDAO().userName());
-=======
                 Logging.putInCSV(LocalDateTime.now().toString(),"/ScheduleScanCSV","POST",res.getStatusCode().toString(),"dateTime must be after current time",scheduleDTORequest.getConnectorDAO().userName());
->>>>>>> 19e97ebe77e87f9c7cbee704e10b94b253111afa:src/main/java/com/keyrus/proxemconnector/connector/csv/configuration/rest/router/ScanJobSchedulerController.java
                 return res;
             }
 
 
-            JobDetail jobDetail = buildJobDetail(scheduleDTORequestCSV);
-            if( (scheduleDTORequestCSV.getCronExpression()!=null)&&(scheduleDTORequestCSV.getEndTime()!=null)){
-                ZonedDateTime dateTimeEnd = ZonedDateTime.of(scheduleDTORequestCSV.getEndTime(), scheduleDTORequestCSV.getTimeZone());
+            JobDetail jobDetail = buildJobDetail(scheduleDTORequest);
+            if( (scheduleDTORequest.getCronExpression()!=null)&&(scheduleDTORequest.getEndTime()!=null)){
+                ZonedDateTime dateTimeEnd = ZonedDateTime.of(scheduleDTORequest.getEndTime(), scheduleDTORequest.getTimeZone());
 
                 CronTrigger crontrigger = TriggerBuilder.newTrigger()
-                    .withSchedule(CronScheduleBuilder.cronSchedule(scheduleDTORequestCSV.getCronExpression()))
-                    .startAt(Date.from(dateTime.toInstant()))
-                    .endAt(Date.from(dateTimeEnd.toInstant()))
-                    .build();
+                        .withSchedule(CronScheduleBuilder.cronSchedule(scheduleDTORequest.getCronExpression()))
+                        .startAt(Date.from(dateTime.toInstant()))
+                        .endAt(Date.from(dateTimeEnd.toInstant()))
+                        .build();
 
-            scheduler.scheduleJob(jobDetail, crontrigger);}
+                scheduler.scheduleJob(jobDetail, crontrigger);}
 
 
             else{
 
-             Trigger trigger = buildJobTrigger(jobDetail, dateTime);
-            scheduler.scheduleJob(jobDetail, trigger);}
+                Trigger trigger = buildJobTrigger(jobDetail, dateTime);
+                scheduler.scheduleJob(jobDetail, trigger);}
 
             ScheduleDTOResponse scheduleDTOResponse = new ScheduleDTOResponse(true,
                     jobDetail.getKey().getName(), jobDetail.getKey().getGroup(), "PushToProxem Scheduled Successfully!");
             ResponseEntity res= ResponseEntity.ok(scheduleDTOResponse);
-<<<<<<< HEAD:src/main/java/com/keyrus/proxemconnector/connector/csv/configuration/rest/router/CSVScanJobSchedulerController.java
-            Logging.putInCSV(LocalDateTime.now().toString(),"/ScheduleScanCSV","POST",res.getStatusCode().toString(),"PushToProxem Scheduled Successfully!", scheduleDTORequestCSV.getConnectorDAO().userName());
-=======
             Logging.putInCSV(LocalDateTime.now().toString(),"/ScheduleScanCSV","POST",res.getStatusCode().toString(),"PushToProxem Scheduled Successfully!",scheduleDTORequest.getConnectorDAO().userName());
->>>>>>> 19e97ebe77e87f9c7cbee704e10b94b253111afa:src/main/java/com/keyrus/proxemconnector/connector/csv/configuration/rest/router/ScanJobSchedulerController.java
             return res;
         } catch (SchedulerException ex) {
             logger.error("Error scheduling push", ex);
@@ -127,11 +101,11 @@ public class CSVScanJobSchedulerController {
     }
 
 
-    private JobDetail buildJobDetail(ScheduleDTORequestCSV scheduleDTORequestCSV) {
+    private JobDetail buildJobDetail(ScheduleDTORequestCSV scheduleDTORequest) {
         JobDataMap jobDataMap = new JobDataMap();
 
-        jobDataMap.put("config", scheduleDTORequestCSV.getConnectorDAO());
-        jobDataMap.put("cron", scheduleDTORequestCSV.getCronExpression());
+        jobDataMap.put("config",scheduleDTORequest.getConnectorDAO());
+        jobDataMap.put("cron",scheduleDTORequest.getCronExpression());
 
 
         return JobBuilder.newJob(ScanJob.class)
